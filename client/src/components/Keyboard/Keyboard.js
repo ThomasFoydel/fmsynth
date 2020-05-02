@@ -1,0 +1,40 @@
+import React, { useEffect, useContext } from 'react';
+import QwertyHancock from 'qwerty-hancock';
+
+import { CTX } from 'context/Store';
+
+const Keyboard = () => {
+  const [appState, updateState] = useContext(CTX);
+
+  const makeOsc1 = (freq, note) => {
+    updateState({ type: 'MAKE_OSC', payload: freq });
+  };
+
+  useEffect(() => {
+    const keyboard = new QwertyHancock({
+      id: 'keyboard',
+      width: 450,
+      height: 68,
+      octaves: 2,
+      startNote: 'C4',
+      whiteKeyColour: '#1c1c1c',
+      blackKeyColour: '#f7f7f7',
+      activeColour: '#c70c0c',
+      borderColour: '#1c1c1c',
+    });
+    let nodes = [];
+
+    keyboard.keyDown = (note, freq) => {
+      const newOsc1 = makeOsc1(freq, note);
+
+      nodes.push(newOsc1);
+    };
+
+    keyboard.keyUp = (note, freq) => {
+      updateState({ type: 'KILL_OSC', payload: freq });
+    };
+  }, []);
+  return <div className='keyboard' id='keyboard'></div>;
+};
+
+export default Keyboard;
