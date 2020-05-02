@@ -10,6 +10,7 @@ osc1Gain.connect(actx.destination);
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
 const fmOsc1Gain = actx.createGain();
+fmOsc1Gain.gain.value = 3000;
 fmOsc1.connect(fmOsc1Gain);
 
 const CTX = React.createContext();
@@ -40,6 +41,8 @@ export function reducer(state, action) {
         state.osc1Gain,
         action.payload,
         fmOsc1Gain
+        // fmOsc1Gain,
+        // state.fm1Settings
       );
       nodes.push(newOsc1);
       return {
@@ -62,6 +65,16 @@ export function reducer(state, action) {
         ...state,
         // nodes: new_nodes,
       };
+
+    case 'CHANGE_FM_FREQ_OFFSET':
+      fmOsc1.frequency.linearRampToValueAtTime(
+        action.payload,
+        actx.currentTime + 0.006
+      );
+      return {
+        ...state,
+        fm1Settings: { ...state.fm1Settings, freqOffset: action.payload },
+      };
     default:
       throw Error('reducer error');
   }
@@ -77,6 +90,7 @@ export default function Store(props) {
       detune: 0.0,
     },
     osc1Gain: osc1Gain,
+    fm1Settings: { freqOffset: 100 },
     isLoggedIn: false,
     // makeOscillator: (freq) => {
     //   const newOsc1 = new oscClass(

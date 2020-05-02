@@ -11,6 +11,17 @@ const Oscillator1Controller = () => {
   const handleStart = () => {
     updateState({ type: 'START_OSC1' });
   };
+
+  const handleFmOffset = (e) => {
+    let { value } = e.target;
+    value = +value;
+    const newFmOffset = value * 20;
+
+    updateState({
+      type: 'CHANGE_FM_FREQ_OFFSET',
+      payload: newFmOffset,
+    });
+  };
   return (
     <div>
       <button onClick={handleStart}>start</button>
@@ -26,6 +37,8 @@ const Oscillator1Controller = () => {
       <button onClick={handleClick} id='triangle'>
         triangle me
       </button>
+
+      <input type='range' onChange={handleFmOffset} />
     </div>
   );
 };
