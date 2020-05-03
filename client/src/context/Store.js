@@ -75,6 +75,21 @@ export function reducer(state, action) {
         ...state,
         fm1Settings: { ...state.fm1Settings, freqOffset: action.payload },
       };
+    case 'CHANGE_FM_WAVETABLE':
+      fmOsc1.type = action.payload;
+      return {
+        ...state,
+        fm1Settings: { ...state.fm1Settings, wavetable: action.payload },
+      };
+    case 'CHANGE_FM_GAIN':
+      fmOsc1Gain.gain.exponentialRampToValueAtTime(
+        action.payload,
+        actx.currentTime + 0.006
+      );
+      return {
+        ...state,
+        fm1Settings: { ...state.fm1Settings, gain: action.payload },
+      };
     default:
       throw Error('reducer error');
   }
@@ -90,7 +105,11 @@ export default function Store(props) {
       detune: 0.0,
     },
     osc1Gain: osc1Gain,
-    fm1Settings: { freqOffset: 100 },
+    fm1Settings: {
+      freqOffset: 100,
+      wavetable: fmOsc1.type,
+      gain: fmOsc1Gain.gain.value,
+    },
     isLoggedIn: false,
     // makeOscillator: (freq) => {
     //   const newOsc1 = new oscClass(
