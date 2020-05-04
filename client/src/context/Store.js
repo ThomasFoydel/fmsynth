@@ -90,6 +90,12 @@ export function reducer(state, action) {
         ...state,
         fm1Settings: { ...state.fm1Settings, gain: action.payload },
       };
+    case 'CHANGE_ROTATION':
+      return {
+        ...state,
+        currentTransform: action.payload,
+        currentPage: action.page,
+      };
     default:
       throw Error('reducer error');
   }
@@ -117,6 +123,7 @@ export default function Store(props) {
     },
     isLoggedIn: false,
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
+    currentPage: 'osc',
     springConfig: 'slow',
   });
 

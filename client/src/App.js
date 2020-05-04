@@ -1,6 +1,7 @@
 import React from 'react';
 import Store from 'context/Store';
-import Synth from 'components/Synth/Synth';
+import Keyboard from 'components/Keyboard/Keyboard';
+
 import Cube from 'components/Cube/Cube';
 
 import './App.scss';
@@ -26,43 +27,10 @@ function App() {
   osc1.connect(out);
 
   return (
-    // <div>
-    //   <button
-    //     onClick={() => {
-    //       osc1.start();
-    //     }}
-    //   >
-    //     start osc1
-    //   </button>
-    //   <button
-    //     onClick={() => {
-    //       fmOsc.start();
-    //     }}
-    //   >
-    //     start fm osc
-    //   </button>
-    //   <input
-    //     type='range'
-    //     onChange={(e) => {
-    //       const value = +e.target.value;
-    //       console.log(value / 100);
-    //       fmOsc.frequency.linearRampToValueAtTime(value * 50, actx.currentTime);
-    //     }}
-    //   />
-
-    //   <input
-    //     type='range'
-    //     onChange={(e) => {
-    //       const value = +e.target.value;
-    //       console.log(value / 100);
-    //       osc1.frequency.linearRampToValueAtTime(value * 50, actx.currentTime);
-    //     }}
-    //   />
-    // </div>
     <Store>
       <div className='App'>
         <Cube />
-        <Synth />
+        <Keyboard />
       </div>
     </Store>
   );

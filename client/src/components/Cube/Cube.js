@@ -2,11 +2,15 @@ import React, { useContext } from 'react';
 import './Cube.scss';
 import { CTX } from 'context/Store';
 import { useSpring, animated, config } from 'react-spring';
+import Navbar from 'components/Navbar/Navbar';
+
+import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
+import Dino from 'components/Dino/Dino';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
   const { springConfig, currentTransform } = appState;
-  console.log('spring config: ', springConfig);
+
   const animationProps = useSpring({
     from: { transform: 'rotate3d(0, 100, 0, 270deg)' },
     transform: currentTransform,
@@ -16,20 +20,24 @@ const Cube = () => {
   return (
     <div className='scene'>
       <animated.div className='cube' style={animationProps}>
-        {/* <div className='cube'> */}
-        <div className='side right'></div>
-        <div className='side front'></div>
-        <div className='side back'></div>
-        <div className='side left'></div>
-        <div className='side bottom'></div>
-        <div className='side top'></div>
-        {/* </div> */}
-        {/* <CubeSide side='right' pageTitle='home' />
-        <CubeSide side='front' pageTitle='products' />
-        <CubeSide side='back' pageTitle='about' />
-        <CubeSide side='left' pageTitle='contact' />
-        <CubeSide side='bottom' pageTitle='login' />
-        <CubeSide side='top' pageTitle='register' /> */}
+        <div className='side right'>
+          <Oscillator1Controller />
+        </div>
+        <div className='side back'>
+          <Dino />
+        </div>
+        <div className='side left'>
+          <Navbar />
+        </div>
+        <div className='side front'>
+          <Navbar />
+        </div>
+        <div className='side bottom'>
+          <Navbar />
+        </div>
+        <div className='side top'>
+          <Navbar />
+        </div>
       </animated.div>
     </div>
   );

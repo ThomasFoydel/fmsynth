@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import QwertyHancock from 'qwerty-hancock';
 
 import { CTX } from 'context/Store';
+import './keyboard.scss';
 
 const Keyboard = () => {
   const [appState, updateState] = useContext(CTX);
@@ -13,8 +14,8 @@ const Keyboard = () => {
   useEffect(() => {
     const keyboard = new QwertyHancock({
       id: 'keyboard',
-      width: 450,
-      height: 68,
+      width: 820,
+      height: 120,
       octaves: 2,
       startNote: 'C4',
       whiteKeyColour: '#1c1c1c',
@@ -34,7 +35,11 @@ const Keyboard = () => {
       updateState({ type: 'KILL_OSC', payload: freq });
     };
   }, []);
-  return <div className='keyboard' id='keyboard'></div>;
+  return (
+    <div className='keyboard-container'>
+      <div className='keyboard' id='keyboard'></div>
+    </div>
+  );
 };
 
 export default Keyboard;
