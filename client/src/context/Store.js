@@ -20,18 +20,17 @@ const nodes = [];
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_OSC1_TYPE':
-      return {
-        ...state,
-        osc1Settings: { ...state.osc1Settings, type: action.payload },
-      };
     case 'LOGIN':
       return {
         ...state,
         isLoggedIn: true,
       };
+    case 'CHANGE_OSC1_TYPE':
+      return {
+        ...state,
+        osc1Settings: { ...state.osc1Settings, type: action.payload },
+      };
     case 'MAKE_OSC':
-      //   console.log('MAKE OSC TYPE: ', state.osc1Settings.type);
       const newOsc1 = new oscClass(
         state.actx,
         state.osc1Settings.type,
@@ -41,17 +40,14 @@ export function reducer(state, action) {
         state.osc1Gain,
         action.payload,
         fmOsc1Gain
-        // fmOsc1Gain,
-        // state.fm1Settings
       );
       nodes.push(newOsc1);
       return {
         ...state,
-        // nodes: [...state.nodes, newOsc1],
+        nodes: [...state.nodes, newOsc1],
       };
     case 'KILL_OSC':
       var new_nodes = [];
-
       for (var i = 0; i < nodes.length; i++) {
         if (Math.round(nodes[i].initialFreq) === Math.round(action.payload)) {
           nodes[i].stop(0);
@@ -59,11 +55,14 @@ export function reducer(state, action) {
           new_nodes.push(nodes[i]);
         }
       }
-
       nodes.push(new_nodes);
+
+      const newNodeArr = state.nodes.filter(
+        (n) => Math.round(n.initialFreq) !== Math.round(action.payload)
+      );
       return {
         ...state,
-        // nodes: new_nodes,
+        nodes: newNodeArr,
       };
 
     case 'CHANGE_FM_FREQ_OFFSET':
@@ -104,6 +103,11 @@ export default function Store(props) {
       gain: 0.5,
       detune: 0.0,
     },
+    osc1Settings: {
+      gain: osc1Gain.gain.value,
+      detune: 0,
+      type: 'sine',
+    },
     osc1Gain: osc1Gain,
     fm1Settings: {
       freqOffset: 100,
@@ -111,18 +115,7 @@ export default function Store(props) {
       gain: fmOsc1Gain.gain.value,
     },
     isLoggedIn: false,
-    // makeOscillator: (freq) => {
-    //   const newOsc1 = new oscClass(
-    //     actx,
-    //     osc1Settings.type,
-    //     freq,
-    //     0.0,
-    //     envelope,
-    //     osc1Gain,
-    //     freq
-    //   );
-    //   return newOsc1;
-    // },
+    currentTransform: `rotate3d(0, 100, 0, 270deg)`,
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;

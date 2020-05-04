@@ -8,8 +8,6 @@ export default class oscClass {
     connection,
     initialFreq,
     fmConnection
-
-    // fmSettings
   ) {
     this.context = context;
     this.initialFreq = initialFreq;
@@ -17,24 +15,13 @@ export default class oscClass {
     this.osc.start();
     this.osc.detune.setValueAtTime(detune, this.context.currentTime);
     this.osc.type = type;
-    console.log(calculatedFrequency);
     this.osc.frequency.value = calculatedFrequency;
     this.gateGain = this.context.createGain();
     this.gateGain.gain.value = 0;
     this.osc.connect(this.gateGain);
     this.gateGain.connect(connection);
-
-    // this.fmOsc = context.createOscillator();
-    // console.log(fmSettings);
-    // this.fmOsc.frequency.value = calculatedFrequency + fmSettings.freqOffset;
-
-    // this.fmGain = context.createGain();
-    // this.fmGain.gain.value = 3000;
-
-    // this.fmOsc.connect(this.fmGain);
     fmConnection.connect(this.osc.detune);
 
-    // fmConnection.connect(this.osc.detune);
     this.envelope = envelope
       ? envelope
       : {
@@ -47,7 +34,6 @@ export default class oscClass {
     this.start();
   }
   start() {
-    // this.fmOsc.start();
     let { currentTime } = this.context;
     this.gateGain.gain.cancelScheduledValues(currentTime);
     this.gateGain.gain.setValueAtTime(0, currentTime + this.easing);

@@ -1,6 +1,9 @@
 import React from 'react';
 import Store from 'context/Store';
 import Synth from 'components/Synth/Synth';
+import Cube from 'components/Cube/Cube';
+
+import './App.scss';
 
 function App() {
   const actx = new AudioContext();
@@ -58,7 +61,7 @@ function App() {
     // </div>
     <Store>
       <div className='App'>
-        <h1>hello world</h1>
+        {/* <Cube /> */}
         <Synth />
       </div>
     </Store>

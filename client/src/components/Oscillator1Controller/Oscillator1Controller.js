@@ -5,7 +5,6 @@ import { CTX } from 'context/Store';
 
 const Oscillator1Controller = () => {
   const [appState, updateState] = React.useContext(CTX);
-  console.log('appstate wavetable: ', appState.fm1Settings.wavetable);
 
   const handleClick = (e) => {
     updateState({ type: 'CHANGE_OSC1_TYPE', payload: e.target.id });
@@ -41,19 +40,35 @@ const Oscillator1Controller = () => {
   };
   return (
     <div className='osc1-controller'>
-      <button onClick={handleClick} id='sine'>
-        sine me
+      osc wavetable
+      <button
+        onClick={handleClick}
+        id='sine'
+        className={`${appState.osc1Settings.type === 'sine' && 'active'}`}
+      >
+        sine
       </button>
-      <button onClick={handleClick} id='sawtooth'>
-        sawtooth me
+      <button
+        onClick={handleClick}
+        id='sawtooth'
+        className={`${appState.osc1Settings.type === 'sawtooth' && 'active'}`}
+      >
+        sawtooth
       </button>
-      <button onClick={handleClick} id='square'>
-        square me
+      <button
+        onClick={handleClick}
+        id='square'
+        className={`${appState.osc1Settings.type === 'square' && 'active'}`}
+      >
+        square
       </button>
-      <button onClick={handleClick} id='triangle'>
-        triangle me
+      <button
+        onClick={handleClick}
+        id='triangle'
+        className={`${appState.osc1Settings.type === 'triangle' && 'active'}`}
+      >
+        triangle
       </button>
-
       <div>
         fm wavetable:
         <button
@@ -91,14 +106,38 @@ const Oscillator1Controller = () => {
           triangle
         </button>
       </div>
-      <div className='frequency'>
+      <div
+        className='frequency'
+        style={{
+          color: 'white',
+          background: `rgba(${
+            (appState.fm1Settings.freqOffset / 2000) * 255
+          }, 0, 0, 1)`,
+        }}
+      >
         frequency offset: {appState.fm1Settings.freqOffset}
       </div>
-      <input type='range' onChange={handleFmOffset} />
-      <div className='gain'>
+      <input
+        value={appState.fm1Settings.freqOffset / 20}
+        type='range'
+        onChange={handleFmOffset}
+      />
+      <div
+        className='gain'
+        style={{
+          color: 'white',
+          background: `rgba(${
+            (appState.fm1Settings.gain / 10000) * 255
+          }, 0, 0, 1)`,
+        }}
+      >
         gain: {appState.fm1Settings.gain}
-        <input type='range' onChange={handleFmGain} />
       </div>
+      <input
+        value={appState.fm1Settings.gain / 100}
+        type='range'
+        onChange={handleFmGain}
+      />
     </div>
   );
 };
