@@ -61,7 +61,7 @@ function App() {
     // </div>
     <Store>
       <div className='App'>
-        {/* <Cube /> */}
+        <Cube />
         <Synth />
       </div>
     </Store>

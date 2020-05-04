@@ -1,5 +1,6 @@
 import React from 'react';
 import oscClass from './oscClass';
+import { config } from 'react-spring';
 
 const actx = new AudioContext();
 
@@ -116,6 +117,7 @@ export default function Store(props) {
     },
     isLoggedIn: false,
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
+    springConfig: 'slow',
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
