@@ -13,6 +13,7 @@
     rgba(82, 82, 82, 0.7),
     rgba(43, 43, 43, 0.7) 93%
   );
+  opacity: 0.3;
 }
 .currentside {
   opacity: 1;
@@ -30,7 +31,7 @@
   perspective: 430px;
   transform: translateX(-50%);
   margin-left: 50%;
-  perspective: 500px;
+  perspective: 400px;
 }
 
 .cube {
@@ -39,7 +40,7 @@
   position: relative;
   transform-style: preserve-3d;
   transform: translateZ(-200px);
-  margin-top: 40rem;
+  margin-top: 25rem;
   position: relative;
 }
 

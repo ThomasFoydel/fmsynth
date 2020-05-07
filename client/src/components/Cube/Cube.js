@@ -9,7 +9,7 @@ import Dino from 'components/Dino/Dino';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
-  const { springConfig, currentTransform } = appState;
+  const { springConfig, currentTransform, currentPage } = appState;
 
   const animationProps = useSpring({
     from: { transform: 'rotate3d(0, 100, 0, 270deg)' },
@@ -20,22 +20,30 @@ const Cube = () => {
   return (
     <div className='scene'>
       <animated.div className='cube' style={animationProps}>
-        <div className='side right'>
+        <div className={`side right ${currentPage === 'osc' && 'currentside'}`}>
           <Oscillator1Controller />
         </div>
-        <div className='side back'>
+        <div className={`side back ${currentPage === 'fm' && 'currentside'}`}>
           <Dino />
         </div>
-        <div className='side left'>
+        <div className={`side left ${currentPage === 'fx' && 'currentside'}`}>
           <Navbar />
         </div>
-        <div className='side front'>
+        <div
+          className={`side front ${
+            currentPage === 'products' && 'currentside'
+          }`}
+        >
           <Navbar />
         </div>
-        <div className='side bottom'>
+        <div
+          className={`side bottom ${currentPage === 'login' && 'currentside'}`}
+        >
           <Navbar />
         </div>
-        <div className='side top'>
+        <div
+          className={`side top ${currentPage === 'register' && 'currentside'}`}
+        >
           <Navbar />
         </div>
       </animated.div>

@@ -42,9 +42,8 @@ const Dino = () => {
 
   return (
     <div className='dino-page'>
+      <Navbar />
       <div className='dino-container center'>
-        <Navbar />
-
         <div>
           fm wavetable:
           <button

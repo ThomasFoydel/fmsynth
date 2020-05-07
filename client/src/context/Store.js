@@ -124,7 +124,7 @@ export default function Store(props) {
     isLoggedIn: false,
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
     currentPage: 'osc',
-    springConfig: 'slow',
+    springConfig: 'molasses',
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
