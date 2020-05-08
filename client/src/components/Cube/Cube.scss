@@ -1,7 +1,7 @@
 .side {
   position: absolute;
-  width: 40rem;
-  height: 40rem;
+  width: 30rem;
+  height: 30rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,8 +26,8 @@
 }
 
 .scene {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   perspective: 430px;
   transform: translateX(-50%);
   margin-left: 50%;
@@ -40,27 +40,27 @@
   position: relative;
   transform-style: preserve-3d;
   transform: translateZ(-200px);
-  margin-top: 25rem;
+  margin-top: 20rem;
   position: relative;
 }
 
 .front {
-  transform: rotateY(0deg) translateZ(200px);
+  transform: rotateY(0deg) translateZ(150px);
 }
 .right {
-  transform: rotateY(90deg) translateZ(200px);
+  transform: rotateY(90deg) translateZ(150px);
 }
 .back {
-  transform: rotateY(180deg) translateZ(200px);
+  transform: rotateY(180deg) translateZ(150px);
 }
 .left {
-  transform: rotateY(-90deg) translateZ(200px);
+  transform: rotateY(-90deg) translateZ(150px);
 }
 .top {
-  transform: rotateX(90deg) translateZ(200px);
+  transform: rotateX(90deg) translateZ(150px);
 }
 .bottom {
-  transform: rotateX(-90deg) rotateZ(180deg) translateZ(200px);
+  transform: rotateX(-90deg) rotateZ(180deg) translateZ(150px);
 }
 
 .cube-panel-spring {

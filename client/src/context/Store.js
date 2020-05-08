@@ -1,12 +1,19 @@
 import React from 'react';
 import oscClass from './oscClass';
-import { config } from 'react-spring';
+import Tone from 'tone';
 
-const actx = new AudioContext();
+const actx = Tone.context;
+const out = actx._context.destination;
+
+// const bitcrusher = new Tone.Tremolo(30, 0.9).start();
+const bitcrusher = new Tone.Chebyshev(3);
+// const bitcrusher = new Tone.StereoWidener(1);
 
 const osc1Gain = actx.createGain();
 
-osc1Gain.connect(actx.destination);
+// osc1Gain.connect(bitcrusher);
+Tone.connect(osc1Gain, bitcrusher);
+bitcrusher.connect(out);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
