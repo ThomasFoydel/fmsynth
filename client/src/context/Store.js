@@ -5,15 +5,23 @@ import Tone from 'tone';
 const actx = Tone.context;
 const out = actx._context.destination;
 
-// const bitcrusher = new Tone.Tremolo(30, 0.9).start();
-const bitcrusher = new Tone.Chebyshev(3);
-// const bitcrusher = new Tone.StereoWidener(1);
+const tremolo = new Tone.Tremolo(30, 0.9).start();
+const chebyshev = new Tone.Chebyshev(3);
+const stereoWidener = new Tone.StereoWidener(1);
+const bitcrusher = new Tone.BitCrusher(3);
+
+const filter = new Tone.Filter();
+
+const lfo = new Tone.LFO('4n', 0, 20000).start();
+lfo.connect(filter.frequency);
+lfo.type = 'triangle';
 
 const osc1Gain = actx.createGain();
 
 // osc1Gain.connect(bitcrusher);
 Tone.connect(osc1Gain, bitcrusher);
-bitcrusher.connect(out);
+bitcrusher.connect(filter);
+filter.connect(out);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
@@ -103,6 +111,11 @@ export function reducer(state, action) {
         currentTransform: action.payload,
         currentPage: action.page,
       };
+    case 'CHANGE_MOUSEFIELD':
+      return {
+        ...state,
+        mouseField: { x: action.payload.x, y: action.payload.y },
+      };
     default:
       throw Error('reducer error');
   }
@@ -132,6 +145,7 @@ export default function Store(props) {
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
     currentPage: 'osc',
     springConfig: 'molasses',
+    mouseField: { x: 0, y: 0 },
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;

@@ -6,6 +6,7 @@ import Navbar from 'components/Navbar/Navbar';
 
 import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
 import Dino from 'components/Dino/Dino';
+import MouseField from 'components/MouseField/MouseField';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
@@ -25,6 +26,7 @@ const Cube = () => {
         </div>
         <div className={`side back ${currentPage === 'fm' && 'currentside'}`}>
           <Dino />
+          <MouseField />
         </div>
         <div className={`side left ${currentPage === 'fx' && 'currentside'}`}>
           <Navbar />
