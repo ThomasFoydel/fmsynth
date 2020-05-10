@@ -38,7 +38,7 @@ const MouseField = ({ children }) => {
     if (x >= 0 && y >= 0 && x <= 1 && y <= 1) {
       setXVal(x);
       setYVal(y);
-      changeMouseLfo(x, y);
+      changeMouseLfo(+x, +y);
     }
   };
 

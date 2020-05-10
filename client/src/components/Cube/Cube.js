@@ -26,10 +26,10 @@ const Cube = () => {
         </div>
         <div className={`side back ${currentPage === 'fm' && 'currentside'}`}>
           <Dino />
-          <MouseField />
         </div>
         <div className={`side left ${currentPage === 'fx' && 'currentside'}`}>
           <Navbar />
+          <MouseField />
         </div>
         <div
           className={`side front ${
