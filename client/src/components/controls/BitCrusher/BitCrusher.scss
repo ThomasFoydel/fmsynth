@@ -1,0 +1,32 @@
+.bitcrusher {
+  background: rgb(67, 67, 67);
+  width: 9rem;
+  height: 6.2rem;
+  border-radius: 5px;
+
+  .name {
+    margin-top: -0.2rem;
+    height: 1.4rem;
+    text-align: center;
+  }
+  .param {
+    width: 4.5rem;
+    .name {
+      height: 0.5rem;
+      width: 4rem;
+      text-align: center;
+      transform: translateX(-50%);
+      margin-left: 50%;
+    }
+  }
+  .sliders-container {
+    display: flex;
+  }
+  .slider {
+    width: 4.5rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}

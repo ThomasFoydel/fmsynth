@@ -1,6 +1,6 @@
 import React from 'react';
 import './Oscillator1Controller.scss';
-import Navbar from 'components/Navbar/Navbar';
+// import Navbar from 'components/Navbar/Navbar';
 
 import { CTX } from 'context/Store';
 
@@ -17,7 +17,7 @@ const Oscillator1Controller = () => {
 
   return (
     <div className='osc1-controller'>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className='osc1'>
         osc 1
         <button

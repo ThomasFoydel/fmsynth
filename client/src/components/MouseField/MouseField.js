@@ -10,8 +10,8 @@ const MouseField = ({ children }) => {
 
   const toggleLfo1 = () => {};
   const changeMouseLfo = (x, y) => {
+    y = 1 - y;
     updateState({ type: 'CHANGE_MOUSEFIELD', payload: { x, y } });
-    // console.log('x: ', x, ' y: ', y);
   };
 
   useEffect(() => {

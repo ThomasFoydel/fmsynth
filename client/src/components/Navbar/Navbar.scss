@@ -5,8 +5,12 @@
   left: 50%;
   transform: translate(-50%);
   .option {
+    margin-left: 1rem;
   }
-
+  .sliders-container {
+    width: 100%;
+    display: flex;
+  }
   .active {
     color: red;
   }

@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   color: rgb(255, 255, 255);
-  transition: all 0.3s ease;
+  // transition: all 0.3s ease;
   background: linear-gradient(
     154deg,
     rgba(40, 40, 40, 0.7) 15%,
@@ -28,7 +28,6 @@
 .scene {
   width: 300px;
   height: 300px;
-  perspective: 430px;
   transform: translateX(-50%);
   margin-left: 50%;
   perspective: 400px;
@@ -39,7 +38,7 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transform: translateZ(-200px);
+  // transform: translateZ(-200px);
   margin-top: 20rem;
   position: relative;
 }

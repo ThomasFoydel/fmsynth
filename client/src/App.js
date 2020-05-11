@@ -1,9 +1,8 @@
 import React from 'react';
 import Store from 'context/Store';
 import Keyboard from 'components/Keyboard/Keyboard';
-
+import Navbar from 'components/Navbar/Navbar';
 import Cube from 'components/Cube/Cube';
-
 import './App.scss';
 
 function App() {
@@ -29,8 +28,9 @@ function App() {
   return (
     <Store>
       <div className='App'>
-        <Cube />
         <Keyboard />
+        <Navbar />
+        <Cube />
       </div>
     </Store>
   );

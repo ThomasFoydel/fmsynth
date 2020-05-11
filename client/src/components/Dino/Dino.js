@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import dino from 'imgs/dino.png';
 import dino2 from 'imgs/dino2.png';
 
-import Navbar from 'components/Navbar/Navbar';
+// import Navbar from 'components/Navbar/Navbar';
 
 import { CTX } from 'context/Store';
 import './Dino.scss';
@@ -42,7 +42,7 @@ const Dino = () => {
 
   return (
     <div className='dino-page'>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className='dino-container center'>
         <div>
           fm wavetable:

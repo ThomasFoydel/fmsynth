@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import './Cube.scss';
 import { CTX } from 'context/Store';
 import { useSpring, animated, config } from 'react-spring';
-import Navbar from 'components/Navbar/Navbar';
+// import Navbar from 'components/Navbar/Navbar';
+
+import BitCrusher from 'components/controls/BitCrusher/BitCrusher';
 
 import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
 import Dino from 'components/Dino/Dino';
@@ -27,27 +29,22 @@ const Cube = () => {
         <div className={`side back ${currentPage === 'fm' && 'currentside'}`}>
           <Dino />
         </div>
-        <div className={`side left ${currentPage === 'fx' && 'currentside'}`}>
-          <Navbar />
-          <MouseField />
-        </div>
         <div
-          className={`side front ${
-            currentPage === 'products' && 'currentside'
+          className={`side left ${
+            currentPage === 'mousefield' && 'currentside'
           }`}
         >
-          <Navbar />
+          <MouseField />
+        </div>
+        <div className={`side front ${currentPage === 'fx' && 'currentside'}`}>
+          <BitCrusher />
         </div>
         <div
           className={`side bottom ${currentPage === 'login' && 'currentside'}`}
-        >
-          <Navbar />
-        </div>
+        ></div>
         <div
           className={`side top ${currentPage === 'register' && 'currentside'}`}
-        >
-          <Navbar />
-        </div>
+        ></div>
       </animated.div>
     </div>
   );
