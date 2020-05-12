@@ -51,12 +51,12 @@ const Navbar = () => {
         login
       </div>
       <div
-        className={`option ${currentPage === 'register' && 'active'}`}
+        className={`option ${currentPage === 'auth' && 'active'}`}
         onClick={() => {
-          handleRotate(`rotate3d(100, 0, 0, 270deg)`, 'register');
+          handleRotate(`rotate3d(100, 0, 0, 270deg)`, 'auth');
         }}
       >
-        register
+        auth
       </div>
     </div>
   );

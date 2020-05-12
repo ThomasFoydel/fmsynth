@@ -9,10 +9,12 @@ const now = actx.currentTime;
 const masterVol = new Tone.Volume(-10);
 Tone.Transport.bpm.rampTo(140, 0.1);
 
-const tremolo = new Tone.Tremolo(30, 0.9).start();
+// const tremolo = new Tone.Tremolo(9, 0.9).start();
+// tremolo.wet.linearRampToValueAtTime(0.0, now);
 const chebyshev = new Tone.Chebyshev(2);
-const stereoWidener = new Tone.StereoWidener(1);
+const stereoWidener = new Tone.StereoWidener(0.5);
 const bitcrusher = new Tone.BitCrusher(8);
+const pingPongDelay = new Tone.PingPongDelay('4n', 0.2);
 
 const filter = new Tone.Filter();
 
@@ -35,9 +37,11 @@ fmOsc1Gain.gain.value = 3000;
 Tone.connect(oscCombinedGain, bitcrusher);
 
 bitcrusher.connect(chebyshev);
-chebyshev.connect(stereoWidener);
-stereoWidener.connect(tremolo);
-tremolo.connect(filter);
+chebyshev.connect(pingPongDelay);
+pingPongDelay.connect(filter);
+
+// tremolo.connect(filter);
+// stereoWidener.connect(filter);
 filter.connect(masterVol);
 masterVol.connect(out);
 
@@ -157,10 +161,26 @@ export function reducer(state, action) {
       };
     case 'CHANGE_BITCRUSH_MIX':
       bitcrusher.wet.linearRampToValueAtTime(payload, now);
+      console.log(bitcrusher);
       return {
         ...state,
         bitCrusher: { ...state.bitCrusher, mix: payload },
       };
+    case 'CHANGE_CHEBYSHEV_MIX':
+      chebyshev.wet.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        chebyshev: { ...state.chebyshev, mix: payload },
+      };
+    case 'CHANGE_CHEBYSHEV_ORDER':
+      chebyshev.order = payload;
+      return {
+        ...state,
+        chebyshev: { ...state.chebyshev, order: payload },
+      };
+    case 'CHANGE_PINGPONG_MIX':
+      pingPongDelay.wet.linearRampToValueAtTime(payload, now);
+      return { ...state, pingPong: { ...state.pingPong, mix: payload } };
     default:
       throw Error('reducer error');
   }
@@ -203,7 +223,8 @@ export default function Store(props) {
     currentPage: 'osc',
     springConfig: 'molasses',
     mouseField: { x: 0, y: 0 },
-    bitCrusher: { depth: 0, mix: 0 },
+    bitCrusher: { depth: bitcrusher.bits, mix: 0 },
+    chebyshev: { mix: 0, order: 1 },
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;

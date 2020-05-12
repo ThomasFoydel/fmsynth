@@ -1,0 +1,20 @@
+.chebyshev {
+  background: rgb(67, 67, 67);
+  margin: 1rem;
+  width: 9rem;
+  height: 6.2rem;
+  border-radius: 5px;
+
+  .sliders-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .name {
+      height: 1.5rem;
+    }
+  }
+  .name {
+    height: 1.2rem;
+    text-align: center;
+  }
+}

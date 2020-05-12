@@ -12,6 +12,7 @@ const BitCrusher = () => {
   };
 
   const handleMix = (e) => {
+    e /= 100;
     updateState({ type: 'CHANGE_BITCRUSH_MIX', payload: e });
   };
 
@@ -29,7 +30,7 @@ const BitCrusher = () => {
               shadow={false}
               knobRadius={4}
               size={35}
-              circleWidth={2}
+              circleWidth={3}
               progressWidth={5}
               min={1}
               max={8}
@@ -50,7 +51,7 @@ const BitCrusher = () => {
               knobRadius={4}
               shadow={false}
               size={35}
-              circleWidth={2}
+              circleWidth={3}
               progressWidth={5}
               min={0}
               max={100}

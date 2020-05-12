@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import './Cube.scss';
 import { CTX } from 'context/Store';
 import { useSpring, animated, config } from 'react-spring';
-// import Navbar from 'components/Navbar/Navbar';
 
 import BitCrusher from 'components/controls/BitCrusher/BitCrusher';
+import Chebyshev from 'components/controls/Chebyshev/Chebyshev';
 
 import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
 import Dino from 'components/Dino/Dino';
@@ -38,12 +38,13 @@ const Cube = () => {
         </div>
         <div className={`side front ${currentPage === 'fx' && 'currentside'}`}>
           <BitCrusher />
+          <Chebyshev />
         </div>
         <div
           className={`side bottom ${currentPage === 'login' && 'currentside'}`}
         ></div>
         <div
-          className={`side top ${currentPage === 'register' && 'currentside'}`}
+          className={`side top ${currentPage === 'auth' && 'currentside'}`}
         ></div>
       </animated.div>
     </div>
