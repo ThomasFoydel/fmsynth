@@ -17,7 +17,7 @@ const Keyboard = () => {
       width: 820,
       height: 85,
       octaves: 2,
-      startNote: 'C5',
+      startNote: 'C4',
       whiteKeyColour: '#1c1c1c',
       blackKeyColour: '#f7f7f7',
       activeColour: '#c70c0c',

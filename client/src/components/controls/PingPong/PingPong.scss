@@ -1,0 +1,31 @@
+.pingpong {
+  background: linear-gradient(rgb(94, 94, 94), rgb(24, 24, 24));
+  min-width: 16rem;
+  height: 6.2rem;
+  border-radius: 5px;
+
+  .name {
+    height: 1.4rem;
+    text-align: center;
+  }
+  .param {
+    width: 4.5rem;
+    .name {
+      height: 0.5rem;
+      width: 4rem;
+      text-align: center;
+      transform: translateX(-50%);
+      margin-left: 50%;
+    }
+  }
+  .sliders-container {
+    display: flex;
+  }
+  .slider {
+    width: 4.5rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}

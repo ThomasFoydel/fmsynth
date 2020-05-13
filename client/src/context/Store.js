@@ -11,6 +11,7 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 
 // const tremolo = new Tone.Tremolo(9, 0.9).start();
 // tremolo.wet.linearRampToValueAtTime(0.0, now);
+
 const chebyshev = new Tone.Chebyshev(2);
 const stereoWidener = new Tone.StereoWidener(0.5);
 const bitcrusher = new Tone.BitCrusher(8);
@@ -18,10 +19,29 @@ const pingPongDelay = new Tone.PingPongDelay('4n', 0.2);
 
 const filter = new Tone.Filter();
 
-const lfo = new Tone.LFO('4n', 0, 2000).start();
-lfo.connect(filter.frequency);
+const intoLfo = actx.createGain();
+const lfoOsc = new Tone.LFO('4n', 0, 2000).start();
+const lfoFilter = new Tone.Filter(9000, 'lowpass', -24);
+// const lfoFilter = actx.createBiquadFilter();
+
+const lfo = actx.createGain();
+
+const lfoWet = actx.createGain();
+const lfoDry = actx.createGain();
+lfoWet.gain.value = 1;
+lfoDry.gain.value = 0;
+const lfoCombined = actx.createGain();
+
+lfoOsc.connect(lfo);
+lfo.connect(lfoWet.gain);
+
+intoLfo.connect(lfoDry);
+Tone.connect(intoLfo, lfoFilter);
+Tone.connect(lfoFilter, lfoWet);
+lfoWet.connect(lfoCombined);
+lfoDry.connect(lfoCombined);
+
 filter.frequency.value = 20000;
-lfo.type = 'sawtooth';
 
 const osc1Gain = actx.createGain();
 const osc2Gain = actx.createGain();
@@ -36,17 +56,26 @@ fmOsc1Gain.gain.value = 3000;
 
 Tone.connect(oscCombinedGain, bitcrusher);
 
+// harmonics, distortion, tone effects
 bitcrusher.connect(chebyshev);
-chebyshev.connect(pingPongDelay);
+// chebyshev.connect(pingPongDelay);
+chebyshev.connect(intoLfo);
+
+// filter effects
+
+// lfoCombined.connect(pingPongDelay);
+Tone.connect(lfoCombined, pingPongDelay);
+
+// reverb and delay
 pingPongDelay.connect(filter);
 
 // tremolo.connect(filter);
 // stereoWidener.connect(filter);
-filter.connect(masterVol);
+// filter.connect(masterVol);
+Tone.connect(filter, masterVol);
 masterVol.connect(out);
 
 fmOsc1.connect(fmOsc1Gain);
-lfo.connect(fmOsc1.frequency);
 
 const CTX = React.createContext();
 
@@ -145,7 +174,7 @@ export function reducer(state, action) {
       const roundedFourth = Math.round(xTimesFour);
       const plusOneTimesFour = (roundedFourth + 1) * 4;
       const newLfoVal = `${plusOneTimesFour}n`;
-      lfo.frequency.value = newLfoVal;
+      lfoOsc.frequency.value = newLfoVal;
 
       fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
 
@@ -179,8 +208,16 @@ export function reducer(state, action) {
         chebyshev: { ...state.chebyshev, order: payload },
       };
     case 'CHANGE_PINGPONG_MIX':
+      console.log('Payload mix: ', payload);
       pingPongDelay.wet.linearRampToValueAtTime(payload, now);
       return { ...state, pingPong: { ...state.pingPong, mix: payload } };
+    case 'CHANGE_PINGPONG_TIME':
+      pingPongDelay.delayTime.linearRampToValueAtTime(`${payload}n`, now);
+      return { ...state, pingPong: { ...state.pingPong, delayTime: payload } };
+    case 'CHANGE_PINGPONG_FEEDBACK':
+      pingPongDelay.feedback.linearRampToValueAtTime(payload, now);
+      return { ...state, pingPong: { ...state.pingPong, feedback: payload } };
+
     default:
       throw Error('reducer error');
   }
@@ -225,6 +262,11 @@ export default function Store(props) {
     mouseField: { x: 0, y: 0 },
     bitCrusher: { depth: bitcrusher.bits, mix: 0 },
     chebyshev: { mix: 0, order: 1 },
+    pingPong: {
+      mix: pingPongDelay.wet.value,
+      delayTime: pingPongDelay.delayTime.value,
+      feedback: pingPongDelay.feedback.value,
+    },
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
