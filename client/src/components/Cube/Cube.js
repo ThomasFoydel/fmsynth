@@ -6,6 +6,7 @@ import { useSpring, animated, config } from 'react-spring';
 import BitCrusher from 'components/controls/BitCrusher/BitCrusher';
 import Chebyshev from 'components/controls/Chebyshev/Chebyshev';
 import PingPong from 'components/controls/PingPong/PingPong';
+import Reverb from 'components/controls/Reverb/Reverb';
 
 import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
 import Dino from 'components/Dino/Dino';
@@ -41,6 +42,7 @@ const Cube = () => {
           <BitCrusher />
           <Chebyshev />
           <PingPong />
+          <Reverb />
         </div>
         <div
           className={`side bottom ${currentPage === 'login' && 'currentside'}`}

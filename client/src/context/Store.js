@@ -1,6 +1,8 @@
 import React from 'react';
+
 import oscClass from './oscClass';
 import Tone from 'tone';
+import impulses from 'IMreverbs/index';
 
 const actx = Tone.context;
 const out = actx.master;
@@ -12,17 +14,22 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 // const tremolo = new Tone.Tremolo(9, 0.9).start();
 // tremolo.wet.linearRampToValueAtTime(0.0, now);
 
+// to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
 const stereoWidener = new Tone.StereoWidener(0.5);
 const bitcrusher = new Tone.BitCrusher(8);
-const pingPongDelay = new Tone.PingPongDelay('4n', 0.2);
-
+const pingPongDelay = new Tone.PingPongDelay('4n', 0);
 const filter = new Tone.Filter();
+const reverb = new Tone.Convolver(impulses['block']);
+
+reverb.wet.value = 1;
+
+// const buffer = new Tone.Buffer();
+// reverb.load(impulses['block']);
 
 const intoLfo = actx.createGain();
 const lfoOsc = new Tone.LFO('4n', 0, 2000).start();
 const lfoFilter = new Tone.Filter(9000, 'lowpass', -24);
-// const lfoFilter = actx.createBiquadFilter();
 
 const lfo = actx.createGain();
 
@@ -58,16 +65,14 @@ Tone.connect(oscCombinedGain, bitcrusher);
 
 // harmonics, distortion, tone effects
 bitcrusher.connect(chebyshev);
-// chebyshev.connect(pingPongDelay);
 chebyshev.connect(intoLfo);
 
 // filter effects
-
-// lfoCombined.connect(pingPongDelay);
 Tone.connect(lfoCombined, pingPongDelay);
 
 // reverb and delay
-pingPongDelay.connect(filter);
+Tone.connect(pingPongDelay, reverb);
+Tone.connect(reverb, filter);
 
 // tremolo.connect(filter);
 // stereoWidener.connect(filter);
@@ -190,7 +195,6 @@ export function reducer(state, action) {
       };
     case 'CHANGE_BITCRUSH_MIX':
       bitcrusher.wet.linearRampToValueAtTime(payload, now);
-      console.log(bitcrusher);
       return {
         ...state,
         bitCrusher: { ...state.bitCrusher, mix: payload },
@@ -208,7 +212,6 @@ export function reducer(state, action) {
         chebyshev: { ...state.chebyshev, order: payload },
       };
     case 'CHANGE_PINGPONG_MIX':
-      console.log('Payload mix: ', payload);
       pingPongDelay.wet.linearRampToValueAtTime(payload, now);
       return { ...state, pingPong: { ...state.pingPong, mix: payload } };
     case 'CHANGE_PINGPONG_TIME':
@@ -218,6 +221,13 @@ export function reducer(state, action) {
       pingPongDelay.feedback.linearRampToValueAtTime(payload, now);
       return { ...state, pingPong: { ...state.pingPong, feedback: payload } };
 
+    case 'CHANGE_REVERB_IMPULSE':
+      reverb.load(impulses[payload]);
+      return { ...state, reverb: { ...state.reverb, impulse: payload } };
+
+    case 'CHANGE_REVERB_MIX':
+      reverb.wet.linearRampToValueAtTime(payload, now);
+      return { ...state, reverb: { ...state.reverb, mix: payload } };
     default:
       throw Error('reducer error');
   }
@@ -266,6 +276,10 @@ export default function Store(props) {
       mix: pingPongDelay.wet.value,
       delayTime: pingPongDelay.delayTime.value,
       feedback: pingPongDelay.feedback.value,
+    },
+    reverb: {
+      impulse: 'block',
+      mix: reverb.wet.value,
     },
   });
 
