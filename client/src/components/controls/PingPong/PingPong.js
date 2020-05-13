@@ -13,6 +13,7 @@ const PingPong = () => {
   };
 
   const handleTime = (e) => {
+    e = 10 - e;
     e *= 4;
     updateState({ type: 'CHANGE_PINGPONG_TIME', payload: e });
   };
@@ -61,7 +62,7 @@ const PingPong = () => {
               circleWidth={3}
               progressWidth={5}
               min={1}
-              max={8}
+              max={9}
               showTooltip={true}
               tooltipSize={12}
               tooltipColor={'#eee'}

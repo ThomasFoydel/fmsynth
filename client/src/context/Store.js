@@ -212,7 +212,9 @@ export function reducer(state, action) {
         chebyshev: { ...state.chebyshev, order: payload },
       };
     case 'CHANGE_PINGPONG_MIX':
-      pingPongDelay.wet.linearRampToValueAtTime(payload, now);
+      console.log(pingPongDelay.wet.value);
+      pingPongDelay.wet.value = payload;
+      // pingPongDelay.wet.linearRampToValueAtTime(payload, now);
       return { ...state, pingPong: { ...state.pingPong, mix: payload } };
     case 'CHANGE_PINGPONG_TIME':
       pingPongDelay.delayTime.linearRampToValueAtTime(`${payload}n`, now);
