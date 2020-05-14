@@ -73,7 +73,7 @@ const PingPong = () => {
         </div>
 
         <div className='param'>
-          <div className='name'>feedback</div>
+          <div className='name'>feed</div>
           <div className='slider'>
             <CircleSlider
               onChange={handleFeedback}

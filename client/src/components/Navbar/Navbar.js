@@ -43,12 +43,12 @@ const Navbar = () => {
         fx
       </div>
       <div
-        className={`option ${currentPage === 'login' && 'active'}`}
+        className={`option ${currentPage === 'fxII' && 'active'}`}
         onClick={() => {
-          handleRotate(`rotate3d(0, 100, 100, 180deg)`, 'login');
+          handleRotate(`rotate3d(0, 100, 100, 180deg)`, 'fxII');
         }}
       >
-        login
+        fxII
       </div>
       <div
         className={`option ${currentPage === 'auth' && 'active'}`}

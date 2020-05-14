@@ -3,14 +3,11 @@ import './Cube.scss';
 import { CTX } from 'context/Store';
 import { useSpring, animated, config } from 'react-spring';
 
-import BitCrusher from 'components/controls/BitCrusher/BitCrusher';
-import Chebyshev from 'components/controls/Chebyshev/Chebyshev';
-import PingPong from 'components/controls/PingPong/PingPong';
-import Reverb from 'components/controls/Reverb/Reverb';
+import Effects from 'components/controls/Effects/Effects';
 
 import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
 import Dino from 'components/Dino/Dino';
-import MouseField from 'components/MouseField/MouseField';
+import Effects2 from 'components/controls/Effects2/Effects2';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
@@ -35,18 +32,15 @@ const Cube = () => {
           className={`side left ${
             currentPage === 'mousefield' && 'currentside'
           }`}
-        >
-          <MouseField />
-        </div>
+        ></div>
         <div className={`side front ${currentPage === 'fx' && 'currentside'}`}>
-          <BitCrusher />
-          <Chebyshev />
-          <PingPong />
-          <Reverb />
+          <Effects />
         </div>
         <div
-          className={`side bottom ${currentPage === 'login' && 'currentside'}`}
-        ></div>
+          className={`side bottom ${currentPage === 'fxII' && 'currentside'}`}
+        >
+          <Effects2 />
+        </div>
         <div
           className={`side top ${currentPage === 'auth' && 'currentside'}`}
         ></div>

@@ -22,36 +22,42 @@ const pingPongDelay = new Tone.PingPongDelay('4n', 0);
 const filter = new Tone.Filter();
 const reverb = new Tone.Convolver(impulses['block']);
 
-reverb.wet.value = 1;
+// initialize effects at zero
+bitcrusher.wet.value = 0;
+chebyshev.wet.value = 0;
+pingPongDelay.wet.value = 0;
+reverb.wet.value = 0;
 
 // const buffer = new Tone.Buffer();
 // reverb.load(impulses['block']);
 
-const intoLfo = actx.createGain();
-const lfoOsc = new Tone.LFO('4n', 0, 2000).start();
-const lfoFilter = new Tone.Filter(9000, 'lowpass', -24);
+const lfoFilter = new Tone.AutoFilter({
+  frequency: '2n',
+}).start();
 
-const lfo = actx.createGain();
+// const intoLfo = actx.createGain();
+// const lfoOsc = new Tone.LFO('8n', 0, 2000).start();
+// // const lfoFilter = new Tone.Filter(9000, 'lowpass', -24);
+// const lfo = actx.createGain();
+// const lfoWet = actx.createGain();
+// const lfoDry = actx.createGain();
+// lfoWet.gain.value = 1;
+// lfoDry.gain.value = 0;
+// const lfoCombined = actx.createGain();
 
-const lfoWet = actx.createGain();
-const lfoDry = actx.createGain();
-lfoWet.gain.value = 1;
-lfoDry.gain.value = 0;
-const lfoCombined = actx.createGain();
+// lfoOsc.connect(lfo);
+// lfo.connect(lfoWet.gain);
 
-lfoOsc.connect(lfo);
-lfo.connect(lfoWet.gain);
-
-intoLfo.connect(lfoDry);
-Tone.connect(intoLfo, lfoFilter);
-Tone.connect(lfoFilter, lfoWet);
-lfoWet.connect(lfoCombined);
-lfoDry.connect(lfoCombined);
-
-filter.frequency.value = 20000;
+// intoLfo.connect(lfoDry);
+// Tone.connect(intoLfo, lfoFilter);
+// Tone.connect(lfoFilter, lfoWet);
+// lfoWet.connect(lfoCombined);
+// lfoDry.connect(lfoCombined);
 
 const osc1Gain = actx.createGain();
 const osc2Gain = actx.createGain();
+osc1Gain.gain.value = 0.3;
+osc2Gain.gain.value = 0.3;
 const oscCombinedGain = actx.createGain();
 osc1Gain.connect(oscCombinedGain);
 osc2Gain.connect(oscCombinedGain);
@@ -59,28 +65,28 @@ osc2Gain.connect(oscCombinedGain);
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
 const fmOsc1Gain = actx.createGain();
-fmOsc1Gain.gain.value = 3000;
+fmOsc1Gain.gain.value = 300;
+fmOsc1.connect(fmOsc1Gain);
 
 Tone.connect(oscCombinedGain, bitcrusher);
 
 // harmonics, distortion, tone effects
 bitcrusher.connect(chebyshev);
-chebyshev.connect(intoLfo);
+chebyshev.connect(lfoFilter);
 
 // filter effects
-Tone.connect(lfoCombined, pingPongDelay);
+Tone.connect(lfoFilter, pingPongDelay);
+// Tone.connect(chebyshev, pingPongDelay);
 
 // reverb and delay
 Tone.connect(pingPongDelay, reverb);
 Tone.connect(reverb, filter);
-
+filter.frequency.value = 20000;
 // tremolo.connect(filter);
 // stereoWidener.connect(filter);
 // filter.connect(masterVol);
 Tone.connect(filter, masterVol);
 masterVol.connect(out);
-
-fmOsc1.connect(fmOsc1Gain);
 
 const CTX = React.createContext();
 
@@ -151,7 +157,8 @@ export function reducer(state, action) {
       };
 
     case 'CHANGE_FM_FREQ_OFFSET':
-      fmOsc1.frequency.linearRampToValueAtTime(payload, now + 0.006);
+      // fmOsc1.frequency.linearRampToValueAtTime(payload, now + 0.006);
+      fmOsc1.frequency.value = payload;
       return {
         ...state,
         fm1Settings: { ...state.fm1Settings, freqOffset: payload },
@@ -175,18 +182,30 @@ export function reducer(state, action) {
         currentPage: action.page,
       };
     case 'CHANGE_MOUSEFIELD':
-      const xTimesFour = payload.x * 4;
-      const roundedFourth = Math.round(xTimesFour);
-      const plusOneTimesFour = (roundedFourth + 1) * 4;
-      const newLfoVal = `${plusOneTimesFour}n`;
-      lfoOsc.frequency.value = newLfoVal;
-
-      fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
+      const yTimesFour = payload.y * 8;
+      const roundedEigth = Math.round(yTimesFour);
+      const plusOneTimesFour = (roundedEigth + 1) * 2;
+      // const newLfoVal = `${plusOneTimesFour}n`;
+      // lfoOsc.frequency.value = newLfoVal;
+      lfoFilter.frequency.value = `${plusOneTimesFour}n`;
+      // fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
 
       return {
         ...state,
         mouseField: { x: payload.x, y: payload.y },
       };
+    case 'CHANGE_LFO_FILTER':
+      const { prop, value } = payload;
+      if (prop === 'type') {
+        lfoFilter.type = value;
+      } else {
+        lfoFilter[prop].value = value;
+      }
+      return {
+        ...state,
+        lfoFilter: { ...state.lfoFilter, [prop]: value },
+      };
+
     case 'CHANGE_BITCRUSH_DEPTH':
       bitcrusher.bits = payload;
       return {
@@ -200,7 +219,7 @@ export function reducer(state, action) {
         bitCrusher: { ...state.bitCrusher, mix: payload },
       };
     case 'CHANGE_CHEBYSHEV_MIX':
-      chebyshev.wet.linearRampToValueAtTime(payload, now);
+      chebyshev.wet.value = payload;
       return {
         ...state,
         chebyshev: { ...state.chebyshev, mix: payload },
@@ -212,24 +231,27 @@ export function reducer(state, action) {
         chebyshev: { ...state.chebyshev, order: payload },
       };
     case 'CHANGE_PINGPONG_MIX':
-      console.log(pingPongDelay.wet.value);
       pingPongDelay.wet.value = payload;
-      // pingPongDelay.wet.linearRampToValueAtTime(payload, now);
       return { ...state, pingPong: { ...state.pingPong, mix: payload } };
     case 'CHANGE_PINGPONG_TIME':
-      pingPongDelay.delayTime.linearRampToValueAtTime(`${payload}n`, now);
+      pingPongDelay.delayTime.value = `${payload}n`;
       return { ...state, pingPong: { ...state.pingPong, delayTime: payload } };
     case 'CHANGE_PINGPONG_FEEDBACK':
-      pingPongDelay.feedback.linearRampToValueAtTime(payload, now);
+      pingPongDelay.feedback.value = payload;
       return { ...state, pingPong: { ...state.pingPong, feedback: payload } };
 
     case 'CHANGE_REVERB_IMPULSE':
-      reverb.load(impulses[payload]);
-      return { ...state, reverb: { ...state.reverb, impulse: payload } };
+      if (state.reverb.impulse.val !== payload.val) {
+        reverb.load(impulses[payload.val]);
+        return { ...state, reverb: { ...state.reverb, impulse: payload } };
+      } else {
+        return { ...state };
+      }
 
     case 'CHANGE_REVERB_MIX':
       reverb.wet.linearRampToValueAtTime(payload, now);
       return { ...state, reverb: { ...state.reverb, mix: payload } };
+
     default:
       throw Error('reducer error');
   }
@@ -272,6 +294,7 @@ export default function Store(props) {
     currentPage: 'osc',
     springConfig: 'molasses',
     mouseField: { x: 0, y: 0 },
+    lfoFilter: { depth: 1 },
     bitCrusher: { depth: bitcrusher.bits, mix: 0 },
     chebyshev: { mix: 0, order: 1 },
     pingPong: {
@@ -281,6 +304,7 @@ export default function Store(props) {
     },
     reverb: {
       impulse: 'block',
+      // decay: reverb.decay.value,
       mix: reverb.wet.value,
     },
   });
