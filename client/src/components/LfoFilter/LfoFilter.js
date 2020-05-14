@@ -9,9 +9,9 @@ const LfoFilter = ({ children }) => {
   const [appState, updateState] = useContext(CTX);
   const [springOn, setSpringOn] = useState(false);
 
-  const changeMouseLfo = (x, y) => {
+  const changeMouseLfo = (y) => {
     y = 1 - y;
-    updateState({ type: 'CHANGE_MOUSEFIELD', payload: { x, y } });
+    updateState({ type: 'CHANGE_MOUSEFIELD', payload: { y } });
   };
 
   useEffect(() => {
@@ -23,27 +23,28 @@ const LfoFilter = ({ children }) => {
 
   const initVal = 0;
 
-  const [xVal, setXVal] = useState(initVal.toFixed(2));
+  // const [xVal, setXVal] = useState(initVal.toFixed(2));
   const [yVal, setYVal] = useState(initVal.toFixed(2));
   const [active, setActive] = useState(false);
 
   const handleMouseMove = (e) => {
-    const x = (e.nativeEvent.offsetX / width).toFixed(2);
+    // const x = (e.nativeEvent.offsetX / width).toFixed(2);
     const y = (e.nativeEvent.offsetY / height).toFixed(2);
 
-    if (x >= 0 && y >= 0 && x <= 1 && y <= 1) {
-      setXVal(x);
+    if (y >= 0 && y <= 1) {
+      // setXVal(x);
       setYVal(y);
-      changeMouseLfo(+x, +y);
+      changeMouseLfo(+y);
     }
   };
 
   const handleMouseLeave = () => {
+    console.log('MOUSE LEAVE');
     if (active) {
       setActive(false);
-      setXVal(0);
+      // setXVal(0);
       setYVal(0);
-      changeMouseLfo(0, 0);
+      changeMouseLfo(0);
     }
   };
 

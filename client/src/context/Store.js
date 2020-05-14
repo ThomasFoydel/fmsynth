@@ -21,6 +21,7 @@ const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
 const filter = new Tone.Filter();
 const reverb = new Tone.Convolver(impulses['block']);
+const limiter = new Tone.Limiter(-6);
 
 // initialize effects at zero
 bitcrusher.wet.value = 0;
@@ -81,11 +82,9 @@ Tone.connect(lfoFilter, pingPongDelay);
 // reverb and delay
 Tone.connect(pingPongDelay, reverb);
 Tone.connect(reverb, filter);
-filter.frequency.value = 20000;
-// tremolo.connect(filter);
-// stereoWidener.connect(filter);
-// filter.connect(masterVol);
-Tone.connect(filter, masterVol);
+
+Tone.connect(filter, limiter);
+Tone.connect(limiter, masterVol);
 masterVol.connect(out);
 
 const CTX = React.createContext();
@@ -182,17 +181,17 @@ export function reducer(state, action) {
         currentPage: action.page,
       };
     case 'CHANGE_MOUSEFIELD':
-      const yTimesFour = payload.y * 8;
+      const { y } = payload;
+      const yTimesFour = y * 8;
       const roundedEigth = Math.round(yTimesFour);
       const plusOneTimesFour = (roundedEigth + 1) * 2;
-      // const newLfoVal = `${plusOneTimesFour}n`;
       // lfoOsc.frequency.value = newLfoVal;
       lfoFilter.frequency.value = `${plusOneTimesFour}n`;
       // fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
 
       return {
         ...state,
-        mouseField: { x: payload.x, y: payload.y },
+        mouseField: { y },
       };
     case 'CHANGE_LFO_FILTER':
       const { prop, value } = payload;
