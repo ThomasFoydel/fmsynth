@@ -21,7 +21,6 @@ const Reverb = () => {
       <div className='name'>convolver</div>
       <div className='sliders-container'>
         <div className='param'>
-          {/* <div className='name'>mix</div> */}
           <div className='slider'>
             <CircleSlider
               onChange={handleMix}

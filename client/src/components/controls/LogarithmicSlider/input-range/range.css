@@ -27,10 +27,10 @@
   font-family: 'Roboto', sans-serif;
   /* border: 1px solid black; */
   display: block;
-  padding: 2px 5px 2px 5px;
+  padding: 1px 5px 1px 5px;
   border-radius: 4px;
   background: #64716e;
   color: white;
-  margin-top: -7px;
-  font-size: 11px;
+  margin-top: -4px;
+  font-size: 9px;
 }

@@ -12,7 +12,7 @@ const Selector = ({ options, initVal, cb, size }) => {
       } else {
         // user has hit zero, go to end of list
         setCurrentVal(options.length - 1);
-        cb(options.length - 1);
+        cb(options[options.length - 1]);
       }
     } else if (e.target.id === 'right') {
       if (currentVal < options.length - 1) {

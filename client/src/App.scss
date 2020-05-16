@@ -44,10 +44,6 @@ body {
   font-size: 9rem;
 }
 
-button {
-  //   padding: 1rem;
-}
-
 h1,
 h2,
 h3,
@@ -56,4 +52,14 @@ h5,
 h6,
 div {
   cursor: default;
+}
+
+::selection {
+  color: none;
+  background: none;
+}
+/* For Mozilla Firefox */
+::-moz-selection {
+  color: none;
+  background: none;
 }

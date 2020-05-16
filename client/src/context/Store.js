@@ -205,14 +205,12 @@ export function reducer(state, action) {
         lfoFilter: { ...state.lfoFilter, [prop]: value },
       };
     case 'CHANGE_FILTER':
-      if (prop === 'frequency') {
-        // filter.frequency.linearRampToValueAtTime(value, now);
-        filter.frequency.value = value;
-        return { ...state, filter: { ...state.filter, frequency: value } };
-      } else {
+      if (prop === 'frequency' || prop === 'Q') {
         filter[prop].value = value;
-        return { ...state, filter: { ...state.filter, [prop]: value } };
+      } else {
+        filter[prop] = value;
       }
+      return { ...state, filter: { ...state.filter, [prop]: value } };
 
     case 'CHANGE_BITCRUSH_DEPTH':
       bitcrusher.bits = payload;

@@ -9,7 +9,6 @@ import Log from '../logarithmic/log';
 // receiving props for minpos, maxpos, minval, maxval
 export default class LogRange extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = { value: 0 };
     this.logSlider = new Log({
@@ -18,6 +17,7 @@ export default class LogRange extends React.Component {
       minval: props.minval || 5,
       maxval: props.maxval || 1600,
     });
+    this.label = props.label;
     this.onChange = this.onChange.bind(this);
     this.formatLabel = this.formatLabel.bind(this);
   }
@@ -40,8 +40,7 @@ export default class LogRange extends React.Component {
   }
 
   formatLabel(value) {
-    // console.log('value : ', value);
-    return `${this.calcPos(value)}`;
+    return `${this.calcPos(value)}${this.label}`;
   }
 
   render() {

@@ -3,6 +3,21 @@ import { useContainerDimensions } from 'util/customHooks';
 import { animated, useSpring, config } from 'react-spring';
 import './BarSlider.scss';
 
+/********************************************
+
+                E X A M P L E: 
+
+        <BarSlider
+          onChange={handleFrequency}
+          max={18000}
+          property='frequency'
+          value={appState.filter.frequency}
+          size='large'
+          />
+       
+       
+  ********************************************/
+
 const BarSlider = ({ children, onChange, min, max, value, property, size }) => {
   const [springOn, setSpringOn] = useState(false);
   const [yVal, setYVal] = useState(value.toFixed(2));
