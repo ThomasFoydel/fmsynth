@@ -69,11 +69,9 @@ const Filter = () => {
           </div>
         </div>
         <div className='grid-div2'>
-          {/* <div className='name'>filter</div> */}
-          <div>
-            <div className='q'>Q:</div>
+          <div className='q-slider'>
+            <div className='q'>Q</div>
             <Slider
-              className='q'
               onChange={handleQ}
               // value={appState.lfoFilter.depth * 100}
               min={0}

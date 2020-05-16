@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Selector.scss';
 
 const Selector = ({ options, initVal, cb, size }) => {
-  const [currentVal, setCurrentVal] = useState(initVal);
+  const [currentVal, setCurrentVal] = useState(initVal || 0);
 
   const updateOption = (e) => {
     if (e.target.id === 'left') {

@@ -66,7 +66,7 @@ const LfoFilter = ({ children }) => {
           min={0}
           max={100}
           step={1}
-          property='depth'
+          property='mix'
         />
       </div>
       <div className='param'>

@@ -21,11 +21,18 @@
     position: relative;
   }
 
+  .q-slider {
+    margin-top: 0.4rem;
+    transform: translateX(-0.4rem);
+  }
+
   .q {
     display: inline-block;
     font-size: 1.6rem;
+    margin-top: 0.3rem;
+    margin-right: -0.8rem;
     // background: green;
-    transform: translateY(-1.1rem) translateX(-0.5rem);
+    transform: scale(1);
   }
   .name {
     letter-spacing: 0.6rem;

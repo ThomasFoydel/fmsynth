@@ -17,6 +17,8 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
 const stereoWidener = new Tone.StereoWidener(0.5);
+const combFilterCrossFade = new Tone.CrossFade();
+const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
 const filter = new Tone.Filter(15000, 'lowpass', -48);
@@ -76,14 +78,19 @@ bitcrusher.connect(chebyshev);
 chebyshev.connect(lfoFilter);
 
 // filter effects
-Tone.connect(lfoFilter, pingPongDelay);
-// Tone.connect(chebyshev, pingPongDelay);
 
 // reverb and delay
-Tone.connect(pingPongDelay, reverb);
-Tone.connect(reverb, filter);
+Tone.connect(lfoFilter, pingPongDelay);
+Tone.connect(pingPongDelay, combFilter);
+pingPongDelay.connect(combFilterCrossFade, 0, 0);
+combFilter.connect(combFilterCrossFade, 0, 1);
 
-Tone.connect(filter, limiter);
+Tone.connect(combFilterCrossFade, filter);
+
+Tone.connect(filter, reverb);
+
+Tone.connect(reverb, limiter);
+
 Tone.connect(limiter, masterVol);
 masterVol.connect(out);
 
@@ -257,7 +264,16 @@ export function reducer(state, action) {
     case 'CHANGE_REVERB_MIX':
       reverb.wet.linearRampToValueAtTime(payload, now);
       return { ...state, reverb: { ...state.reverb, mix: payload } };
-
+    case 'CHANGE_COMB_FILTER':
+      // todo: if prop === 'mix', change wet gain
+      combFilter[prop].value = value;
+      return { ...state, combFilter: { ...state.combFilter, [prop]: value } };
+    case 'CHANGE_COMB_FILTER_CROSSFADE':
+      combFilterCrossFade[prop].value = value;
+      return {
+        ...state,
+        combFilterCrossFade: { ...state.combFilterCrossFade, [prop]: value },
+      };
     default:
       throw Error('reducer error');
   }
@@ -313,6 +329,13 @@ export default function Store(props) {
       impulse: 'block',
       // decay: reverb.decay.value,
       mix: reverb.wet.value,
+    },
+    combFilter: {
+      delayTime: 0.1,
+      resonance: 0.5,
+    },
+    combFilterCrossFade: {
+      fade: 0.5,
     },
   });
 
