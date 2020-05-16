@@ -3,17 +3,15 @@ import './CombFilter.scss';
 import { CTX } from 'context/Store';
 import Selector from 'components/controls/Selector/Selector';
 import Slider from 'components/controls/Slider/Slider';
-
+import InputRange from 'react-input-range';
 const CombFilter = () => {
   const [appState, updateState] = useContext(CTX);
 
-  const handleChange = (e) => {
-    let { value } = e.target;
-    value = +value;
-    value /= 100;
+  const handleResonance = (e) => {
+    e /= 100;
     updateState({
       type: 'CHANGE_COMB_FILTER',
-      payload: { value: value, prop: e.target.id },
+      payload: { value: e, prop: 'resonance' },
     });
   };
   const handleDelay = (e) => {
@@ -32,36 +30,49 @@ const CombFilter = () => {
     });
   };
   return (
-    <div>
-      <div className='name'>comb delay</div>
+    <div className='comb-filter'>
       <div className='flex'>
         <div>
-          <Selector
-            cb={handleDelay}
-            initVal={0}
-            options={[
-              { text: '2n', value: '2n' },
-              { text: '2t', value: '2t' },
-              { text: '4n', value: '4n' },
-              { text: '4t', value: '4t' },
-              { text: '8n', value: '8n' },
-              { text: '8t', value: '8t' },
-              { text: '16n', value: '16n' },
-              { text: '16t', value: '16t' },
-              { text: '32n', value: '32n' },
-              { text: '32t', value: '32t' },
-            ]}
-          />
-          <input type='range' id='resonance' onChange={handleChange} />
+          <div className='delay-selector'>
+            <Selector
+              cb={handleDelay}
+              initVal={0}
+              options={[
+                { text: '2n', value: '2n' },
+                { text: '2t', value: '2t' },
+                { text: '4n', value: '4n' },
+                { text: '4t', value: '4t' },
+                { text: '8n', value: '8n' },
+                { text: '8t', value: '8t' },
+                { text: '16n', value: '16n' },
+                { text: '16t', value: '16t' },
+                { text: '32n', value: '32n' },
+                { text: '32t', value: '32t' },
+              ]}
+            />
+          </div>
+
+          <div className='resonance'>
+            <InputRange
+              value={Math.floor(appState.combFilter.resonance * 100)}
+              maxValue={100}
+              type='range'
+              onChange={handleResonance}
+            />
+          </div>
         </div>
-        <Slider
-          onChange={handleMix}
-          value={appState.combFilterCrossFade.fade * 100}
-          min={0}
-          max={100}
-          step={1}
-          property='fade'
-        />
+
+        <div className='mix-slider'>
+          <div className='name'>comb delay</div>
+          <Slider
+            onChange={handleMix}
+            value={appState.combFilterCrossFade.fade * 100}
+            min={0}
+            max={100}
+            step={1}
+            property='fade'
+          />
+        </div>
       </div>
     </div>
   );
