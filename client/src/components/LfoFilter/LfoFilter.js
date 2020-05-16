@@ -3,7 +3,7 @@ import { useContainerDimensions } from 'util/customHooks';
 import { animated, useSpring, config } from 'react-spring';
 import './LfoFilter.scss';
 import { CTX } from 'context/Store';
-import { CircleSlider } from 'react-circle-slider';
+import Slider from 'components/controls/Slider/Slider';
 
 const LfoFilter = ({ children }) => {
   const [appState, updateState] = useContext(CTX);
@@ -19,16 +19,13 @@ const LfoFilter = ({ children }) => {
   }, []);
 
   const componentRef = useRef();
-  const { width, height } = useContainerDimensions(componentRef);
+  const { height } = useContainerDimensions(componentRef);
 
   const initVal = 0;
 
-  // const [xVal, setXVal] = useState(initVal.toFixed(2));
   const [yVal, setYVal] = useState(initVal.toFixed(2));
-  const [active, setActive] = useState(false);
 
   const handleMouseMove = (e) => {
-    // const x = (e.nativeEvent.offsetX / width).toFixed(2);
     const y = (e.nativeEvent.offsetY / height).toFixed(2);
 
     if (y >= 0 && y <= 1) {
@@ -38,21 +35,11 @@ const LfoFilter = ({ children }) => {
     }
   };
 
-  const handleMouseLeave = () => {
-    console.log('MOUSE LEAVE');
-    if (active) {
-      setActive(false);
-      // setXVal(0);
-      setYVal(0);
-      changeMouseLfo(0);
-    }
-  };
-
   const handleDepth = (e) => {
-    e /= 100;
+    e.value /= 100;
     updateState({
       type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'depth', value: e },
+      payload: e,
     });
   };
 
@@ -73,21 +60,13 @@ const LfoFilter = ({ children }) => {
     <div className='lfo-filter'>
       <div className='name'>lfo filter</div>
       <div className='slider'>
-        <CircleSlider
+        <Slider
           onChange={handleDepth}
           value={appState.lfoFilter.depth * 100}
-          knobRadius={4}
-          shadow={false}
-          size={35}
-          circleWidth={3}
-          progressWidth={5}
           min={0}
           max={100}
-          showTooltip={true}
-          tooltipSize={12}
-          tooltipColor={'#eee'}
-          progressColor={'#222'}
-          stepSize={1}
+          step={1}
+          property='depth'
         />
       </div>
       <div className='param'>
@@ -103,7 +82,6 @@ const LfoFilter = ({ children }) => {
         <animated.div
           ref={componentRef}
           onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
           className='mousefield'
           style={
             springOn

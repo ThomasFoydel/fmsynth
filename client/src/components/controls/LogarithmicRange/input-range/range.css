@@ -1,0 +1,36 @@
+.input-range__label--max,
+.input-range__label--min {
+  color: #c0cac8;
+  font-family: 'Roboto', sans-serif;
+}
+
+.input-range__track--background {
+  background: #dae7e4;
+}
+
+.input-range__track--active {
+  background: #2677e5;
+}
+
+.input-range__slider {
+  background: #2677e5;
+  border-color: #2677e5;
+  margin-top: -0.75rem;
+}
+
+.input-range__track {
+  border-radius: 0.4rem;
+  height: 0.4rem;
+}
+
+.input-range__label--value .input-range__label-container {
+  font-family: 'Roboto', sans-serif;
+  /* border: 1px solid black; */
+  display: block;
+  padding: 2px 5px 2px 5px;
+  border-radius: 4px;
+  background: #64716e;
+  color: white;
+  margin-top: -7px;
+  font-size: 11px;
+}

@@ -1,49 +1,33 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import './Selector.scss';
 
-import './ImpulseSelector.scss';
-import { CTX } from 'context/Store';
-
-const ImpulseSelector = ({ options, initVal }) => {
-  const [appState, updateState] = useContext(CTX);
-
+const Selector = ({ options, initVal, cb, size }) => {
   const [currentVal, setCurrentVal] = useState(initVal);
 
   const updateOption = (e) => {
     if (e.target.id === 'left') {
       if (currentVal > 0) {
         setCurrentVal(currentVal - 1);
-        updateState({
-          type: 'CHANGE_REVERB_IMPULSE',
-          payload: options[currentVal - 1],
-        });
+        cb(options[currentVal - 1]);
       } else {
         // user has hit zero, go to end of list
         setCurrentVal(options.length - 1);
-        updateState({
-          type: 'CHANGE_REVERB_IMPULSE',
-          payload: options[options.length - 1],
-        });
+        cb(options.length - 1);
       }
     } else if (e.target.id === 'right') {
       if (currentVal < options.length - 1) {
         setCurrentVal(currentVal + 1);
-        updateState({
-          type: 'CHANGE_REVERB_IMPULSE',
-          payload: options[currentVal + 1],
-        });
+        cb(options[currentVal + 1]);
       } else {
         // user has hit end of list, go back to zero
         setCurrentVal(0);
-        updateState({
-          type: 'CHANGE_REVERB_IMPULSE',
-          payload: options[0],
-        });
+        cb(options[0]);
       }
     }
   };
 
   return (
-    <div className={`impulse-selector`}>
+    <div className={`selector selector-${size}`}>
       <div className='option'>
         <div className='left-button' id='left' onClick={updateOption}>
           {'<'}
@@ -57,4 +41,4 @@ const ImpulseSelector = ({ options, initVal }) => {
   );
 };
 
-export default ImpulseSelector;
+export default Selector;

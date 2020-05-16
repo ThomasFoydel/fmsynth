@@ -6,7 +6,7 @@ const Slider = ({ min, max, step, value, property, onChange }) => {
   return (
     <div className='circle-slider'>
       <CircleSlider
-        onChange={() => onChange(property)}
+        onChange={(e) => onChange({ value: e, prop: property })}
         value={value}
         knobRadius={4}
         shadow={false}

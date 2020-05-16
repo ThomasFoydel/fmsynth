@@ -5,11 +5,12 @@ import Filter from 'components/controls/Filter/Filter';
 
 import { CTX } from 'context/Store';
 import './Effects2.scss';
+
 const Effects2 = () => {
   const [appState, updateState] = useContext(CTX);
 
   return (
-    <div>
+    <div className='effects2'>
       <Filter />
       <LfoFilter />
     </div>

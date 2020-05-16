@@ -19,7 +19,7 @@ const chebyshev = new Tone.Chebyshev(2);
 const stereoWidener = new Tone.StereoWidener(0.5);
 const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
-const filter = new Tone.Filter();
+const filter = new Tone.Filter(15000, 'lowpass', -48);
 const reverb = new Tone.Convolver(impulses['block']);
 const limiter = new Tone.Limiter(-6);
 
@@ -94,6 +94,7 @@ const nodes = [];
 
 export function reducer(state, action) {
   const { payload } = action;
+  const { prop, value } = payload;
   switch (action.type) {
     case 'LOGIN':
       return {
@@ -194,7 +195,6 @@ export function reducer(state, action) {
         mouseField: { y },
       };
     case 'CHANGE_LFO_FILTER':
-      const { prop, value } = payload;
       if (prop === 'type') {
         lfoFilter.type = value;
       } else {
@@ -204,6 +204,15 @@ export function reducer(state, action) {
         ...state,
         lfoFilter: { ...state.lfoFilter, [prop]: value },
       };
+    case 'CHANGE_FILTER':
+      if (prop === 'frequency') {
+        // filter.frequency.linearRampToValueAtTime(value, now);
+        filter.frequency.value = value;
+        return { ...state, filter: { ...state.filter, frequency: value } };
+      } else {
+        filter[prop].value = value;
+        return { ...state, filter: { ...state.filter, [prop]: value } };
+      }
 
     case 'CHANGE_BITCRUSH_DEPTH':
       bitcrusher.bits = payload;
@@ -294,6 +303,7 @@ export default function Store(props) {
     springConfig: 'molasses',
     mouseField: { x: 0, y: 0 },
     lfoFilter: { depth: 1 },
+    filter: { frequency: 1000 },
     bitCrusher: { depth: bitcrusher.bits, mix: 0 },
     chebyshev: { mix: 0, order: 1 },
     pingPong: {
