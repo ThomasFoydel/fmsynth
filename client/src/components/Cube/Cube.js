@@ -5,7 +5,7 @@ import { useSpring, animated, config } from 'react-spring';
 
 import Effects from 'components/controls/Effects/Effects';
 
-import Oscillator1Controller from 'components/Oscillator1Controller/Oscillator1Controller';
+import Oscillator1Controller from 'components/Oscillators/Oscillators';
 import Dino from 'components/Dino/Dino';
 import Effects2 from 'components/controls/Effects2/Effects2';
 

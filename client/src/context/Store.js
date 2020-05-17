@@ -116,10 +116,22 @@ export function reducer(state, action) {
         ...state,
         osc1Settings: { ...state.osc1Settings, [prop]: value },
       };
+    case 'CHANGE_OSC1_GAIN':
+      osc1Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc1Settings: { ...state.osc1Settings, gain: payload },
+      };
     case 'CHANGE_OSC2':
       return {
         ...state,
-        osc2Settings: { ...state.osc1Settings, [prop]: value },
+        osc2Settings: { ...state.osc2Settings, [prop]: value },
+      };
+    case 'CHANGE_OSC2_GAIN':
+      osc2Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc2Settings: { ...state.osc2Settings, gain: payload },
       };
     case 'MAKE_OSC':
       const newOsc1 = new oscClass(

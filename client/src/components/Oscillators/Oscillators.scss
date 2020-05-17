@@ -1,0 +1,15 @@
+.osc1-controller {
+  .active {
+    color: red;
+  }
+  display: flex;
+  .osc {
+    background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+    border-radius: 5px;
+    max-width: 15rem !important;
+  }
+  .sliders {
+    display: flex;
+    justify-content: space-around;
+  }
+}
