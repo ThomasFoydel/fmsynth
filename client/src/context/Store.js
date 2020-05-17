@@ -3,6 +3,7 @@ import React from 'react';
 import oscClass from './oscClass';
 import Tone from 'tone';
 import impulses from 'IMreverbs/index';
+import { calcFreq } from '../util/util';
 
 const actx = Tone.context;
 const out = actx.master;
@@ -16,7 +17,7 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
-const stereoWidener = new Tone.StereoWidener(0.5);
+// const stereoWidener = new Tone.StereoWidener(0.5);
 const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
@@ -39,32 +40,28 @@ const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
 }).start();
 
-// const intoLfo = actx.createGain();
-// const lfoOsc = new Tone.LFO('8n', 0, 2000).start();
-// // const lfoFilter = new Tone.Filter(9000, 'lowpass', -24);
-// const lfo = actx.createGain();
-// const lfoWet = actx.createGain();
-// const lfoDry = actx.createGain();
-// lfoWet.gain.value = 1;
-// lfoDry.gain.value = 0;
-// const lfoCombined = actx.createGain();
-
-// lfoOsc.connect(lfo);
-// lfo.connect(lfoWet.gain);
-
-// intoLfo.connect(lfoDry);
-// Tone.connect(intoLfo, lfoFilter);
-// Tone.connect(lfoFilter, lfoWet);
-// lfoWet.connect(lfoCombined);
-// lfoDry.connect(lfoCombined);
-
-const osc1Gain = actx.createGain();
-const osc2Gain = actx.createGain();
-osc1Gain.gain.value = 0.3;
-osc2Gain.gain.value = 0.3;
 const oscCombinedGain = actx.createGain();
-osc1Gain.connect(oscCombinedGain);
-osc2Gain.connect(oscCombinedGain);
+// const osc1Gain = actx.createGain();
+// const osc2Gain = actx.createGain();
+// const subOscGain = actx.createGain();
+// const noiseOscGain = actx.createGain();
+// osc1Gain.gain.value = 0.2;
+// osc2Gain.gain.value = 0.2;
+// subOscGain.gain.value = 0.2;
+// noiseOscGain.gain.value = 0.2;
+// osc1Gain.connect(oscCombinedGain);
+// osc2Gain.connect(oscCombinedGain);
+
+let initEnv = {
+  attack: 0.1,
+  decay: 0.2,
+  sustain: 1.0,
+  release: 0.8,
+};
+let ampEnv = new Tone.AmplitudeEnvelope(initEnv);
+let subAmpEnv = new Tone.AmplitudeEnvelope(initEnv);
+
+Tone.connect(ampEnv, oscCombinedGain);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
@@ -91,6 +88,8 @@ Tone.connect(combFilterCrossFade, filter);
 Tone.connect(filter, reverb);
 
 Tone.connect(reverb, eq);
+// sub skips all fx //
+Tone.connect(subAmpEnv, eq);
 
 Tone.connect(eq, limiter);
 
@@ -116,53 +115,108 @@ export function reducer(state, action) {
         ...state,
         osc1Settings: { ...state.osc1Settings, [prop]: value },
       };
-    case 'CHANGE_OSC1_GAIN':
-      osc1Gain.gain.linearRampToValueAtTime(payload, now);
-      return {
-        ...state,
-        osc1Settings: { ...state.osc1Settings, gain: payload },
-      };
+    // case 'CHANGE_OSC1_GAIN':
+    //   osc1Gain.gain.linearRampToValueAtTime(payload, now);
+    //   return {
+    //     ...state,
+    //     osc1Settings: { ...state.osc1Settings, gain: payload },
+    //   };
     case 'CHANGE_OSC2':
       return {
         ...state,
         osc2Settings: { ...state.osc2Settings, [prop]: value },
       };
-    case 'CHANGE_OSC2_GAIN':
-      osc2Gain.gain.linearRampToValueAtTime(payload, now);
-      return {
-        ...state,
-        osc2Settings: { ...state.osc2Settings, gain: payload },
-      };
+    // case 'CHANGE_OSC2_GAIN':
+    //   osc2Gain.gain.linearRampToValueAtTime(payload, now);
+    //   return {
+    //     ...state,
+    //     osc2Settings: { ...state.osc2Settings, gain: payload },
+    //   };
     case 'MAKE_OSC':
-      const newOsc1 = new oscClass(
-        state.actx,
-        state.osc1Settings.type,
+      const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);
+      const osc2Freq = calcFreq(payload, state.osc2Settings.octaveOffset);
+      const subOscFreq = calcFreq(
         payload,
-        state.osc1Settings.detune,
-        state.envelope,
-        state.osc1Gain,
-        payload,
-        fmOsc1Gain
+        state.subOscSettings.octaveOffset - 2
       );
-      const newOsc2 = new oscClass(
-        state.actx,
-        state.osc2Settings.type,
-        payload,
-        state.osc2Settings.detune,
-        state.envelope,
-        state.osc2Gain,
-        payload,
-        fmOsc1Gain
-      );
-      nodes.push(newOsc1, newOsc2);
+
+      // const newOsc1 = new Tone.Oscillator(
+      //   osc1Freq,
+      //   state.osc1Settings.type
+      // ).start();
+      const newOsc1 = new Tone.Oscillator({
+        type: state.osc1Settings.type,
+        frequency: osc1Freq,
+        detune: state.osc1Settings.detune,
+      }).start();
+      Tone.connect(newOsc1, ampEnv);
+
+      const newOsc2 = new Tone.Oscillator({
+        type: state.osc2Settings.type,
+        frequency: osc2Freq,
+        detune: state.osc2Settings.detune,
+      }).start();
+      Tone.connect(newOsc2, ampEnv);
+
+      const newSubOsc = new Tone.Oscillator(
+        subOscFreq,
+        state.subOscSettings.type
+      ).start();
+      Tone.connect(newSubOsc, subAmpEnv);
+
+      Tone.connect(fmOsc1Gain, newOsc1.detune);
+      Tone.connect(fmOsc1Gain, newOsc2.detune);
+
+      ampEnv.triggerAttackRelease('1n');
+
+      newOsc1.tag = payload;
+      newOsc2.tag = payload;
+      newSubOsc.tag = payload;
+      console.log(newOsc1);
+
+      nodes.push(newOsc1, newOsc2, newSubOsc);
+      // const newOsc1 = new oscClass(
+      //   state.actx,
+      //   state.osc1Settings.type,
+      //   osc1Freq,
+      //   state.osc1Settings.detune,
+      //   state.envelope,
+      //   state.osc1Gain,
+      //   payload,
+      //   fmOsc1Gain
+      // );
+      // const newOsc2 = new oscClass(
+      //   state.actx,
+      //   state.osc2Settings.type,
+      //   osc2Freq,
+      //   state.osc2Settings.detune,
+      //   state.envelope,
+      //   state.osc2Gain,
+      //   payload,
+      //   fmOsc1Gain
+      // );
+      // const newSubOsc = new oscClass(
+      //   state.actx,
+      //   state.osc2Settings.type,
+      //   subOscFreq,
+      //   state.osc2Settings.detune,
+      //   state.envelope,
+      //   subOscGain,
+      //   payload
+      //   // fmOsc1Gain
+      // );
+      // nodes.push(
+      //   // newOsc1, newOsc2,
+      //   newSubOsc
+      // );
       return {
         ...state,
-        nodes: [...state.nodes, newOsc1],
+        nodes: [...state.nodes, newOsc1, newOsc2, newSubOsc],
       };
     case 'KILL_OSC':
       var new_nodes = [];
       for (var i = 0; i < nodes.length; i++) {
-        if (Math.round(nodes[i].initialFreq) === Math.round(payload)) {
+        if (Math.round(nodes[i].tag) === Math.round(payload)) {
           nodes[i].stop(0);
         } else {
           new_nodes.push(nodes[i]);
@@ -171,7 +225,7 @@ export function reducer(state, action) {
       nodes.push(new_nodes);
 
       const newNodeArr = state.nodes.filter(
-        (n) => Math.round(n.initialFreq) !== Math.round(payload)
+        (n) => Math.round(n.tag) !== Math.round(payload)
       );
       return {
         ...state,
@@ -179,7 +233,6 @@ export function reducer(state, action) {
       };
 
     case 'CHANGE_FM_FREQ_OFFSET':
-      // fmOsc1.frequency.linearRampToValueAtTime(payload, now + 0.006);
       fmOsc1.frequency.value = payload;
       return {
         ...state,
@@ -318,23 +371,30 @@ export default function Store(props) {
       sustain: 1,
       release: 0,
     },
+    // osc1Gain: osc1Gain,
+    // osc2Gain: osc2Gain,
     osc1Settings: {
-      type: 'sine',
-      gain: 0.5,
-      detune: 0.0,
-    },
-    osc1Settings: {
-      gain: osc1Gain.gain.value,
+      // gain: osc1Gain.gain.value,
       detune: 0,
       type: 'sine',
+      octaveOffset: 0,
     },
-    osc1Gain: osc1Gain,
-    osc2Gain: osc2Gain,
     osc2Settings: {
-      gain: osc2Gain.gain.value,
+      // gain: osc2Gain.gain.value,
       detune: 0,
       type: 'sine',
+      octaveOffset: 0,
     },
+    subOscSettings: {
+      // gain: subOscGain.gain.value,
+      type: 'sine',
+      octaveOffset: 0,
+    },
+    noiseSettings: {
+      // gain: noiseGain.gain.value,
+      type: 'white',
+    },
+
     fm1Settings: {
       freqOffset: 100,
       wavetable: fmOsc1.type,
