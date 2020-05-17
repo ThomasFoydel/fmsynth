@@ -1,6 +1,7 @@
 import React from 'react';
 import './Oscillator1Controller.scss';
-// import Navbar from 'components/Navbar/Navbar';
+import Slider from 'components/controls/Slider/Slider';
+import Selector from 'components/controls/Selector/Selector';
 
 import { CTX } from 'context/Store';
 
@@ -8,78 +9,43 @@ const Oscillator1Controller = () => {
   const [appState, updateState] = React.useContext(CTX);
 
   const changeOsc1 = (e) => {
-    updateState({ type: 'CHANGE_OSC1_TYPE', payload: e.target.id });
+    let { value, prop } = e;
+    updateState({ type: 'CHANGE_OSC1', payload: { value, prop } });
   };
 
   const changeOsc2 = (e) => {
-    updateState({ type: 'CHANGE_OSC2_TYPE', payload: e.target.id });
+    let { value, prop } = e;
+    updateState({ type: 'CHANGE_OSC2', payload: { value, prop } });
   };
 
   return (
     <div className='osc1-controller'>
-      {/* <Navbar /> */}
       <div className='osc1'>
-        osc 1
-        <button
-          onClick={changeOsc1}
-          id='sine'
-          className={`${appState.osc1Settings.type === 'sine' && 'active'}`}
-        >
-          sine
-        </button>
-        <button
-          onClick={changeOsc1}
-          id='sawtooth'
-          className={`${appState.osc1Settings.type === 'sawtooth' && 'active'}`}
-        >
-          sawtooth
-        </button>
-        <button
-          onClick={changeOsc1}
-          id='square'
-          className={`${appState.osc1Settings.type === 'square' && 'active'}`}
-        >
-          square
-        </button>
-        <button
-          onClick={changeOsc1}
-          id='triangle'
-          className={`${appState.osc1Settings.type === 'triangle' && 'active'}`}
-        >
-          triangle
-        </button>
+        <div className='center'>osc 1</div>
+        <Selector
+          onChange={(e) => changeOsc1({ value: e.value, prop: 'type' })}
+          options={[
+            { text: 'sine', value: 'sine' },
+            { text: 'sawtooth', value: 'sawtooth' },
+            { text: 'square', value: 'square' },
+            { text: 'triangle', value: 'triangle' },
+          ]}
+        />
+        <Slider property='detune' min={-30} max={30} onChange={changeOsc1} />
       </div>
 
       <div className='osc2'>
-        osc 2
-        <button
-          onClick={changeOsc2}
-          id='sine'
-          className={`${appState.osc2Settings.type === 'sine' && 'active'}`}
-        >
-          sine
-        </button>
-        <button
-          onClick={changeOsc2}
-          id='sawtooth'
-          className={`${appState.osc2Settings.type === 'sawtooth' && 'active'}`}
-        >
-          sawtooth
-        </button>
-        <button
-          onClick={changeOsc2}
-          id='square'
-          className={`${appState.osc2Settings.type === 'square' && 'active'}`}
-        >
-          square
-        </button>
-        <button
-          onClick={changeOsc2}
-          id='triangle'
-          className={`${appState.osc2Settings.type === 'triangle' && 'active'}`}
-        >
-          triangle
-        </button>
+        <div className='center'>osc 2</div>
+        <Selector
+          onChange={(e) => changeOsc2({ value: e.value, prop: 'type' })}
+          options={[
+            { text: 'sine', value: 'sine' },
+            { text: 'sawtooth', value: 'sawtooth' },
+            { text: 'square', value: 'square' },
+            { text: 'triangle', value: 'triangle' },
+          ]}
+        />
+        <Slider property='detune' min={-30} max={30} onChange={changeOsc2} />
       </div>
     </div>
   );

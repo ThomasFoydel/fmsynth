@@ -111,22 +111,22 @@ export function reducer(state, action) {
         ...state,
         isLoggedIn: true,
       };
-    case 'CHANGE_OSC1_TYPE':
+    case 'CHANGE_OSC1':
       return {
         ...state,
-        osc1Settings: { ...state.osc1Settings, type: payload },
+        osc1Settings: { ...state.osc1Settings, [prop]: value },
       };
-    case 'CHANGE_OSC2_TYPE':
+    case 'CHANGE_OSC2':
       return {
         ...state,
-        osc2Settings: { ...state.osc2Settings, type: payload },
+        osc2Settings: { ...state.osc1Settings, [prop]: value },
       };
     case 'MAKE_OSC':
       const newOsc1 = new oscClass(
         state.actx,
         state.osc1Settings.type,
         payload,
-        0.0,
+        state.osc1Settings.detune,
         state.envelope,
         state.osc1Gain,
         payload,
@@ -136,7 +136,7 @@ export function reducer(state, action) {
         state.actx,
         state.osc2Settings.type,
         payload,
-        0.0,
+        state.osc2Settings.detune,
         state.envelope,
         state.osc2Gain,
         payload,
