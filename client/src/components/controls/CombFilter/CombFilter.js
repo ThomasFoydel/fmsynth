@@ -36,7 +36,7 @@ const CombFilter = () => {
           <div className='delay-selector'>
             <Selector
               onChange={handleDelay}
-              initVal={0}
+              value={appState.combFilter.delayTime}
               options={[
                 { text: '2n', value: '2n' },
                 { text: '2t', value: '2t' },

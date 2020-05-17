@@ -3,7 +3,7 @@ import React from 'react';
 import oscClass from './oscClass';
 import Tone from 'tone';
 import impulses from 'IMreverbs/index';
-import { calcFreq, stopOsc } from '../util/util';
+import { calcFreq } from '../util/util';
 
 const actx = Tone.context;
 const out = actx.master;
@@ -115,27 +115,28 @@ export function reducer(state, action) {
         isLoggedIn: true,
       };
     case 'CHANGE_OSC1':
+      console.log('CHANGE OSC ONE PAYLOAD: ', payload);
       return {
         ...state,
         osc1Settings: { ...state.osc1Settings, [prop]: value },
       };
-    // case 'CHANGE_OSC1_GAIN':
-    //   osc1Gain.gain.linearRampToValueAtTime(payload, now);
-    //   return {
-    //     ...state,
-    //     osc1Settings: { ...state.osc1Settings, gain: payload },
-    //   };
+    case 'CHANGE_OSC1_GAIN':
+      osc1Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc1Settings: { ...state.osc1Settings, gain: payload },
+      };
     case 'CHANGE_OSC2':
       return {
         ...state,
         osc2Settings: { ...state.osc2Settings, [prop]: value },
       };
-    // case 'CHANGE_OSC2_GAIN':
-    //   osc2Gain.gain.linearRampToValueAtTime(payload, now);
-    //   return {
-    //     ...state,
-    //     osc2Settings: { ...state.osc2Settings, gain: payload },
-    //   };
+    case 'CHANGE_OSC2_GAIN':
+      osc2Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc2Settings: { ...state.osc2Settings, gain: payload },
+      };
     case 'MAKE_OSC':
       const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);
       const osc2Freq = calcFreq(payload, state.osc2Settings.octaveOffset);
@@ -143,62 +144,6 @@ export function reducer(state, action) {
         payload,
         state.subOscSettings.octaveOffset - 2
       );
-
-      ////////// TONE JS VERSION ///////
-      ////////// TONE JS VERSION ///////
-      ////////// TONE JS VERSION ///////
-      ////////// TONE JS VERSION ///////
-
-      // const newOsc1 = new Tone.Oscillator({
-      //   type: state.osc1Settings.type,
-      //   frequency: osc1Freq,
-      //   detune: state.osc1Settings.detune,
-      // }).start();
-      // // console.log(newOsc1.stop);
-      // newOsc1.envStop = function (e) {
-      //   stopOsc(actx, state.envelope.release, 0.0006, osc1Gain, this);
-      // };
-      // Tone.connect(newOsc1, osc1AmpEnv);
-
-      // const newOsc2 = new Tone.Oscillator({
-      //   type: state.osc2Settings.type,
-      //   frequency: osc2Freq,
-      //   detune: state.osc2Settings.detune,
-      // }).start();
-      // newOsc2.envStop = function (e) {
-      //   stopOsc(actx, state.envelope.release, 0.0006, osc2Gain, this);
-      // };
-      // Tone.connect(newOsc2, osc2AmpEnv);
-
-      // const newSubOsc = new Tone.Oscillator(
-      //   subOscFreq,
-      //   state.subOscSettings.type
-      // ).start();
-      // newSubOsc.envStop = function (e) {
-      //   stopOsc(actx, state.envelope.release, 0.0006, subOscGain, this);
-      // };
-      // Tone.connect(newSubOsc, subAmpEnv);
-
-      // Tone.connect(fmOsc1Gain, newOsc1.detune);
-      // Tone.connect(fmOsc1Gain, newOsc2.detune);
-
-      // osc1AmpEnv.triggerAttackRelease('8n');
-      // osc2AmpEnv.triggerAttackRelease('8n');
-      // subAmpEnv.triggerAttackRelease('8n');
-
-      // newOsc1.tag = payload;
-      // newOsc2.tag = payload;
-      // newSubOsc.tag = payload;
-
-      // nodes.push(newOsc1, newOsc2, newSubOsc);
-
-      ////////// OSC CLASS VERSION ///////
-      ////////// OSC CLASS VERSION ///////
-      ////////// OSC CLASS VERSION ///////
-      ////////// OSC CLASS VERSION ///////
-      // Tone.connect(fmOsc1Gain, newOsc1.detune);
-      // Tone.connect(fmOsc1Gain, newOsc2.detune);
-
       const newOsc1 = new oscClass(
         Tone,
         state.osc1Settings.type,
@@ -221,13 +166,12 @@ export function reducer(state, action) {
       );
       const newSubOsc = new oscClass(
         Tone,
-        state.osc2Settings.type,
+        state.subOscSettings.type,
         subOscFreq,
-        state.osc2Settings.detune,
+        0.0,
         state.envelope,
         subOscGain,
         payload
-        // fmOsc1Gain
       );
       nodes.push(newOsc1, newOsc2, newSubOsc);
       return {
@@ -254,13 +198,15 @@ export function reducer(state, action) {
       };
 
     case 'CHANGE_SUB_OSC':
+      console.log('payload: ', payload);
       return {
         ...state,
         subOscSettings: { ...state.subOscSettings, [prop]: value },
       };
 
-    case 'CHANGE_SUB_OSC':
-      subOscGain.gain.value = value;
+    case 'CHANGE_SUB_OSC_GAIN':
+      subOscGain.gain.linearRampToValueAtTime(payload, now);
+
       return {
         ...state,
         subOscSettings: { ...state.subOscSettings, gain: value },
@@ -448,7 +394,10 @@ export default function Store(props) {
     springConfig: 'molasses',
     mouseField: { x: 0, y: 0 },
     lfoFilter: { depth: lfoFilter.depth.value },
-    filter: { frequency: 1000 },
+    filter: {
+      frequency: filter.frequency.value,
+      rolloff: filter.rolloff.value,
+    },
     bitCrusher: { depth: bitcrusher.bits, mix: 0 },
     chebyshev: { mix: 0, order: 1 },
     pingPong: {

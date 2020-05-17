@@ -45,7 +45,7 @@ const Filter = () => {
               <Selector
                 size='medium'
                 onChange={handleType}
-                initVal={0}
+                value={appState.filter.type}
                 options={[
                   { text: 'lowpass', value: 'lowpass' },
                   { text: 'highpass', value: 'highpass' },
@@ -61,7 +61,7 @@ const Filter = () => {
               <Selector
                 size='medium'
                 onChange={handleRolloff}
-                initVal={0}
+                value={appState.filter.rolloff}
                 options={[
                   { text: '-12', value: -12 },
                   { text: '-24', value: -24 },

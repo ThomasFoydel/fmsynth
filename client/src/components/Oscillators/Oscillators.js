@@ -31,16 +31,17 @@ const Oscillator1Controller = () => {
   };
 
   const changeSubOsc = (e) => {
+    let { value, prop } = e;
     updateState({
       type: 'CHANGE_SUB_OSC',
-      payload: { prop: 'type', value: e },
+      payload: { prop, value },
     });
   };
 
   const changeSubOscGain = (e) => {
     let { value } = e;
     value /= 100;
-    updateState({ type: 'CHANGE_SUBOSC_GAIN', payload: value });
+    updateState({ type: 'CHANGE_SUB_OSC_GAIN', payload: value });
   };
 
   const changeNoise = (e) => {
@@ -67,6 +68,20 @@ const Oscillator1Controller = () => {
               { text: 'sawtooth', value: 'sawtooth' },
               { text: 'square', value: 'square' },
               { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+          <Selector
+            onChange={(e) =>
+              changeOsc1({ value: e.value, prop: 'octaveOffset' })
+            }
+            value={appState.osc1Settings.octaveOffset}
+            size='small'
+            options={[
+              { text: '-2', value: -2 },
+              { text: '-1', value: -1 },
+              { text: '0', value: 0 },
+              { text: '+1', value: 1 },
+              { text: '+2', value: 2 },
             ]}
           />
           <div className='sliders'>
@@ -103,6 +118,21 @@ const Oscillator1Controller = () => {
               { text: 'sawtooth', value: 'sawtooth' },
               { text: 'square', value: 'square' },
               { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+
+          <Selector
+            onChange={(e) =>
+              changeOsc1({ value: e.value, prop: 'octaveOffset' })
+            }
+            value={appState.osc2Settings.octaveOffset}
+            size='small'
+            options={[
+              { text: '-2', value: -2 },
+              { text: '-1', value: -1 },
+              { text: '0', value: 0 },
+              { text: '+1', value: 1 },
+              { text: '+2', value: 2 },
             ]}
           />
           <div className='sliders'>
@@ -142,6 +172,20 @@ const Oscillator1Controller = () => {
               { text: 'sawtooth', value: 'sawtooth' },
               { text: 'square', value: 'square' },
               { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+          <Selector
+            onChange={(e) =>
+              changeSubOsc({ value: e.value, prop: 'octaveOffset' })
+            }
+            value={appState.subOscSettings.octaveOffset}
+            size='small'
+            options={[
+              { text: '-2', value: -2 },
+              { text: '-1', value: -1 },
+              { text: '0', value: 0 },
+              { text: '+1', value: 1 },
+              { text: '+2', value: 2 },
             ]}
           />
           {/* <div className='sliders'>

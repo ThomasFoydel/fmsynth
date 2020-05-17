@@ -1,8 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Selector.scss';
 
-const Selector = ({ options, initVal, onChange, size }) => {
+function findWithAttr(array, attr, val) {
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i][attr] === val) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+const Selector = ({ options, value, initVal, onChange, size }) => {
+  //- initVal will set the init index,
+  //- value will set the init index to the index of the item
+  // in the options array with a value that matches the value prop
   const [currentVal, setCurrentVal] = useState(initVal || 0);
+
+  useEffect(() => {
+    const foundIndex = findWithAttr(options, 'value', value);
+    initVal = initVal ? initVal : 0;
+    let initIndex = foundIndex === -1 ? initVal : foundIndex;
+    setCurrentVal(initIndex);
+  }, []);
 
   const updateOption = (e) => {
     if (e.target.id === 'left') {
