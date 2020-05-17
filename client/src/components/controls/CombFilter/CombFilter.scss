@@ -2,6 +2,9 @@
   background: gray;
   width: 24rem;
   border-radius: 5px;
+  position: relative;
+  margin-left: 50%;
+  transform: translateX(-50%);
 
   .delay-selector {
     margin-top: 0.4rem;
@@ -12,6 +15,7 @@
     line-height: 1.3rem;
     text-align: center;
     margin-bottom: 0.2rem;
+    letter-spacing: 0.15rem;
   }
   .mix-slider {
     display: flex;
@@ -24,6 +28,14 @@
     width: 90%;
     margin-top: 2rem;
     margin-left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-0.4rem);
+  }
+
+  .resonance-name {
+    position: absolute;
+    font-size: 0.1rem;
+    bottom: 0.1rem;
+    left: 6.3rem;
+    color: rgb(210, 210, 210);
   }
 }

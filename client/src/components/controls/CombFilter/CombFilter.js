@@ -7,7 +7,7 @@ import InputRange from 'react-input-range';
 const CombFilter = () => {
   const [appState, updateState] = useContext(CTX);
 
-  const handleResonance = (e) => {
+  const handleChange = (e) => {
     e /= 100;
     updateState({
       type: 'CHANGE_COMB_FILTER',
@@ -35,7 +35,7 @@ const CombFilter = () => {
         <div>
           <div className='delay-selector'>
             <Selector
-              cb={handleDelay}
+              onChange={handleDelay}
               initVal={0}
               options={[
                 { text: '2n', value: '2n' },
@@ -57,7 +57,7 @@ const CombFilter = () => {
               value={Math.floor(appState.combFilter.resonance * 100)}
               maxValue={100}
               type='range'
-              onChange={handleResonance}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -74,6 +74,7 @@ const CombFilter = () => {
           />
         </div>
       </div>
+      <div className='resonance-name'>resonance</div>
     </div>
   );
 };

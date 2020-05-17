@@ -30,7 +30,7 @@ const Dino = () => {
   };
   const handleFmGain = (e) => {
     let { value } = e.target;
-    if (value == 0) {
+    if (value === 0) {
       value = 0.00001;
     }
     const numVal = +value;

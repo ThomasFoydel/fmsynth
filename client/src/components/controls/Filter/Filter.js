@@ -40,32 +40,36 @@ const Filter = () => {
     <div className='filter center'>
       <div className='grid'>
         <div className='grid-div1'>
-          <div className='param type-selector center'>
-            <Selector
-              size='medium'
-              cb={handleType}
-              initVal={0}
-              options={[
-                { text: 'lowpass', value: 'lowpass' },
-                { text: 'highpass', value: 'highpass' },
-                { text: 'bandpass', value: 'bandpass' },
-                { text: 'lowshelf', value: 'lowshelf' },
-                { text: 'highshelf', value: 'highshelf' },
-                { text: 'allpass', value: 'allpass' },
-                { text: 'peaking', value: 'peaking' },
-              ]}
-            />
-            <Selector
-              size='medium'
-              cb={handleRolloff}
-              initVal={0}
-              options={[
-                { text: '-12', value: -12 },
-                { text: '-24', value: -24 },
-                { text: '-48', value: -48 },
-                { text: '-96', value: -96 },
-              ]}
-            />
+          <div className='type-selector center'>
+            <div className='param'>
+              <Selector
+                size='medium'
+                onChange={handleType}
+                initVal={0}
+                options={[
+                  { text: 'lowpass', value: 'lowpass' },
+                  { text: 'highpass', value: 'highpass' },
+                  { text: 'bandpass', value: 'bandpass' },
+                  { text: 'lowshelf', value: 'lowshelf' },
+                  { text: 'highshelf', value: 'highshelf' },
+                  { text: 'allpass', value: 'allpass' },
+                  { text: 'peaking', value: 'peaking' },
+                ]}
+              />
+            </div>
+            <div className='param'>
+              <Selector
+                size='medium'
+                onChange={handleRolloff}
+                initVal={0}
+                options={[
+                  { text: '-12', value: -12 },
+                  { text: '-24', value: -24 },
+                  { text: '-48', value: -48 },
+                  { text: '-96', value: -96 },
+                ]}
+              />
+            </div>
           </div>
         </div>
         <div className='grid-div2'>
@@ -87,7 +91,7 @@ const Filter = () => {
               onChange={handleFrequency}
               maxVal={20000}
               initVal={appState.filter.frequency}
-              label='hz'
+              label='Hz'
             />
           </div>
           <div className='name'>filter</div>

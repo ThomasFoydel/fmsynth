@@ -17,7 +17,7 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
 const stereoWidener = new Tone.StereoWidener(0.5);
-const combFilterCrossFade = new Tone.CrossFade(0.5);
+const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
@@ -335,7 +335,7 @@ export default function Store(props) {
       resonance: 0.5,
     },
     combFilterCrossFade: {
-      fade: 0.5,
+      fade: combFilterCrossFade.fade.value,
     },
   });
 

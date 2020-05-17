@@ -1,98 +1,103 @@
-import React, { useRef, useContext, useEffect, useState } from 'react';
-import { useContainerDimensions } from 'util/customHooks';
-import { animated, useSpring, config } from 'react-spring';
+import React, { useContext } from 'react';
+
 import './LfoFilter.scss';
 import { CTX } from 'context/Store';
 import Slider from 'components/controls/Slider/Slider';
+import Selector from 'components/controls/Selector/Selector';
 
-const LfoFilter = ({ children }) => {
+const LfoFilter = () => {
   const [appState, updateState] = useContext(CTX);
-  const [springOn, setSpringOn] = useState(false);
-
-  const changeMouseLfo = (y) => {
-    y = 1 - y;
-    updateState({ type: 'CHANGE_MOUSEFIELD', payload: { y } });
-  };
-
-  useEffect(() => {
-    setSpringOn(true);
-  }, []);
-
-  const componentRef = useRef();
-  const { height } = useContainerDimensions(componentRef);
-
-  const initVal = 0;
-
-  const [yVal, setYVal] = useState(initVal.toFixed(2));
-
-  const handleMouseMove = (e) => {
-    const y = (e.nativeEvent.offsetY / height).toFixed(2);
-
-    if (y >= 0 && y <= 1) {
-      // setXVal(x);
-      setYVal(y);
-      changeMouseLfo(+y);
-    }
-  };
 
   const handleDepth = (e) => {
     e.value /= 100;
     updateState({
       type: 'CHANGE_LFO_FILTER',
-      payload: e,
+      payload: { prop: 'depth', value: e.value },
     });
   };
 
   const handleType = (e) => {
     updateState({
       type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'type', value: e.target.value },
+      payload: { prop: 'type', value: e.value },
     });
   };
 
-  const gradientPercentage = (1 - yVal) * 100;
-  const animationProps = useSpring({
-    background: `linear-gradient(0deg, rgba(212,12,12,1) ${gradientPercentage}%, rgba(212,12,12,1) ${gradientPercentage}%, rgba(0,0,0,1) 4%, rgba(0,0,0,1) 100%)`,
-    config: config.wobbly,
-  });
+  const changeRate = (e) => {
+    updateState({
+      type: 'CHANGE_LFO_FILTER',
+      payload: { prop: 'frequency', value: e.value },
+    });
+  };
 
   return (
     <div className='lfo-filter'>
-      <div className='name'>lfo filter</div>
-      <div className='slider'>
-        <Slider
-          onChange={handleDepth}
-          value={appState.lfoFilter.depth * 100}
-          min={0}
-          max={100}
-          step={1}
-          property='mix'
-        />
-      </div>
-      <div className='param'>
-        <select onChange={handleType}>
-          <option value='sine'>sine</option>
-          <option value='sawtooth'>sawtooth</option>
-          <option value='square'>square</option>
-          <option value='triangle'>triangle</option>
-        </select>
-      </div>
-      <div>
-        <div className='name'>rate</div>
-        <animated.div
-          ref={componentRef}
-          onMouseMove={handleMouseMove}
-          className='mousefield'
-          style={
-            springOn
-              ? animationProps
-              : {
-                  background: `linear-gradient(0deg, rgba(212,12,12,1) ${gradientPercentage}%, rgba(212,12,12,1) ${gradientPercentage}%, rgba(0,0,0,1) 4%, rgba(0,0,0,1) 100%)`,
-                }
-          }
-        >
-          {children}
-        </animated.div>
+      <div className='flex'>
+        <div className='selectors'>
+          <div className='param'>
+            <Selector
+              onChange={handleType}
+              size='medium'
+              initVal={0}
+              options={[
+                { text: 'sine', value: 'sine' },
+                { text: 'sawtooth', value: 'sawtooth' },
+                { text: 'square', value: 'square' },
+                { text: 'triangle', value: 'triangle' },
+              ]}
+            />
+          </div>
+          <div className='param'>
+            <Selector
+              onChange={changeRate}
+              size='medium'
+              initVal={0}
+              options={[
+                { text: '1n', value: '1n' },
+                // { text: '1d', value: '1n.' },
+                { text: '1t', value: '1t' },
+
+                { text: '2n', value: '2n' },
+                // { text: '2d', value: '2n.' },
+                { text: '2t', value: '2t' },
+
+                { text: '4n', value: '4n' },
+                // { text: '4d', value: '4n.' },
+                { text: '4t', value: '4t' },
+
+                { text: '8n', value: '8n' },
+                // { text: '8d', value: '8n.' },
+                { text: '8t', value: '8t' },
+
+                { text: '16n', value: '16n' },
+                // { text: '16d', value: '16n.' },
+                { text: '16t', value: '16t' },
+
+                { text: '32n', value: '32n' },
+                // { text: '32d', value: '32n.' },
+                { text: '32t', value: '32t' },
+
+                { text: '64n', value: '64n' },
+                // { text: '64d', value: '64n.' },
+                { text: '64t', value: '64t' },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className='section-2'>
+          <div className='name'>lfo filter</div>
+          <div className='slider'>
+            <Slider
+              onChange={handleDepth}
+              value={appState.lfoFilter.depth * 100}
+              min={0}
+              max={100}
+              step={1}
+              property='mix'
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

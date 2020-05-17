@@ -15,10 +15,10 @@
     width: 18rem;
   }
   .frequency {
-    width: 85%;
+    width: 81%;
   }
   .param {
-    position: relative;
+    margin-bottom: 0.2rem;
   }
 
   .q-slider {
@@ -31,14 +31,12 @@
     font-size: 1.6rem;
     margin-top: 0.3rem;
     margin-right: -0.8rem;
-    // background: green;
     transform: scale(1);
   }
   .name {
     letter-spacing: 0.6rem;
     font-weight: 700;
-    color: rgb(158, 232, 255);
-    margin-top: -0.3rem;
+    margin-top: -0.6rem;
   }
 
   .grid {
@@ -50,12 +48,12 @@
   }
 
   .grid-div1 {
-    height: 6rem;
+    height: 6.2rem;
     padding-top: 0.2rem;
     grid-area: 1 / 1 / 3 / 4;
   }
   .grid-div2 {
-    height: 6rem;
+    height: 6.2rem;
     grid-area: 1 / 4 / 3 / 5;
   }
   .grid-div3 {
