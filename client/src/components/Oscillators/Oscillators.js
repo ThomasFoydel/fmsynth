@@ -30,103 +30,121 @@ const Oscillator1Controller = () => {
     updateState({ type: 'CHANGE_OSC2_GAIN', payload: value });
   };
 
-  const changeSubOsc = (e) => {};
+  const changeSubOsc = (e) => {
+    updateState({
+      type: 'CHANGE_SUB_OSC',
+      payload: { prop: 'type', value: e },
+    });
+  };
 
-  const changeSubOscGain = (e) => {};
+  const changeSubOscGain = (e) => {
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_SUBOSC_GAIN', payload: value });
+  };
 
-  const changeNoise = (e) => {};
+  const changeNoise = (e) => {
+    updateState({ type: 'CHANGE_NOISE', payload: { prop: 'type', value: e } });
+  };
 
-  const changeNoiseGain = (e) => {};
+  const changeNoiseGain = (e) => {
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_NOISE_GAIN', payload: value });
+  };
 
   return (
     <div className='osc1-controller'>
-      <div className='osc'>
-        <div className='center'>osc 1</div>
-        <Selector
-          onChange={(e) => changeOsc1({ value: e.value, prop: 'type' })}
-          value={appState.osc1Settings.type}
-          size='small'
-          options={[
-            { text: 'sine', value: 'sine' },
-            { text: 'sawtooth', value: 'sawtooth' },
-            { text: 'square', value: 'square' },
-            { text: 'triangle', value: 'triangle' },
-          ]}
-        />
-        <div className='sliders'>
-          <div className='param'>
-            <div className='label'>detune</div>
-            <Slider
-              property='detune'
-              min={-30}
-              max={30}
-              onChange={changeOsc1}
-              value={appState.osc1Settings.detune}
-            />
+      <div className='section-1'>
+        <div className='osc'>
+          <div className='center'>osc 1</div>
+          <Selector
+            onChange={(e) => changeOsc1({ value: e.value, prop: 'type' })}
+            value={appState.osc1Settings.type}
+            size='small'
+            options={[
+              { text: 'sine', value: 'sine' },
+              { text: 'sawtooth', value: 'sawtooth' },
+              { text: 'square', value: 'square' },
+              { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+          <div className='sliders'>
+            <div className='param'>
+              <div className='label'>detune</div>
+              <Slider
+                property='detune'
+                min={-30}
+                max={30}
+                onChange={changeOsc1}
+                value={appState.osc1Settings.detune}
+              />
+            </div>
+            <div className='param'>
+              <div className='label'>gain</div>
+              <Slider
+                property='gain'
+                max={100}
+                onChange={changeOsc1Gain}
+                value={appState.osc1Settings.gain}
+              />
+            </div>
           </div>
-          <div className='param'>
-            <div className='label'>gain</div>
-            <Slider
-              property='gain'
-              max={100}
-              onChange={changeOsc1Gain}
-              value={appState.osc1Settings.gain}
-            />
+        </div>
+
+        <div className='osc'>
+          <div className='center'>osc 2</div>
+          <Selector
+            size='small'
+            value={appState.osc2Settings.type}
+            onChange={(e) => changeOsc2({ value: e.value, prop: 'type' })}
+            options={[
+              { text: 'sine', value: 'sine' },
+              { text: 'sawtooth', value: 'sawtooth' },
+              { text: 'square', value: 'square' },
+              { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+          <div className='sliders'>
+            <div className='param'>
+              <div className='label'>detune</div>
+              <Slider
+                property='detune'
+                min={-30}
+                max={30}
+                onChange={changeOsc2}
+                value={appState.osc2Settings.detune}
+              />
+            </div>
+
+            <div className='param'>
+              <div className='label'>gain</div>
+              <Slider
+                property='gain'
+                max={100}
+                onChange={changeOsc2Gain}
+                value={appState.osc2Settings.gain}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className='osc'>
-        <div className='center'>osc 2</div>
-        <Selector
-          size='small'
-          value={appState.osc2Settings.type}
-          onChange={(e) => changeOsc2({ value: e.value, prop: 'type' })}
-          options={[
-            { text: 'sine', value: 'sine' },
-            { text: 'sawtooth', value: 'sawtooth' },
-            { text: 'square', value: 'square' },
-            { text: 'triangle', value: 'triangle' },
-          ]}
-        />
-        <div className='sliders'>
-          <div className='param'>
-            <div className='label'>detune</div>
-            <Slider
-              property='detune'
-              min={-30}
-              max={30}
-              onChange={changeOsc2}
-              value={appState.osc2Settings.detune}
-            />
-          </div>
-
-          <div className='param'>
-            <div className='label'>gain</div>
-            <Slider
-              property='gain'
-              max={100}
-              onChange={changeOsc2Gain}
-              value={appState.osc2Settings.gain}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className='osc'>
-        <div className='center'>sub osc</div>
-        <Selector
-          size='small'
-          // value={appState.subOscSettings.type}
-          onChange={(e) => changeSubOsc({ value: e.value, prop: 'type' })}
-          options={[
-            { text: 'sine', value: 'sine' },
-            { text: 'sawtooth', value: 'sawtooth' },
-            { text: 'square', value: 'square' },
-            { text: 'triangle', value: 'triangle' },
-          ]}
-        />
-        {/* <div className='sliders'>
+      <div className='section-2'>
+        <div className='osc'>
+          <div className='center'>sub osc</div>
+          <Selector
+            size='small'
+            // value={appState.subOscSettings.type}
+            onChange={(e) => changeSubOsc({ value: e.value, prop: 'type' })}
+            options={[
+              { text: 'sine', value: 'sine' },
+              { text: 'sawtooth', value: 'sawtooth' },
+              { text: 'square', value: 'square' },
+              { text: 'triangle', value: 'triangle' },
+            ]}
+          />
+          {/* <div className='sliders'>
           <div className='param'>
             <div className='label'>detune</div>
             <Slider
@@ -138,39 +156,40 @@ const Oscillator1Controller = () => {
             />
           </div> */}
 
-        <div className='param'>
-          <div className='label'>gain</div>
-          <Slider
-            property='gain'
-            max={100}
-            onChange={changeSubOscGain}
-            // value={appState.osc2Settings.gain}
-          />
+          <div className='param'>
+            <div className='label'>gain</div>
+            <Slider
+              property='gain'
+              max={100}
+              onChange={changeSubOscGain}
+              // value={appState.osc2Settings.gain}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className='osc'>
-        <div className='center'>noise</div>
-        <Selector
-          size='small'
-          // value={appState.noiseSettings.type}
-          onChange={(e) => changeNoise({ value: e.value, prop: 'type' })}
-          options={[
-            { text: 'sine', value: 'sine' },
-            { text: 'sawtooth', value: 'sawtooth' },
-            { text: 'square', value: 'square' },
-            { text: 'triangle', value: 'triangle' },
-          ]}
-        />
-
-        <div className='param'>
-          <div className='label'>gain</div>
-          <Slider
-            property='gain'
-            max={100}
-            onChange={changeNoiseGain}
-            // value={appState.noiseSettings.gain}
+        <div className='osc'>
+          <div className='center'>noise</div>
+          <Selector
+            size='small'
+            // value={appState.noiseSettings.type}
+            onChange={(e) => changeNoise({ value: e.value, prop: 'type' })}
+            options={[
+              { text: 'sine', value: 'sine' },
+              { text: 'sawtooth', value: 'sawtooth' },
+              { text: 'square', value: 'square' },
+              { text: 'triangle', value: 'triangle' },
+            ]}
           />
+
+          <div className='param'>
+            <div className='label'>gain</div>
+            <Slider
+              property='gain'
+              max={100}
+              onChange={changeNoiseGain}
+              // value={appState.noiseSettings.gain}
+            />
+          </div>
         </div>
       </div>
     </div>

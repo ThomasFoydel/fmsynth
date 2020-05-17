@@ -327,3 +327,15 @@ export var whiteNoise = function (audioContext) {
    A#8
    B8
   */
+
+export function stopOsc(actx, release, easing, gateGain, osc) {
+  console.log('STOP OSC CALLED', osc);
+  let now = actx.currentTime;
+  gateGain.gain.setValueAtTime(gateGain.gain.value, now);
+  gateGain.gain.cancelScheduledValues(now);
+  // gateGain.gain.exponentialRampToValueAtTime(0.0001, now + release + easing);
+  gateGain.gain.exponentialRampToValueAtTime(0.00001, now);
+  setTimeout(() => {
+    osc.disconnect();
+  }, 10000);
+}

@@ -94,7 +94,7 @@ const LfoFilter = () => {
               min={0}
               max={100}
               step={1}
-              property='mix'
+              property='depth'
             />
           </div>
         </div>

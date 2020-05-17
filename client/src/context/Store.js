@@ -3,7 +3,7 @@ import React from 'react';
 import oscClass from './oscClass';
 import Tone from 'tone';
 import impulses from 'IMreverbs/index';
-import { calcFreq } from '../util/util';
+import { calcFreq, stopOsc } from '../util/util';
 
 const actx = Tone.context;
 const out = actx.master;
@@ -38,30 +38,33 @@ reverb.wet.value = 0;
 
 const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
+  depth: 0,
 }).start();
 
 const oscCombinedGain = actx.createGain();
-// const osc1Gain = actx.createGain();
-// const osc2Gain = actx.createGain();
-// const subOscGain = actx.createGain();
-// const noiseOscGain = actx.createGain();
-// osc1Gain.gain.value = 0.2;
-// osc2Gain.gain.value = 0.2;
-// subOscGain.gain.value = 0.2;
-// noiseOscGain.gain.value = 0.2;
-// osc1Gain.connect(oscCombinedGain);
-// osc2Gain.connect(oscCombinedGain);
+const osc1Gain = actx.createGain();
+const osc2Gain = actx.createGain();
+const subOscGain = actx.createGain();
+const noiseGain = actx.createGain();
+osc1Gain.gain.value = 0.2;
+osc2Gain.gain.value = 0.2;
+subOscGain.gain.value = 0.2;
+noiseGain.gain.value = 0.2;
+osc1Gain.connect(oscCombinedGain);
+osc2Gain.connect(oscCombinedGain);
 
 let initEnv = {
-  attack: 0.1,
-  decay: 0.2,
-  sustain: 1.0,
-  release: 0.8,
+  attack: 0.01,
+  decay: 1,
+  sustain: 1,
+  release: 0.3,
 };
-let ampEnv = new Tone.AmplitudeEnvelope(initEnv);
+let osc1AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
+let osc2AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
 let subAmpEnv = new Tone.AmplitudeEnvelope(initEnv);
 
-Tone.connect(ampEnv, oscCombinedGain);
+Tone.connect(osc1AmpEnv, oscCombinedGain);
+Tone.connect(osc2AmpEnv, oscCombinedGain);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
@@ -89,7 +92,8 @@ Tone.connect(filter, reverb);
 
 Tone.connect(reverb, eq);
 // sub skips all fx //
-Tone.connect(subAmpEnv, eq);
+Tone.connect(subAmpEnv, subOscGain);
+Tone.connect(subOscGain, eq);
 
 Tone.connect(eq, limiter);
 
@@ -99,7 +103,7 @@ masterVol.connect(out);
 const CTX = React.createContext();
 
 export { CTX };
-const nodes = [];
+let nodes = [];
 
 export function reducer(state, action) {
   const { payload } = action;
@@ -140,75 +144,92 @@ export function reducer(state, action) {
         state.subOscSettings.octaveOffset - 2
       );
 
-      // const newOsc1 = new Tone.Oscillator(
-      //   osc1Freq,
-      //   state.osc1Settings.type
-      // ).start();
-      const newOsc1 = new Tone.Oscillator({
-        type: state.osc1Settings.type,
-        frequency: osc1Freq,
-        detune: state.osc1Settings.detune,
-      }).start();
-      Tone.connect(newOsc1, ampEnv);
+      ////////// TONE JS VERSION ///////
+      ////////// TONE JS VERSION ///////
+      ////////// TONE JS VERSION ///////
+      ////////// TONE JS VERSION ///////
 
-      const newOsc2 = new Tone.Oscillator({
-        type: state.osc2Settings.type,
-        frequency: osc2Freq,
-        detune: state.osc2Settings.detune,
-      }).start();
-      Tone.connect(newOsc2, ampEnv);
+      // const newOsc1 = new Tone.Oscillator({
+      //   type: state.osc1Settings.type,
+      //   frequency: osc1Freq,
+      //   detune: state.osc1Settings.detune,
+      // }).start();
+      // // console.log(newOsc1.stop);
+      // newOsc1.envStop = function (e) {
+      //   stopOsc(actx, state.envelope.release, 0.0006, osc1Gain, this);
+      // };
+      // Tone.connect(newOsc1, osc1AmpEnv);
 
-      const newSubOsc = new Tone.Oscillator(
-        subOscFreq,
-        state.subOscSettings.type
-      ).start();
-      Tone.connect(newSubOsc, subAmpEnv);
+      // const newOsc2 = new Tone.Oscillator({
+      //   type: state.osc2Settings.type,
+      //   frequency: osc2Freq,
+      //   detune: state.osc2Settings.detune,
+      // }).start();
+      // newOsc2.envStop = function (e) {
+      //   stopOsc(actx, state.envelope.release, 0.0006, osc2Gain, this);
+      // };
+      // Tone.connect(newOsc2, osc2AmpEnv);
 
-      Tone.connect(fmOsc1Gain, newOsc1.detune);
-      Tone.connect(fmOsc1Gain, newOsc2.detune);
-
-      ampEnv.triggerAttackRelease('1n');
-
-      newOsc1.tag = payload;
-      newOsc2.tag = payload;
-      newSubOsc.tag = payload;
-      console.log(newOsc1);
-
-      nodes.push(newOsc1, newOsc2, newSubOsc);
-      // const newOsc1 = new oscClass(
-      //   state.actx,
-      //   state.osc1Settings.type,
-      //   osc1Freq,
-      //   state.osc1Settings.detune,
-      //   state.envelope,
-      //   state.osc1Gain,
-      //   payload,
-      //   fmOsc1Gain
-      // );
-      // const newOsc2 = new oscClass(
-      //   state.actx,
-      //   state.osc2Settings.type,
-      //   osc2Freq,
-      //   state.osc2Settings.detune,
-      //   state.envelope,
-      //   state.osc2Gain,
-      //   payload,
-      //   fmOsc1Gain
-      // );
-      // const newSubOsc = new oscClass(
-      //   state.actx,
-      //   state.osc2Settings.type,
+      // const newSubOsc = new Tone.Oscillator(
       //   subOscFreq,
-      //   state.osc2Settings.detune,
-      //   state.envelope,
-      //   subOscGain,
-      //   payload
-      //   // fmOsc1Gain
-      // );
-      // nodes.push(
-      //   // newOsc1, newOsc2,
-      //   newSubOsc
-      // );
+      //   state.subOscSettings.type
+      // ).start();
+      // newSubOsc.envStop = function (e) {
+      //   stopOsc(actx, state.envelope.release, 0.0006, subOscGain, this);
+      // };
+      // Tone.connect(newSubOsc, subAmpEnv);
+
+      // Tone.connect(fmOsc1Gain, newOsc1.detune);
+      // Tone.connect(fmOsc1Gain, newOsc2.detune);
+
+      // osc1AmpEnv.triggerAttackRelease('8n');
+      // osc2AmpEnv.triggerAttackRelease('8n');
+      // subAmpEnv.triggerAttackRelease('8n');
+
+      // newOsc1.tag = payload;
+      // newOsc2.tag = payload;
+      // newSubOsc.tag = payload;
+
+      // nodes.push(newOsc1, newOsc2, newSubOsc);
+
+      ////////// OSC CLASS VERSION ///////
+      ////////// OSC CLASS VERSION ///////
+      ////////// OSC CLASS VERSION ///////
+      ////////// OSC CLASS VERSION ///////
+      // Tone.connect(fmOsc1Gain, newOsc1.detune);
+      // Tone.connect(fmOsc1Gain, newOsc2.detune);
+
+      const newOsc1 = new oscClass(
+        Tone,
+        state.osc1Settings.type,
+        osc1Freq,
+        state.osc1Settings.detune,
+        state.envelope,
+        osc1Gain,
+        payload,
+        fmOsc1Gain
+      );
+      const newOsc2 = new oscClass(
+        Tone,
+        state.osc2Settings.type,
+        osc2Freq,
+        state.osc2Settings.detune,
+        state.envelope,
+        osc2Gain,
+        payload,
+        fmOsc1Gain
+      );
+      const newSubOsc = new oscClass(
+        Tone,
+        state.osc2Settings.type,
+        subOscFreq,
+        state.osc2Settings.detune,
+        state.envelope,
+        subOscGain,
+        payload
+        // fmOsc1Gain
+      );
+      nodes.push(newOsc1, newOsc2, newSubOsc);
       return {
         ...state,
         nodes: [...state.nodes, newOsc1, newOsc2, newSubOsc],
@@ -216,20 +237,46 @@ export function reducer(state, action) {
     case 'KILL_OSC':
       var new_nodes = [];
       for (var i = 0; i < nodes.length; i++) {
-        if (Math.round(nodes[i].tag) === Math.round(payload)) {
-          nodes[i].stop(0);
+        if (Math.round(nodes[i].initialFreq) === Math.round(payload)) {
+          nodes[i].stop();
         } else {
           new_nodes.push(nodes[i]);
         }
       }
-      nodes.push(new_nodes);
+      nodes = new_nodes;
 
       const newNodeArr = state.nodes.filter(
-        (n) => Math.round(n.tag) !== Math.round(payload)
+        (n) => Math.round(n.initialFreq) !== Math.round(payload)
       );
       return {
         ...state,
         nodes: newNodeArr,
+      };
+
+    case 'CHANGE_SUB_OSC':
+      return {
+        ...state,
+        subOscSettings: { ...state.subOscSettings, [prop]: value },
+      };
+
+    case 'CHANGE_SUB_OSC':
+      subOscGain.gain.value = value;
+      return {
+        ...state,
+        subOscSettings: { ...state.subOscSettings, gain: value },
+      };
+
+    case 'CHANGE_NOISE':
+      return {
+        ...state,
+        noiseSettings: { ...state.noiseSettings, [prop]: value },
+      };
+
+    case 'CHANGE_NOISE_GAIN':
+      noiseGain.gain.value = value;
+      return {
+        ...state,
+        noiseSettings: { ...state.noiseSettings, gain: value },
       };
 
     case 'CHANGE_FM_FREQ_OFFSET':
@@ -365,12 +412,7 @@ export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
     actx: actx,
     nodes: [],
-    envelope: {
-      attack: 0.0,
-      decay: 1,
-      sustain: 1,
-      release: 0,
-    },
+    envelope: initEnv,
     // osc1Gain: osc1Gain,
     // osc2Gain: osc2Gain,
     osc1Settings: {
@@ -405,7 +447,7 @@ export default function Store(props) {
     currentPage: 'osc',
     springConfig: 'molasses',
     mouseField: { x: 0, y: 0 },
-    lfoFilter: { depth: 1 },
+    lfoFilter: { depth: lfoFilter.depth.value },
     filter: { frequency: 1000 },
     bitCrusher: { depth: bitcrusher.bits, mix: 0 },
     chebyshev: { mix: 0, order: 1 },
@@ -430,3 +472,6 @@ export default function Store(props) {
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
 }
+osc1AmpEnv.triggerAttackRelease('1n');
+osc2AmpEnv.triggerAttackRelease('1n');
+subAmpEnv.triggerAttackRelease('1n');
