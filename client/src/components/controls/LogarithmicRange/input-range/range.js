@@ -31,14 +31,18 @@ export default class LogRange extends React.Component {
   onChange(value) {
     this.setState({ value });
     if (this.props.onChange) {
-      this.props.onChange(value);
+      let newVals = {
+        min: this.calcPos(value.min),
+        max: this.calcPos(value.max),
+      };
+      this.props.onChange(newVals);
     } else {
       console.log('pass an onChange method to <LogarithmicRange />');
     }
   }
 
   formatLabel(value) {
-    return `${this.calcPos(value)}`;
+    return `${this.calcPos(value)}${this.props.label}`;
   }
 
   render() {

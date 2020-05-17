@@ -23,6 +23,7 @@ const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
 const filter = new Tone.Filter(15000, 'lowpass', -48);
 const reverb = new Tone.Convolver(impulses['block']);
+const eq = new Tone.EQ3();
 const limiter = new Tone.Limiter(-6);
 
 // initialize effects at zero
@@ -89,7 +90,9 @@ Tone.connect(combFilterCrossFade, filter);
 
 Tone.connect(filter, reverb);
 
-Tone.connect(reverb, limiter);
+Tone.connect(reverb, eq);
+
+Tone.connect(eq, limiter);
 
 Tone.connect(limiter, masterVol);
 masterVol.connect(out);
@@ -273,6 +276,20 @@ export function reducer(state, action) {
       return {
         ...state,
         combFilterCrossFade: { ...state.combFilterCrossFade, [prop]: value },
+      };
+    case 'CHANGE_EQ_GAIN':
+      eq[prop].value = value;
+      return { ...state, EQ: { ...state.EQ, [prop]: value } };
+    case 'CHANGE_EQ_RANGE':
+      eq.highFrequency.value = payload.max;
+      eq.lowFrequency.value = payload.min;
+      return {
+        ...state,
+        EQ: {
+          ...state.EQ,
+          lowFrequency: payload.min,
+          highFrequency: payload.max,
+        },
       };
     default:
       throw Error('reducer error');
