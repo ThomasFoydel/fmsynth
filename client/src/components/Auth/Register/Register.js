@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import './Register.scss';
+import Axios from 'axios';
 
 const Register = () => {
   const [formValues, setFormValues] = useState({});
 
   const handleChange = (e) => {
-    e.preventDefault();
     let { value, id } = e.target;
     setFormValues({ ...formValues, [id]: value });
-    console.log(value);
-    console.log(id);
   };
   const handleSubmit = () => {
-    console.log(formValues);
+    // console.log(formValues);
+    Axios.post('/register', formValues).then((result) => {
+      console.log('RESULT: ', result);
+    });
   };
   return (
     <div className='register'>
