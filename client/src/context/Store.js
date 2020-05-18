@@ -1,6 +1,7 @@
 import React from 'react';
 
 import oscClass from './oscClass';
+import noiseClass from './noiseClass';
 import Tone from 'tone';
 import impulses from 'IMreverbs/index';
 import { calcFreq } from '../util/util';
@@ -12,8 +13,18 @@ const now = actx.currentTime;
 const masterVol = new Tone.Volume(-10);
 Tone.Transport.bpm.rampTo(140, 0.1);
 
-// const tremolo = new Tone.Tremolo(9, 0.9).start();
-// tremolo.wet.linearRampToValueAtTime(0.0, now);
+const oscCombinedGain = actx.createGain();
+const osc1Gain = actx.createGain();
+const osc2Gain = actx.createGain();
+const subOscGain = actx.createGain();
+const noiseGain = actx.createGain();
+osc1Gain.gain.value = 0.2;
+osc2Gain.gain.value = 0.2;
+subOscGain.gain.value = 0.2;
+noiseGain.gain.value = 0.2;
+osc1Gain.connect(oscCombinedGain);
+osc2Gain.connect(oscCombinedGain);
+noiseGain.connect(oscCombinedGain);
 
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
@@ -36,18 +47,6 @@ const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
   depth: 0,
 }).start();
-
-const oscCombinedGain = actx.createGain();
-const osc1Gain = actx.createGain();
-const osc2Gain = actx.createGain();
-const subOscGain = actx.createGain();
-const noiseGain = actx.createGain();
-osc1Gain.gain.value = 0.2;
-osc2Gain.gain.value = 0.2;
-subOscGain.gain.value = 0.2;
-noiseGain.gain.value = 0.2;
-osc1Gain.connect(oscCombinedGain);
-osc2Gain.connect(oscCombinedGain);
 
 let initEnv = {
   attack: 0.01,
@@ -142,7 +141,16 @@ export function reducer(state, action) {
         subOscGain,
         payload
       );
-      nodes.push(newOsc1, newOsc2, newSubOsc);
+      const noiseOsc = new noiseClass(
+        Tone,
+        state.noiseSettings.type,
+        state.envelope,
+        noiseGain,
+        payload
+      );
+      // const noiseOsc = new Tone.Noise('white').start();
+      // noiseOsc.connect()
+      nodes.push(newOsc1, newOsc2, newSubOsc, noiseOsc);
       return {
         ...state,
         nodes: [...state.nodes, newOsc1, newOsc2, newSubOsc],
