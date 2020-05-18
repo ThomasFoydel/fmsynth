@@ -1,18 +1,19 @@
 import React, { useContext } from 'react';
 import './Chebyshev.scss';
 import { CTX } from 'context/Store';
-import { CircleSlider } from 'react-circle-slider';
+import Slider from 'components/controls/Slider/Slider';
 
 const Chebyshev = () => {
   const [appState, updateState] = useContext(CTX);
 
   const handleMix = (e) => {
-    e /= 100;
-    updateState({ type: 'CHANGE_CHEBYSHEV_MIX', payload: e });
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_CHEBYSHEV_MIX', payload: value });
   };
 
   const handleOrder = (e) => {
-    updateState({ type: 'CHANGE_CHEBYSHEV_ORDER', payload: e });
+    updateState({ type: 'CHANGE_CHEBYSHEV_ORDER', payload: e.value });
   };
 
   return (
@@ -21,40 +22,22 @@ const Chebyshev = () => {
       <div className='sliders-container'>
         <div className='param'>
           <div className='name'>order</div>
-          <CircleSlider
+          <Slider
             onChange={handleOrder}
-            // value={appState.chebyshev.mix}
-            knobRadius={4}
-            shadow={false}
-            size={35}
-            circleWidth={3}
-            progressWidth={5}
-            min={1}
+            value={appState.chebyshev.order}
+            property='order'
+            step={2}
             max={99}
-            showTooltip={true}
-            tooltipSize={12}
-            tooltipColor={'#eee'}
-            progressColor={'#222'}
-            stepSize={2}
           />
         </div>
 
         <div className='param'>
           <div className='name'>mix</div>
-          <CircleSlider
+          <Slider
             onChange={handleMix}
-            // value={appState.chebyshev.mix}
-            knobRadius={4}
-            shadow={false}
-            size={35}
-            circleWidth={3}
-            progressWidth={5}
-            min={0}
+            value={appState.chebyshev.mix * 100}
+            property='wet'
             max={100}
-            showTooltip={true}
-            tooltipSize={12}
-            tooltipColor={'#eee'}
-            progressColor={'#222'}
           />
         </div>
       </div>

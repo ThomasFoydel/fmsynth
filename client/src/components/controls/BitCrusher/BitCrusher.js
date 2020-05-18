@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CircleSlider } from 'react-circle-slider';
+import Slider from 'components/controls/Slider/Slider';
 
 import { CTX } from 'context/Store';
 import './BitCrusher.scss';
@@ -8,12 +8,13 @@ const BitCrusher = () => {
   const [appState, updateState] = useContext(CTX);
 
   const handleDepth = (e) => {
-    updateState({ type: 'CHANGE_BITCRUSH_DEPTH', payload: e });
+    updateState({ type: 'CHANGE_BITCRUSH_DEPTH', payload: e.value });
   };
 
   const handleMix = (e) => {
-    e /= 100;
-    updateState({ type: 'CHANGE_BITCRUSH_MIX', payload: e });
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_BITCRUSH_MIX', payload: value });
   };
 
   return (
@@ -24,20 +25,11 @@ const BitCrusher = () => {
           <div className='name'>depth</div>
 
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleDepth}
               value={appState.bitCrusher.depth}
-              shadow={false}
-              knobRadius={4}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={1}
+              property='depth'
               max={8}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
             />
           </div>
         </div>
@@ -45,20 +37,11 @@ const BitCrusher = () => {
         <div className='param'>
           <div className='name'>mix</div>
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleMix}
-              value={appState.bitCrusher.mix}
-              knobRadius={4}
-              shadow={false}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={0}
+              value={appState.bitCrusher.wet * 100}
+              property='wet'
               max={100}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
             />
           </div>
         </div>

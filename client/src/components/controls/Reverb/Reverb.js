@@ -1,19 +1,21 @@
 import React, { useContext } from 'react';
-import ImpulseSelector from 'components/controls/Reverb/ImpulseSelector/ImpulseSelector';
-import { CircleSlider } from 'react-circle-slider';
+import Selector from 'components/controls/Selector/Selector';
+import Slider from 'components/controls/Slider/Slider';
 
 import './Reverb.scss';
+
 import { CTX } from 'context/Store';
 
 const Reverb = () => {
   const [appState, updateState] = useContext(CTX);
 
   const handleImpulse = (e) => {
-    updateState({ type: 'CHANGE_REVERB_IMPULSE', payload: e.target.value });
+    updateState({ type: 'CHANGE_REVERB_IMPULSE', payload: e.val });
   };
   const handleMix = (e) => {
-    e /= 100;
-    updateState({ type: 'CHANGE_REVERB_MIX', payload: e });
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_REVERB_MIX', payload: value });
   };
 
   return (
@@ -22,30 +24,19 @@ const Reverb = () => {
       <div className='sliders-container'>
         <div className='param'>
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleMix}
-              value={appState.reverb.mix * 100}
-              knobRadius={4}
-              shadow={false}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={0}
+              value={appState.reverb.wet * 100}
+              property='wet'
               max={100}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
-              stepSize={1}
             />
           </div>
         </div>
 
         <div className='param'>
-          <ImpulseSelector
-            updateFunction={handleImpulse}
-            inputId={'type'}
-            initVal={0}
+          <Selector
+            onChange={handleImpulse}
+            value={appState.reverb.impulse}
             options={[
               { val: 'block', text: 'block' },
               { val: 'bottleHall', text: 'bottleHall' },

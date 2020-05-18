@@ -60,6 +60,7 @@ export default class LogRange extends React.Component {
 
 const RangeInput = ({ value, onChange, formatLabel }) => (
   <InputRange
+    draggableTrack={true}
     step={1}
     formatLabel={formatLabel}
     maxValue={100}

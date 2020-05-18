@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import dino from 'imgs/dino.png';
 import dino2 from 'imgs/dino2.png';
 import Selector from 'components/controls/Selector/Selector';
-
-// import Navbar from 'components/Navbar/Navbar';
+import InputRange from 'react-input-range';
 
 import { CTX } from 'context/Store';
 import './Dino.scss';
@@ -13,13 +12,9 @@ const Dino = () => {
   const keysPressed = appState.nodes.length > 0;
 
   const handleFmOffset = (e) => {
-    let { value } = e.target;
-    value = +value;
-    const newFmOffset = value * 20;
-
     updateState({
       type: 'CHANGE_FM_FREQ_OFFSET',
-      payload: newFmOffset,
+      payload: e * 20,
     });
   };
   const handleFmWaveTableChange = (e) => {
@@ -30,22 +25,22 @@ const Dino = () => {
     });
   };
   const handleFmGain = (e) => {
-    let { value } = e.target;
-    if (value === 0) {
-      value = 0.00001;
+    // let { value } = e.target;
+    if (e === 0) {
+      e = 0.00001;
     }
-    const numVal = +value;
+
     updateState({
       type: 'CHANGE_FM_GAIN',
-      payload: numVal * 100,
+      payload: e * 100,
     });
   };
 
   return (
     <div className='dino-page'>
       <div className='dino-container center'>
-        <div>
-          fm wavetable
+        <div className='frequency-modulator'>
+          <div className='name'>frequency modulator</div>
           <div className='wavetable-selector'>
             <Selector
               onChange={handleFmWaveTableChange}
@@ -58,9 +53,7 @@ const Dino = () => {
               ]}
             />
           </div>
-        </div>
-
-        <div
+          {/* <div
           className='frequency'
           style={{
             color: 'white',
@@ -70,13 +63,21 @@ const Dino = () => {
           }}
         >
           frequency offset: {appState.fm1Settings.freqOffset}
-        </div>
-        <input
-          value={appState.fm1Settings.freqOffset / 20}
-          type='range'
-          onChange={handleFmOffset}
-        />
-        <div
+        </div> */}
+
+          <div className='param frequency'>
+            <InputRange
+              formatLabel={(value, type) => `${value * 20}`}
+              step={2}
+              maxValue={100}
+              minValue={0}
+              value={appState.fm1Settings.freqOffset / 20}
+              onChange={handleFmOffset}
+              showToolTip={false}
+            />
+            <div className='param-name center'>frequency</div>
+          </div>
+          {/* <div
           className='gain'
           style={{
             color: 'white',
@@ -86,13 +87,19 @@ const Dino = () => {
           }}
         >
           gain: {Math.floor(appState.fm1Settings.gain)}
+        </div> */}
+          <div className='param gain'>
+            <InputRange
+              formatLabel={(value, type) => `${value * 100}`}
+              step={2}
+              maxValue={100}
+              minValue={0}
+              value={appState.fm1Settings.gain / 100}
+              onChange={handleFmGain}
+            />
+          </div>
+          <div className='param-name center'>gain</div>
         </div>
-        <input
-          value={appState.fm1Settings.gain / 100}
-          type='range'
-          onChange={handleFmGain}
-        />
-
         <div className='dino-innercontainer'>
           <img
             className='dino'
@@ -102,7 +109,7 @@ const Dino = () => {
                 (appState.fm1Settings.freqOffset / 2000) * 360
               }deg)`,
               transform: `scale(${
-                (appState.fm1Settings.gain / 10000) * 0.2 + 0.5
+                (appState.fm1Settings.gain / 10000) * 0.2 + 0.4
               }) rotate(${(appState.fm1Settings.freqOffset / 2000) * 180}deg)`,
             }}
             src={keysPressed ? dino : dino2}

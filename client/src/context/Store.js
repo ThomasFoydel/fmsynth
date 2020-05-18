@@ -96,35 +96,16 @@ let nodes = [];
 
 export function reducer(state, action) {
   let { payload } = action;
-  const { prop, value } = payload;
+  // const { prop, value } = payload;
+  let prop = payload.prop;
+  let value = payload.value;
   switch (action.type) {
     case 'LOGIN':
       return {
         ...state,
         isLoggedIn: true,
       };
-    case 'CHANGE_OSC1':
-      return {
-        ...state,
-        osc1Settings: { ...state.osc1Settings, [prop]: value },
-      };
-    case 'CHANGE_OSC1_GAIN':
-      osc1Gain.gain.linearRampToValueAtTime(payload, now);
-      return {
-        ...state,
-        osc1Settings: { ...state.osc1Settings, gain: payload },
-      };
-    case 'CHANGE_OSC2':
-      return {
-        ...state,
-        osc2Settings: { ...state.osc2Settings, [prop]: value },
-      };
-    case 'CHANGE_OSC2_GAIN':
-      osc2Gain.gain.linearRampToValueAtTime(payload, now);
-      return {
-        ...state,
-        osc2Settings: { ...state.osc2Settings, gain: payload },
-      };
+
     case 'MAKE_OSC':
       const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);
       const osc2Freq = calcFreq(payload, state.osc2Settings.octaveOffset);
@@ -183,6 +164,28 @@ export function reducer(state, action) {
       return {
         ...state,
         nodes: newNodeArr,
+      };
+    case 'CHANGE_OSC1':
+      return {
+        ...state,
+        osc1Settings: { ...state.osc1Settings, [prop]: value },
+      };
+    case 'CHANGE_OSC1_GAIN':
+      osc1Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc1Settings: { ...state.osc1Settings, gain: payload },
+      };
+    case 'CHANGE_OSC2':
+      return {
+        ...state,
+        osc2Settings: { ...state.osc2Settings, [prop]: value },
+      };
+    case 'CHANGE_OSC2_GAIN':
+      osc2Gain.gain.linearRampToValueAtTime(payload, now);
+      return {
+        ...state,
+        osc2Settings: { ...state.osc2Settings, gain: payload },
       };
 
     case 'CHANGE_SUB_OSC':
@@ -277,10 +280,10 @@ export function reducer(state, action) {
         bitCrusher: { ...state.bitCrusher, depth: payload },
       };
     case 'CHANGE_BITCRUSH_MIX':
-      bitcrusher.wet.linearRampToValueAtTime(payload, now);
+      bitcrusher.wet.value = payload;
       return {
         ...state,
-        bitCrusher: { ...state.bitCrusher, mix: payload },
+        bitCrusher: { ...state.bitCrusher, wet: payload },
       };
     case 'CHANGE_CHEBYSHEV_MIX':
       chebyshev.wet.value = payload;
@@ -296,7 +299,7 @@ export function reducer(state, action) {
       };
     case 'CHANGE_PINGPONG_MIX':
       pingPongDelay.wet.value = payload;
-      return { ...state, pingPong: { ...state.pingPong, mix: payload } };
+      return { ...state, pingPong: { ...state.pingPong, wet: payload } };
     case 'CHANGE_PINGPONG_TIME':
       pingPongDelay.delayTime.value = `${payload}n`;
       return { ...state, pingPong: { ...state.pingPong, delayTime: payload } };
@@ -305,16 +308,11 @@ export function reducer(state, action) {
       return { ...state, pingPong: { ...state.pingPong, feedback: payload } };
 
     case 'CHANGE_REVERB_IMPULSE':
-      if (state.reverb.impulse.val !== payload.val) {
-        reverb.load(impulses[payload.val]);
-        return { ...state, reverb: { ...state.reverb, impulse: payload } };
-      } else {
-        return { ...state };
-      }
-
+      reverb.load(impulses[payload]);
+      return { ...state, reverb: { ...state.reverb, impulse: payload } };
     case 'CHANGE_REVERB_MIX':
-      reverb.wet.linearRampToValueAtTime(payload, now);
-      return { ...state, reverb: { ...state.reverb, mix: payload } };
+      reverb.wet.value = payload;
+      return { ...state, reverb: { ...state.reverb, wet: payload } };
     case 'CHANGE_COMB_FILTER':
       combFilter[prop].value = value;
       return { ...state, combFilter: { ...state.combFilter, [prop]: value } };
@@ -348,8 +346,6 @@ export default function Store(props) {
     actx: actx,
     nodes: [],
     envelope: initEnv,
-    // osc1Gain: osc1Gain,
-    // osc2Gain: osc2Gain,
     osc1Settings: {
       gain: osc1Gain.gain.value,
       detune: 0,
@@ -371,7 +367,6 @@ export default function Store(props) {
       gain: noiseGain.gain.value,
       type: 'white',
     },
-
     fm1Settings: {
       freqOffset: 100,
       type: fmOsc1.type,
@@ -387,17 +382,16 @@ export default function Store(props) {
       frequency: filter.frequency.value,
       rolloff: filter.rolloff.value,
     },
-    bitCrusher: { depth: bitcrusher.bits, mix: 0 },
+    bitCrusher: { depth: bitcrusher.bits, wet: bitcrusher.wet.value },
     chebyshev: { mix: 0, order: 1 },
     pingPong: {
-      mix: pingPongDelay.wet.value,
+      wet: pingPongDelay.wet.value,
       delayTime: pingPongDelay.delayTime.value,
       feedback: pingPongDelay.feedback.value,
     },
     reverb: {
       impulse: 'block',
-      // decay: reverb.decay.value,
-      mix: reverb.wet.value,
+      wet: reverb.wet.value,
     },
     combFilter: {
       delayTime: 0.1,

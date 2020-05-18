@@ -5,16 +5,20 @@
 }
 
 .input-range__track--background {
-  background: #dae7e4;
+  /* background: #dae7e4; */
+  background: #e7dada;
 }
 
 .input-range__track--active {
-  background: #2677e5;
+  /* background: #2677e5; */
+  background: #e52626;
 }
 
 .input-range__slider {
-  background: #2677e5;
-  border-color: #2677e5;
+  /* background: #2677e5; */
+  /* border-color: #2677e5; */
+  background: #e52626;
+  border-color: #e52626;
   margin-top: -0.75rem;
 }
 
@@ -25,11 +29,12 @@
 
 .input-range__label--value .input-range__label-container {
   font-family: 'Roboto', sans-serif;
-  /* border: 1px solid black; */
+  border: 1px solid black;
   display: block;
   padding: 1px 5px 1px 5px;
   border-radius: 4px;
-  background: #64716e;
+  /* background: #64716e; */
+  background: #716464;
   color: white;
   margin-top: -4px;
   font-size: 9px;

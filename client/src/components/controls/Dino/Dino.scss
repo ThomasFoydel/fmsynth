@@ -1,35 +1,57 @@
-.dino-container {
-  border-radius: 20px;
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-  margin-top: 3rem;
-  .active {
-    color: red;
-  }
-}
-.frequency {
-  border-radius: 5px;
-}
-.gain {
-  border-radius: 5px;
-}
-
-.wavetable-selector {
-  width: 18rem;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-.dino-innercontainer {
-}
-.dino {
-  border-radius: 12rem;
-  height: 18rem;
-  width: 18rem;
-}
-
 .dino-page {
   width: 100%;
   height: 100%;
   position: relative;
+
+  .dino-container {
+    border-radius: 20px;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    margin-top: 3rem;
+    .active {
+      color: red;
+    }
+  }
+
+  .frequency-modulator {
+    background: gray;
+    border-radius: 5px;
+    padding: 0.5rem 1rem 1rem 1rem;
+  }
+  .name {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.3rem;
+  }
+  .param-name {
+    margin-top: -0.4rem;
+  }
+  .param {
+    width: 90%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .frequency {
+    border-radius: 5px;
+    margin-bottom: 1.8rem;
+  }
+
+  .wavetable-selector {
+    width: 18rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 2rem;
+  }
+  .dino-innercontainer {
+    background: white;
+    height: 8rem;
+    width: 8rem;
+  }
+  .dino {
+    border-radius: 12rem;
+    height: 8rem;
+    width: 8rem;
+  }
 }

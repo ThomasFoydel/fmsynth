@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CircleSlider } from 'react-circle-slider';
+import Slider from 'components/controls/Slider/Slider';
 
 import { CTX } from 'context/Store';
 import './PingPong.scss';
@@ -8,19 +9,22 @@ const PingPong = () => {
   const [appState, updateState] = useContext(CTX);
 
   const handleMix = (e) => {
-    e /= 100;
-    updateState({ type: 'CHANGE_PINGPONG_MIX', payload: e });
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_PINGPONG_MIX', payload: value });
   };
 
   const handleTime = (e) => {
-    e = 10 - e;
-    e *= 4;
-    updateState({ type: 'CHANGE_PINGPONG_TIME', payload: e });
+    let { value } = e;
+    value = 10 - value;
+    value *= 4;
+    updateState({ type: 'CHANGE_PINGPONG_TIME', payload: value });
   };
 
   const handleFeedback = (e) => {
-    e /= 100;
-    updateState({ type: 'CHANGE_PINGPONG_FEEDBACK', payload: e });
+    let { value } = e;
+    value /= 100;
+    updateState({ type: 'CHANGE_PINGPONG_FEEDBACK', payload: value });
   };
 
   return (
@@ -31,21 +35,10 @@ const PingPong = () => {
         <div className='param'>
           <div className='name'>mix</div>
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleMix}
-              value={appState.pingPong.mix * 100}
-              knobRadius={4}
-              shadow={false}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={0}
-              max={100}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
-              stepSize={1}
+              value={appState.pingPong.wet * 100}
+              property='wet'
             />
           </div>
         </div>
@@ -53,21 +46,11 @@ const PingPong = () => {
         <div className='param'>
           <div className='name'>time</div>
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleTime}
               value={appState.pingPong.delayTime}
-              knobRadius={4}
-              shadow={false}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={1}
+              property='delayTime'
               max={9}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
-              stepSize={1}
             />
           </div>
         </div>
@@ -75,21 +58,10 @@ const PingPong = () => {
         <div className='param'>
           <div className='name'>feed</div>
           <div className='slider'>
-            <CircleSlider
+            <Slider
               onChange={handleFeedback}
               value={appState.pingPong.feedback * 100}
-              knobRadius={4}
-              shadow={false}
-              size={35}
-              circleWidth={3}
-              progressWidth={5}
-              min={0}
-              max={100}
-              showTooltip={true}
-              tooltipSize={12}
-              tooltipColor={'#eee'}
-              progressColor={'#222'}
-              stepSize={1}
+              property='feedback'
             />
           </div>
         </div>
