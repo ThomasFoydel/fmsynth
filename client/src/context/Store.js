@@ -222,7 +222,7 @@ export function reducer(state, action) {
       fmOsc1.type = payload;
       return {
         ...state,
-        fm1Settings: { ...state.fm1Settings, wavetable: payload },
+        fm1Settings: { ...state.fm1Settings, type: payload },
       };
     case 'CHANGE_FM_GAIN':
       if (payload === 0) {
@@ -374,7 +374,7 @@ export default function Store(props) {
 
     fm1Settings: {
       freqOffset: 100,
-      wavetable: fmOsc1.type,
+      type: fmOsc1.type,
       gain: fmOsc1Gain.gain.value,
     },
     isLoggedIn: false,

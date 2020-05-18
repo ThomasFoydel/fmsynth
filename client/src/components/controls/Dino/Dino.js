@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import dino from 'imgs/dino.png';
 import dino2 from 'imgs/dino2.png';
+import Selector from 'components/controls/Selector/Selector';
 
 // import Navbar from 'components/Navbar/Navbar';
 
@@ -22,10 +23,10 @@ const Dino = () => {
     });
   };
   const handleFmWaveTableChange = (e) => {
-    let { id } = e.target;
+    let { value } = e;
     updateState({
       type: 'CHANGE_FM_WAVETABLE',
-      payload: id,
+      payload: value,
     });
   };
   const handleFmGain = (e) => {
@@ -42,46 +43,21 @@ const Dino = () => {
 
   return (
     <div className='dino-page'>
-      {/* <Navbar /> */}
       <div className='dino-container center'>
         <div>
-          fm wavetable:
-          <button
-            className={`${
-              appState.fm1Settings.wavetable === 'sine' && 'active'
-            }`}
-            onClick={handleFmWaveTableChange}
-            id='sine'
-          >
-            sine
-          </button>
-          <button
-            className={`${
-              appState.fm1Settings.wavetable === 'sawtooth' && 'active'
-            }`}
-            onClick={handleFmWaveTableChange}
-            id='sawtooth'
-          >
-            sawtooth
-          </button>
-          <button
-            className={`${
-              appState.fm1Settings.wavetable === 'square' && 'active'
-            }`}
-            onClick={handleFmWaveTableChange}
-            id='square'
-          >
-            square
-          </button>
-          <button
-            className={`${
-              appState.fm1Settings.wavetable === 'triangle' && 'active'
-            }`}
-            onClick={handleFmWaveTableChange}
-            id='triangle'
-          >
-            triangle
-          </button>
+          fm wavetable
+          <div className='wavetable-selector'>
+            <Selector
+              onChange={handleFmWaveTableChange}
+              value={appState.fm1Settings.type}
+              options={[
+                { text: 'sine', value: 'sine' },
+                { text: 'sawtooth', value: 'sawtooth' },
+                { text: 'square', value: 'square' },
+                { text: 'triangle', value: 'triangle' },
+              ]}
+            />
+          </div>
         </div>
 
         <div

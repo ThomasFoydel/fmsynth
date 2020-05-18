@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import LfoFilter from 'components/LfoFilter/LfoFilter';
+import LfoFilter from 'components/controls/LfoFilter/LfoFilter';
 import Filter from 'components/controls/Filter/Filter';
 import CombFilter from 'components/controls/CombFilter/CombFilter';
 

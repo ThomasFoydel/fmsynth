@@ -8,6 +8,18 @@
     color: red;
   }
 }
+.frequency {
+  border-radius: 5px;
+}
+.gain {
+  border-radius: 5px;
+}
+
+.wavetable-selector {
+  width: 18rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 .dino-innercontainer {
 }
 .dino {

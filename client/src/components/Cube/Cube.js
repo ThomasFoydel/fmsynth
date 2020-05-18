@@ -5,8 +5,8 @@ import { useSpring, animated, config } from 'react-spring';
 
 import Effects from 'components/controls/Effects/Effects';
 
-import Oscillator1Controller from 'components/Oscillators/Oscillators';
-import Dino from 'components/Dino/Dino';
+import Oscillator1Controller from 'components/controls/Oscillators/Oscillators';
+import Dino from 'components/controls/Dino/Dino';
 import Effects2 from 'components/controls/Effects2/Effects2';
 
 const Cube = () => {
