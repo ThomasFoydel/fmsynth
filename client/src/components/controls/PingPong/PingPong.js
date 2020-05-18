@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { CircleSlider } from 'react-circle-slider';
 import Slider from 'components/controls/Slider/Slider';
 
 import { CTX } from 'context/Store';

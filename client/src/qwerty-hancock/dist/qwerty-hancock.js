@@ -436,10 +436,16 @@
 
     if (typeof key_map[key.keyCode] !== 'undefined') {
       key_pressed = getKeyPressed(key.keyCode);
-
-      // Call user's noteDown function.
-      callback(key_pressed, getFrequencyOfNote(key_pressed));
-      lightenUp(document.getElementById(key_pressed));
+      const dontbubble = key.target.getAttribute('dontbubble');
+      if (dontbubble) {
+        // dont do anything, user is typing into
+        // nonmusical text inputs
+        return true;
+      } else {
+        // Call user's noteDown function.
+        callback(key_pressed, getFrequencyOfNote(key_pressed));
+        lightenUp(document.getElementById(key_pressed));
+      }
       return true;
     }
     return false;
@@ -549,7 +555,7 @@
   var QwertyHancock = function (settings) {
     this.version = version;
 
-    this.keyDown = function () {
+    this.keyDown = function (e) {
       // Placeholder function.
     };
 

@@ -27,7 +27,6 @@ const Keyboard = () => {
 
     keyboard.keyDown = (note, freq) => {
       const newOsc1 = makeOsc1(freq, note);
-
       nodes.push(newOsc1);
     };
 

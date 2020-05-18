@@ -8,6 +8,7 @@ import Effects from 'components/controls/Effects/Effects';
 import Oscillator1Controller from 'components/controls/Oscillators/Oscillators';
 import Dino from 'components/controls/Dino/Dino';
 import Effects2 from 'components/controls/Effects2/Effects2';
+import Auth from 'components/Auth/Auth';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
@@ -41,9 +42,9 @@ const Cube = () => {
         >
           <Effects2 />
         </div>
-        <div
-          className={`side top ${currentPage === 'auth' && 'currentside'}`}
-        ></div>
+        <div className={`side top ${currentPage === 'auth' && 'currentside'}`}>
+          <Auth />
+        </div>
       </animated.div>
     </div>
   );
