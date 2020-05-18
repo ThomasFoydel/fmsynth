@@ -50,12 +50,51 @@ export default class oscClass {
   stop() {
     let { currentTime } = this.context;
 
-    this.gateGain.gain.setValueAtTime(this.gateGain.gain.value, currentTime);
-    this.gateGain.gain.cancelScheduledValues(currentTime);
-    this.gateGain.gain.linearRampToValueAtTime(
-      0.0001,
-      currentTime + this.envelope.release + this.easing
+    /* 
+    https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api 
+    */
+    function expCurve(start, end) {
+      var count = 10;
+      var t = 0;
+      var curve = new Float32Array(count + 1);
+      start = Math.max(start, 0.0000001);
+      end = Math.max(end, 0.0000001);
+      for (var i = 0; i <= count; ++i) {
+        curve[i] = start * Math.pow(end / start, t);
+        t += 1 / count;
+      }
+      return curve;
+    }
+
+    var now = currentTime;
+    this.gateGain.gain.cancelScheduledValues(0);
+    var currentVol = this.gateGain.gain.value;
+    this.gateGain.gain.setValueCurveAtTime(
+      expCurve(currentVol, 1),
+      now,
+      this.envelope.attack
     );
+    this.gateGain.gain.setValueCurveAtTime(
+      expCurve(1, 0),
+      now + this.envelope.attack,
+      this.envelope.decay
+    );
+
+    // exponentialRampToValueAtTime version
+    // this.gateGain.gain.setValueAtTime(this.gateGain.gain.value, currentTime);
+    // this.gateGain.gain.cancelScheduledValues(currentTime);
+    // this.gateGain.gain.exponentialRampToValueAtTime(
+    //   0.00001,
+    //   currentTime + this.envelope.release + this.easing
+    // );
+
+    // linearRampToValueAtTime version
+    // this.gateGain.gain.cancelScheduledValues(currentTime);
+    // this.gateGain.gain.linearRampToValueAtTime(
+    //   0,
+    //   currentTime + this.envelope.release + this.easing
+    // );
+
     // setTargetAtTime method (no longer used due to clicking):
     // this.gateGain.gain.setTargetAtTime(
     //   0,

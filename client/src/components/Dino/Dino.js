@@ -109,7 +109,7 @@ const Dino = () => {
             }, 0, 0, 1)`,
           }}
         >
-          gain: {appState.fm1Settings.gain}
+          gain: {Math.floor(appState.fm1Settings.gain)}
         </div>
         <input
           value={appState.fm1Settings.gain / 100}

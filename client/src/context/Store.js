@@ -57,14 +57,14 @@ let initEnv = {
   attack: 0.01,
   decay: 1,
   sustain: 1,
-  release: 0.3,
+  release: 0.1,
 };
-let osc1AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
-let osc2AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
-let subAmpEnv = new Tone.AmplitudeEnvelope(initEnv);
+let ampEnv = new Tone.AmplitudeEnvelope(initEnv);
+// let osc2AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
+// let subAmpEnv = new Tone.AmplitudeEnvelope(initEnv);
 
-Tone.connect(osc1AmpEnv, oscCombinedGain);
-Tone.connect(osc2AmpEnv, oscCombinedGain);
+// Tone.connect(osc1AmpEnv, oscCombinedGain);
+// Tone.connect(osc2AmpEnv, oscCombinedGain);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
@@ -92,7 +92,7 @@ Tone.connect(filter, reverb);
 
 Tone.connect(reverb, eq);
 // sub skips all fx //
-Tone.connect(subAmpEnv, subOscGain);
+// Tone.connect(subAmpEnv, subOscGain);
 Tone.connect(subOscGain, eq);
 
 Tone.connect(eq, limiter);
@@ -106,7 +106,7 @@ export { CTX };
 let nodes = [];
 
 export function reducer(state, action) {
-  const { payload } = action;
+  let { payload } = action;
   const { prop, value } = payload;
   switch (action.type) {
     case 'LOGIN':
@@ -238,6 +238,9 @@ export function reducer(state, action) {
         fm1Settings: { ...state.fm1Settings, wavetable: payload },
       };
     case 'CHANGE_FM_GAIN':
+      if (payload === 0) {
+        payload = 0.00001;
+      }
       fmOsc1Gain.gain.exponentialRampToValueAtTime(payload, now + 0.006);
       return {
         ...state,
@@ -326,7 +329,6 @@ export function reducer(state, action) {
       reverb.wet.linearRampToValueAtTime(payload, now);
       return { ...state, reverb: { ...state.reverb, mix: payload } };
     case 'CHANGE_COMB_FILTER':
-      // todo: if prop === 'mix', change wet gain
       combFilter[prop].value = value;
       return { ...state, combFilter: { ...state.combFilter, [prop]: value } };
     case 'CHANGE_COMB_FILTER_CROSSFADE':
@@ -362,24 +364,24 @@ export default function Store(props) {
     // osc1Gain: osc1Gain,
     // osc2Gain: osc2Gain,
     osc1Settings: {
-      // gain: osc1Gain.gain.value,
+      gain: osc1Gain.gain.value,
       detune: 0,
       type: 'sine',
       octaveOffset: 0,
     },
     osc2Settings: {
-      // gain: osc2Gain.gain.value,
+      gain: osc2Gain.gain.value,
       detune: 0,
       type: 'sine',
       octaveOffset: 0,
     },
     subOscSettings: {
-      // gain: subOscGain.gain.value,
+      gain: subOscGain.gain.value,
       type: 'sine',
       octaveOffset: 0,
     },
     noiseSettings: {
-      // gain: noiseGain.gain.value,
+      gain: noiseGain.gain.value,
       type: 'white',
     },
 
@@ -421,6 +423,3 @@ export default function Store(props) {
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
 }
-osc1AmpEnv.triggerAttackRelease('1n');
-osc2AmpEnv.triggerAttackRelease('1n');
-subAmpEnv.triggerAttackRelease('1n');
