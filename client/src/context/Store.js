@@ -17,7 +17,6 @@ Tone.Transport.bpm.rampTo(140, 0.1);
 
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
-// const stereoWidener = new Tone.StereoWidener(0.5);
 const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
@@ -32,9 +31,6 @@ bitcrusher.wet.value = 0;
 chebyshev.wet.value = 0;
 pingPongDelay.wet.value = 0;
 reverb.wet.value = 0;
-
-// const buffer = new Tone.Buffer();
-// reverb.load(impulses['block']);
 
 const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
@@ -59,12 +55,6 @@ let initEnv = {
   sustain: 1,
   release: 0.1,
 };
-let ampEnv = new Tone.AmplitudeEnvelope(initEnv);
-// let osc2AmpEnv = new Tone.AmplitudeEnvelope(initEnv);
-// let subAmpEnv = new Tone.AmplitudeEnvelope(initEnv);
-
-// Tone.connect(osc1AmpEnv, oscCombinedGain);
-// Tone.connect(osc2AmpEnv, oscCombinedGain);
 
 const fmOsc1 = actx.createOscillator();
 fmOsc1.start();
@@ -91,8 +81,7 @@ Tone.connect(combFilterCrossFade, filter);
 Tone.connect(filter, reverb);
 
 Tone.connect(reverb, eq);
-// sub skips all fx //
-// Tone.connect(subAmpEnv, subOscGain);
+
 Tone.connect(subOscGain, eq);
 
 Tone.connect(eq, limiter);
@@ -115,7 +104,6 @@ export function reducer(state, action) {
         isLoggedIn: true,
       };
     case 'CHANGE_OSC1':
-      console.log('CHANGE OSC ONE PAYLOAD: ', payload);
       return {
         ...state,
         osc1Settings: { ...state.osc1Settings, [prop]: value },
@@ -198,14 +186,13 @@ export function reducer(state, action) {
       };
 
     case 'CHANGE_SUB_OSC':
-      console.log('payload: ', payload);
       return {
         ...state,
         subOscSettings: { ...state.subOscSettings, [prop]: value },
       };
 
     case 'CHANGE_SUB_OSC_GAIN':
-      subOscGain.gain.linearRampToValueAtTime(payload, now);
+      subOscGain.gain.linearRampToValueAtTime(value, now);
 
       return {
         ...state,

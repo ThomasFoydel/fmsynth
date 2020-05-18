@@ -41,7 +41,10 @@ const Oscillator1Controller = () => {
   const changeSubOscGain = (e) => {
     let { value } = e;
     value /= 100;
-    updateState({ type: 'CHANGE_SUB_OSC_GAIN', payload: value });
+    updateState({
+      type: 'CHANGE_SUB_OSC_GAIN',
+      payload: { value, prop: 'gain' },
+    });
   };
 
   const changeNoise = (e) => {
@@ -101,7 +104,7 @@ const Oscillator1Controller = () => {
                 property='gain'
                 max={100}
                 onChange={changeOsc1Gain}
-                value={appState.osc1Settings.gain}
+                value={appState.osc1Settings.gain * 100}
               />
             </div>
           </div>
@@ -153,7 +156,7 @@ const Oscillator1Controller = () => {
                 property='gain'
                 max={100}
                 onChange={changeOsc2Gain}
-                value={appState.osc2Settings.gain}
+                value={appState.osc2Settings.gain * 100}
               />
             </div>
           </div>
@@ -188,17 +191,6 @@ const Oscillator1Controller = () => {
               { text: '+2', value: 2 },
             ]}
           />
-          {/* <div className='sliders'>
-          <div className='param'>
-            <div className='label'>detune</div>
-            <Slider
-              property='detune'
-              min={-30}
-              max={30}
-              onChange={changeOsc2}
-              value={appState.osc2Settings.detune}
-            />
-          </div> */}
 
           <div className='param'>
             <div className='label'>gain</div>
@@ -206,7 +198,7 @@ const Oscillator1Controller = () => {
               property='gain'
               max={100}
               onChange={changeSubOscGain}
-              // value={appState.osc2Settings.gain}
+              value={appState.subOscSettings.gain * 100}
             />
           </div>
         </div>
@@ -215,7 +207,7 @@ const Oscillator1Controller = () => {
           <div className='center'>noise</div>
           <Selector
             size='small'
-            // value={appState.noiseSettings.type}
+            value={appState.noiseSettings.type}
             onChange={(e) => changeNoise({ value: e.value, prop: 'type' })}
             options={[
               { text: 'sine', value: 'sine' },
@@ -231,7 +223,7 @@ const Oscillator1Controller = () => {
               property='gain'
               max={100}
               onChange={changeNoiseGain}
-              // value={appState.noiseSettings.gain}
+              // value={appState.noiseSettings.gain *100}
             />
           </div>
         </div>
