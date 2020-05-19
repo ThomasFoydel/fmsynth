@@ -4,13 +4,11 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// const auth = require('../middlewares/auth');
-// const mongoose = require('mongoose');
+const auth = require('../middlewares/auth');
 
 const User = require('../models/user');
 
 router.post('/register', async (req, res) => {
-  console.log('REQ BODY: ', req.body);
   let { email, name, password, confirmpassword } = req.body;
   let allFieldsExist = email && name && password && confirmpassword;
   if (!allFieldsExist) {
@@ -105,4 +103,17 @@ router.post('/login', (req, res) => {
   });
 });
 
+router.get('/user/', auth, async (req, res) => {
+  let { tokenUser } = req;
+  if (tokenUser) {
+    User.find({ _id: tokenUser.userId })
+      .then((foundUser) => {
+        const { name, email, _id } = foundUser[0];
+        return res.send({ name, email, id: _id });
+      })
+      .catch((error) => res.send({ err: 'no user found' }));
+  } else {
+    return res.send({ err: 'no token' });
+  }
+});
 module.exports = router;

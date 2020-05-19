@@ -5,26 +5,47 @@ import Cube from 'components/Cube/Cube';
 
 import { CTX } from 'context/Store';
 import './App.scss';
+import Axios from 'axios';
 
 function App() {
   const [appState, updateState] = useContext(CTX);
 
   useEffect(() => {
     const foundToken = localStorage.getItem('fmsynth-token');
-    console.log('foundToken: ', foundToken);
+
     if (!foundToken) {
+      console.log('no token');
+      updateState({
+        type: 'LOGOUT',
+      });
+
       //rotate to auth
-      console.log('NO TOKEN!');
       updateState({
         type: 'CHANGE_ROTATION',
         payload: `rotate3d(100, 0, 0, 270deg)`,
         page: 'auth',
       });
     } else {
-      console.log('TOKENY TOKEN');
-      //login with token
+      const setAuthInfo = (async) => {
+        Axios.get('/auth/user', {
+          headers: { 'x-auth-token': foundToken },
+        })
+          .then((result) => {
+            if (!result.data.err) {
+              updateState({
+                type: 'LOGIN',
+                payload: { user: result.data, token: foundToken },
+              });
+            } else {
+              console.log('err: ', result.data.err);
+            }
+          })
+          .catch((err) => console.log('auth error: ', err));
+      };
+      setAuthInfo();
     }
   }, []);
+
   return (
     <div className='App'>
       <Keyboard />
