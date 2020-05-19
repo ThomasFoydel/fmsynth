@@ -2,7 +2,15 @@ import React from 'react';
 import { CircleSlider } from 'react-circle-slider';
 import './Slider.scss';
 
-const Slider = ({ min, max, step, value, property, onChange }) => {
+const Slider = ({
+  min,
+  max,
+  step,
+  value,
+  property,
+  onChange,
+  disableToolTip,
+}) => {
   return (
     <div className='circle-slider'>
       <CircleSlider
@@ -15,7 +23,7 @@ const Slider = ({ min, max, step, value, property, onChange }) => {
         progressWidth={5}
         min={min}
         max={max}
-        showTooltip={true}
+        showTooltip={!disableToolTip}
         tooltipSize={12}
         tooltipColor={'#eee'}
         progressColor={'#222'}

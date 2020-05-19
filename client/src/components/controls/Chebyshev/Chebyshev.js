@@ -35,7 +35,7 @@ const Chebyshev = () => {
           <div className='name'>mix</div>
           <Slider
             onChange={handleMix}
-            value={appState.chebyshev.mix * 100}
+            value={appState.chebyshev.wet * 100}
             property='wet'
             max={100}
           />

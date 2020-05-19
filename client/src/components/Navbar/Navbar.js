@@ -27,12 +27,12 @@ const Navbar = () => {
         fm
       </div>
       <div
-        className={`option ${currentPage === 'mousefield' && 'active'}`}
+        className={`option ${currentPage === 'env' && 'active'}`}
         onClick={() => {
-          handleRotate(`rotate3d(0, 100, 0, 90deg)`, 'mousefield');
+          handleRotate(`rotate3d(0, 100, 0, 90deg)`, 'env');
         }}
       >
-        mousefield
+        env
       </div>
       <div
         className={`option ${currentPage === 'fx' && 'active'}`}

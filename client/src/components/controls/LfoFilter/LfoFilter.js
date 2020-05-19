@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 
 import './LfoFilter.scss';
 import { CTX } from 'context/Store';
+import LogarithmicSlider from 'components/controls/LogarithmicSlider/LogarithmicSlider';
+
 import Slider from 'components/controls/Slider/Slider';
 import Selector from 'components/controls/Selector/Selector';
 
@@ -23,13 +25,36 @@ const LfoFilter = () => {
     });
   };
 
-  const changeRate = (e) => {
+  const handleRate = (e) => {
     updateState({
       type: 'CHANGE_LFO_FILTER',
       payload: { prop: 'frequency', value: e.value },
     });
   };
 
+  const handleBaseFrequency = (e) => {
+    updateState({
+      type: 'CHANGE_LFO_FILTER',
+      payload: { prop: 'baseFrequency', value: e.value },
+    });
+  };
+
+  const handleOctaves = (e) => {
+    let { value } = e;
+    value /= 10;
+    updateState({
+      type: 'CHANGE_LFO_FILTER',
+      payload: { prop: 'octaves', value },
+    });
+  };
+
+  const handleFilter = (e, stateProp) => {
+    let { prop, value } = e;
+    updateState({
+      type: 'CHANGE_LFO_FILTER_FILTER',
+      payload: { prop, value, stateProp },
+    });
+  };
   return (
     <div className='lfo-filter'>
       <div className='flex'>
@@ -49,7 +74,7 @@ const LfoFilter = () => {
           </div>
           <div className='param'>
             <Selector
-              onChange={changeRate}
+              onChange={handleRate}
               size='medium'
               initVal={0}
               options={[
@@ -83,11 +108,54 @@ const LfoFilter = () => {
               ]}
             />
           </div>
+          <div className='param'>
+            <Selector
+              size='medium'
+              onChange={(e) => handleFilter(e, 'filterType')}
+              value={appState.lfoFilter.filterType}
+              options={[
+                { text: 'lowpass', value: 'lowpass' },
+                { text: 'highpass', value: 'highpass' },
+                { text: 'bandpass', value: 'bandpass' },
+                { text: 'lowshelf', value: 'lowshelf' },
+                { text: 'highshelf', value: 'highshelf' },
+                { text: 'allpass', value: 'allpass' },
+                { text: 'peaking', value: 'peaking' },
+              ]}
+            />
+          </div>
+          <div className='param'>
+            <Selector
+              onChange={(e) =>
+                handleFilter(
+                  { value: e.value, prop: 'rolloff' },
+                  'filterRoloff'
+                )
+              }
+              size='medium'
+              initVal={appState.lfoFilter.filterRolloff}
+              options={[
+                { text: '-12', value: -12 },
+                { text: '-24', value: -24 },
+                { text: '-48', value: -48 },
+              ]}
+            />
+          </div>
+
+          <div className='param'>
+            <LogarithmicSlider
+              onChange={handleBaseFrequency}
+              maxVal={20000}
+              initVal={appState.lfoFilter.baseFrequency.value}
+              label='Hz'
+            />
+          </div>
         </div>
 
         <div className='section-2'>
           <div className='name'>lfo filter</div>
           <div className='slider'>
+            <div className='param-name'>depth</div>
             <Slider
               onChange={handleDepth}
               value={appState.lfoFilter.depth * 100}
@@ -95,6 +163,28 @@ const LfoFilter = () => {
               max={100}
               step={1}
               property='depth'
+            />
+          </div>
+          <div className='slider'>
+            <div className='param-name'>octaves</div>
+            <Slider
+              onChange={handleOctaves}
+              value={appState.lfoFilter.octaves}
+              min={0}
+              max={100}
+              step={1}
+              property='octaves'
+            />
+          </div>
+          <div className='slider'>
+            <div className='param-name'>Q</div>
+            <Slider
+              onChange={(e) => handleFilter(e, 'filterQ')}
+              value={appState.lfoFilter.filterQ}
+              min={0}
+              max={100}
+              step={1}
+              property='Q'
             />
           </div>
         </div>

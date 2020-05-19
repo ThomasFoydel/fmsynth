@@ -249,7 +249,7 @@ const Oscillator1Controller = () => {
                 property='gain'
                 max={100}
                 onChange={changeNoiseGain}
-                // value={appState.noiseSettings.gain *100}
+                value={appState.noiseSettings.gain * 100}
               />
             </div>
           </div>

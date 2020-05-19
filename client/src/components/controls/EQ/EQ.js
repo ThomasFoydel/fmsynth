@@ -19,7 +19,7 @@ const EQ = () => {
         <div className='param'>
           <Slider
             onChange={handleGain}
-            //   value={appState * 100}
+            value={appState.EQ.low}
             min={0}
             max={24}
             step={1}
@@ -30,7 +30,7 @@ const EQ = () => {
         <div className='param'>
           <Slider
             onChange={handleGain}
-            //   value={appState * 100}
+            value={appState.EQ.mid}
             min={0}
             max={24}
             step={1}
@@ -41,7 +41,7 @@ const EQ = () => {
         <div className='param'>
           <Slider
             onChange={handleGain}
-            //   value={appState * 100}
+            value={appState.EQ.high}
             min={0}
             max={24}
             step={1}
@@ -51,7 +51,12 @@ const EQ = () => {
         </div>
       </div>
       <div className='range-slider'>
-        <LogarithmicRange onChange={handleRange} label={'Hz'} maxVal={20000} />
+        <LogarithmicRange
+          onChange={handleRange}
+          label={'Hz'}
+          maxVal={20000}
+          initVal={appState.EQ}
+        />
         <div className='name'>EQ</div>
       </div>
     </div>

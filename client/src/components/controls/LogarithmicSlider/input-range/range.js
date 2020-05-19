@@ -10,7 +10,9 @@ import Log from '../logarithmic/log';
 export default class LogRange extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: 0 };
+    this.state = {
+      value: this.props.initVal || 0,
+    };
     this.logSlider = new Log({
       minpos: props.minpos || 0,
       maxpos: props.maxpos || 100,
@@ -32,15 +34,18 @@ export default class LogRange extends React.Component {
 
   onChange(value) {
     this.setState({ value });
+
     if (this.props.onChange) {
-      this.props.onChange(this.calcPos(value));
+      this.props.onChange({ value, logValue: this.calcPos(value) });
     } else {
       console.log('pass an onChange method to <LogarithmicSlider />');
     }
   }
 
   formatLabel(value) {
+    // if (this.state.baseFreqActive) {
     return `${this.calcPos(value)}${this.label}`;
+    // } else return `${value}${this.label}`;
   }
 
   render() {
@@ -50,19 +55,23 @@ export default class LogRange extends React.Component {
           value={this.state.value}
           onChange={this.onChange}
           formatLabel={this.formatLabel}
+          initVal={this.props.initVal}
         />
       </div>
     );
   }
 }
 
-const RangeInput = ({ value, onChange, formatLabel }) => (
-  <InputRange
-    step={1}
-    formatLabel={formatLabel}
-    maxValue={100}
-    minValue={0}
-    value={value}
-    onChange={onChange}
-  />
-);
+const RangeInput = ({ value, onChange, formatLabel, initVal }) => {
+  return (
+    <InputRange
+      step={1}
+      formatLabel={formatLabel}
+      maxValue={100}
+      minValue={0}
+      value={value}
+      initVal={initVal}
+      onChange={onChange}
+    />
+  );
+};

@@ -17,14 +17,17 @@ const oscCombinedGain = actx.createGain();
 const osc1Gain = actx.createGain();
 const osc2Gain = actx.createGain();
 const subOscGain = actx.createGain();
+const noiseReduceGain = actx.createGain();
 const noiseGain = actx.createGain();
 osc1Gain.gain.value = 0.2;
 osc2Gain.gain.value = 0.2;
 subOscGain.gain.value = 0.2;
-noiseGain.gain.value = 0.2;
+noiseGain.gain.value = 0.01;
+noiseReduceGain.gain.value = 0.1;
 osc1Gain.connect(oscCombinedGain);
 osc2Gain.connect(oscCombinedGain);
-noiseGain.connect(oscCombinedGain);
+noiseGain.connect(noiseReduceGain);
+noiseReduceGain.connect(oscCombinedGain);
 
 // to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
@@ -32,7 +35,7 @@ const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
-const filter = new Tone.Filter(15000, 'lowpass', -48);
+// const filter = new Tone.Filter(15000, 'lowpass', -48);
 const reverb = new Tone.Convolver(impulses['block']);
 const eq = new Tone.EQ3();
 const limiter = new Tone.Limiter(-6);
@@ -47,7 +50,8 @@ const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
   depth: 0,
 }).start();
-
+lfoFilter.baseFrequency = 0;
+lfoFilter.filter._filters[0].type = 'highpass';
 let initEnv = {
   attack: 0.01,
   decay: 1,
@@ -75,9 +79,9 @@ Tone.connect(pingPongDelay, combFilter);
 pingPongDelay.connect(combFilterCrossFade, 0, 0);
 combFilter.connect(combFilterCrossFade, 0, 1);
 
-Tone.connect(combFilterCrossFade, filter);
-
-Tone.connect(filter, reverb);
+// Tone.connect(combFilterCrossFade, filter);
+// Tone.connect(filter, reverb);
+Tone.connect(combFilterCrossFade, reverb);
 
 Tone.connect(reverb, eq);
 
@@ -95,9 +99,9 @@ let nodes = [];
 
 export function reducer(state, action) {
   let { payload } = action;
-  // const { prop, value } = payload;
   let prop = payload.prop;
   let value = payload.value;
+
   switch (action.type) {
     case 'LOGIN':
       return {
@@ -148,8 +152,6 @@ export function reducer(state, action) {
         noiseGain,
         payload
       );
-      // const noiseOsc = new Tone.Noise('white').start();
-      // noiseOsc.connect()
       nodes.push(newOsc1, newOsc2, newSubOsc, noiseOsc);
       return {
         ...state,
@@ -264,8 +266,8 @@ export function reducer(state, action) {
         mouseField: { y },
       };
     case 'CHANGE_LFO_FILTER':
-      if (prop === 'type') {
-        lfoFilter.type = value;
+      if (prop === 'type' || prop === 'baseFrequency' || prop === 'octaves') {
+        lfoFilter[prop] = value;
       } else {
         lfoFilter[prop].value = value;
       }
@@ -273,13 +275,25 @@ export function reducer(state, action) {
         ...state,
         lfoFilter: { ...state.lfoFilter, [prop]: value },
       };
-    case 'CHANGE_FILTER':
-      if (prop === 'frequency' || prop === 'Q') {
-        filter[prop].value = value;
+    case 'CHANGE_LFO_FILTER_FILTER':
+      if (prop === 'rolloff') {
+        lfoFilter.filter._rolloff = value;
+      } else if (prop === 'Q') {
+        lfoFilter.filter._filters[0][prop].value = value;
       } else {
-        filter[prop] = value;
+        lfoFilter.filter._filters[0][prop] = value;
       }
-      return { ...state, filter: { ...state.filter, [prop]: value } };
+      return {
+        ...state,
+        lfoFilter: { ...state.lfoFilter, [payload.stateProp]: value },
+      };
+    // case 'CHANGE_FILTER':
+    //   if (prop === 'frequency' || prop === 'Q') {
+    //     filter[prop].value = value;
+    //   } else {
+    //     filter[prop] = value;
+    //   }
+    //   return { ...state, filter: { ...state.filter, [prop]: value } };
 
     case 'CHANGE_BITCRUSH_DEPTH':
       bitcrusher.bits = payload;
@@ -297,7 +311,7 @@ export function reducer(state, action) {
       chebyshev.wet.value = payload;
       return {
         ...state,
-        chebyshev: { ...state.chebyshev, mix: payload },
+        chebyshev: { ...state.chebyshev, wet: payload },
       };
     case 'CHANGE_CHEBYSHEV_ORDER':
       chebyshev.order = payload;
@@ -334,8 +348,9 @@ export function reducer(state, action) {
       eq[prop].value = value;
       return { ...state, EQ: { ...state.EQ, [prop]: value } };
     case 'CHANGE_EQ_RANGE':
-      eq.highFrequency.value = payload.max;
-      eq.lowFrequency.value = payload.min;
+      console.log('CHANGE EQ RANGE. PAYLOAD: ', payload);
+      eq.highFrequency.value = payload.logMax;
+      eq.lowFrequency.value = payload.logMin;
       return {
         ...state,
         EQ: {
@@ -355,25 +370,25 @@ export default function Store(props) {
     nodes: [],
     envelope: initEnv,
     osc1Settings: {
-      gain: osc1Gain.gain.value,
-      detune: 0,
       type: 'sine',
+      detune: 0,
       octaveOffset: 0,
+      gain: osc1Gain.gain.value,
     },
     osc2Settings: {
-      gain: osc2Gain.gain.value,
-      detune: 0,
       type: 'sine',
+      detune: 0,
       octaveOffset: 0,
+      gain: osc2Gain.gain.value,
     },
     subOscSettings: {
-      gain: subOscGain.gain.value,
       type: 'sine',
       octaveOffset: 0,
+      gain: subOscGain.gain.value,
     },
     noiseSettings: {
-      gain: noiseGain.gain.value,
       type: 'white',
+      gain: noiseGain.gain.value,
     },
     fm1Settings: {
       freqOffset: 100,
@@ -384,14 +399,22 @@ export default function Store(props) {
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
     currentPage: 'osc',
     springConfig: 'molasses',
-    mouseField: { x: 0, y: 0 },
-    lfoFilter: { depth: lfoFilter.depth.value },
-    filter: {
-      frequency: filter.frequency.value,
-      rolloff: filter.rolloff.value,
+    // mouseField: { x: 0, y: 0 },
+    lfoFilter: {
+      frequency: lfoFilter.frequency.value,
+      depth: lfoFilter.depth.value,
+      baseFrequency: { logValue: 0, value: 0 },
+      octaves: lfoFilter.octaves,
+      filterQ: lfoFilter.filter._filters[0].Q.value,
+      filterType: lfoFilter.filter._filters[0].type,
+      filterRolloff: lfoFilter.filter._filters._rolloff,
     },
+    // filter: {
+    //   frequency: filter.frequency.value,
+    //   rolloff: filter.rolloff.value,
+    // },
     bitCrusher: { depth: bitcrusher.bits, wet: bitcrusher.wet.value },
-    chebyshev: { mix: 0, order: 1 },
+    chebyshev: { wet: 0, order: 1 },
     pingPong: {
       wet: pingPongDelay.wet.value,
       delayTime: pingPongDelay.delayTime.value,
@@ -407,6 +430,15 @@ export default function Store(props) {
     },
     combFilterCrossFade: {
       fade: combFilterCrossFade.fade.value,
+    },
+    EQ: {
+      min: 0,
+      logMin: 0,
+      max: 100,
+      logMax: 20000,
+      high: eq.high.value,
+      mid: eq.mid.value,
+      low: eq.low.value,
     },
   });
 

@@ -67,7 +67,7 @@ const Dino = () => {
 
           <div className='param frequency'>
             <InputRange
-              formatLabel={(value, type) => `${value * 20}`}
+              formatLabel={(value, type) => `${value * 20}Hz`}
               step={2}
               maxValue={100}
               minValue={0}

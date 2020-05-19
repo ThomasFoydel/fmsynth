@@ -9,7 +9,12 @@ import Log from '../logarithmic/log';
 export default class LogRange extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: { min: 0, max: 100 } };
+    this.state = {
+      value: {
+        min: this.props.initVal.min || 0,
+        max: this.props.initVal.max || 100,
+      },
+    };
     this.logSlider = new Log({
       minpos: props.minpos || 0,
       maxpos: props.maxpos || 100,
@@ -32,8 +37,10 @@ export default class LogRange extends React.Component {
     this.setState({ value });
     if (this.props.onChange) {
       let newVals = {
-        min: this.calcPos(value.min),
-        max: this.calcPos(value.max),
+        min: value.min,
+        max: value.max,
+        logMin: this.calcPos(value.min),
+        logMax: this.calcPos(value.max),
       };
       this.props.onChange(newVals);
     } else {
@@ -60,7 +67,7 @@ export default class LogRange extends React.Component {
 
 const RangeInput = ({ value, onChange, formatLabel }) => (
   <InputRange
-    draggableTrack={true}
+    // draggableTrack={true}
     step={1}
     formatLabel={formatLabel}
     maxValue={100}

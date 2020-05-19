@@ -30,9 +30,7 @@ const Cube = () => {
           <Dino />
         </div>
         <div
-          className={`side left ${
-            currentPage === 'mousefield' && 'currentside'
-          }`}
+          className={`side left ${currentPage === 'env' && 'currentside'}`}
         ></div>
         <div className={`side front ${currentPage === 'fx' && 'currentside'}`}>
           <Effects />
