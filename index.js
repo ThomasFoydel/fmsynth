@@ -2,6 +2,10 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const User = require('./models/User');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -24,8 +28,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/public/index.html'));
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   console.log('REQ BODY: ', req.body);
+  // const newUser = new User({...req.body});
+  // newUser.save()
   res.send({ message: 'great job' });
 });
 
@@ -34,6 +40,10 @@ app.post('/login', (req, res) => {
   res.send({ message: 'great job' });
 });
 
-app.listen(port, () => {
-  console.log(`Server is up on port ${port}!`);
-});
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+  .then((res) => {
+    app.listen(port, () => {
+      console.log(`Server is up on port ${port}!`);
+    });
+  });

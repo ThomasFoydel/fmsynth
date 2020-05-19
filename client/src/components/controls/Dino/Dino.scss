@@ -45,9 +45,11 @@
     margin-bottom: 2rem;
   }
   .dino-innercontainer {
-    background: white;
+    background: linear-gradient(rgb(167, 167, 167), rgb(75, 75, 75));
     height: 8rem;
     width: 8rem;
+    border-radius: 100px;
+    margin-top: 0.5rem;
   }
   .dino {
     border-radius: 12rem;

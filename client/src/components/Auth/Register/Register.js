@@ -11,9 +11,14 @@ const Register = () => {
   };
   const handleSubmit = () => {
     // console.log(formValues);
-    Axios.post('/register', formValues).then((result) => {
-      console.log('RESULT: ', result);
-    });
+    let { email, name, password, confirmpassword } = formValues;
+    if (email && name && password && confirmpassword) {
+      Axios.post('/register', formValues).then((result) => {
+        console.log('RESULT: ', result);
+      });
+    } else {
+      console.log('all inputs required!');
+    }
   };
   return (
     <div className='register'>

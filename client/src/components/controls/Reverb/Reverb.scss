@@ -1,11 +1,13 @@
 .reverb {
   background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
-  min-width: 23rem;
+  // min-width: 23rem;
   height: 6.2rem;
-
+  width: 26rem;
   border-radius: 5px;
-  transform: scale(0.8);
+  // transform: scale(0.8);
   position: relative;
+  transform: translateX(-50%);
+  margin-left: 50%;
   .name {
     height: 1.4rem;
     text-align: center;
@@ -27,9 +29,18 @@
   }
   .slider {
     width: 4.5rem;
-    margin-top: 1rem;
+    margin-left: 0.7rem;
+    margin-top: 0.25rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+
+  .impulse-selector {
+    display: block;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    // transform: translateX(-50%);
+    // margin-left: 50%;
   }
 }

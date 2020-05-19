@@ -401,6 +401,7 @@ export default function Store(props) {
     springConfig: 'molasses',
     // mouseField: { x: 0, y: 0 },
     lfoFilter: {
+      wet: lfoFilter.wet.value,
       frequency: lfoFilter.frequency.value,
       depth: lfoFilter.depth.value,
       baseFrequency: { logValue: 0, value: 0 },

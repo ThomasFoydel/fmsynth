@@ -100,7 +100,7 @@ const Dino = () => {
           </div>
           <div className='param-name center'>gain</div>
         </div>
-        <div className='dino-innercontainer'>
+        <div className='dino-innercontainer center'>
           <img
             className='dino'
             style={{
@@ -109,7 +109,7 @@ const Dino = () => {
                 (appState.fm1Settings.freqOffset / 2000) * 360
               }deg)`,
               transform: `scale(${
-                (appState.fm1Settings.gain / 10000) * 0.2 + 0.4
+                (appState.fm1Settings.gain / 10000) * 0.1 + 0.6
               }) rotate(${(appState.fm1Settings.freqOffset / 2000) * 180}deg)`,
             }}
             src={keysPressed ? dino : dino2}

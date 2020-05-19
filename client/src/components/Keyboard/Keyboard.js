@@ -7,7 +7,7 @@ import './keyboard.scss';
 const Keyboard = () => {
   const [appState, updateState] = useContext(CTX);
 
-  const makeOsc1 = (freq, note) => {
+  const makeOsc = (freq, note) => {
     updateState({ type: 'MAKE_OSC', payload: freq });
   };
 
@@ -26,7 +26,7 @@ const Keyboard = () => {
     let nodes = [];
 
     keyboard.keyDown = (note, freq) => {
-      const newOsc1 = makeOsc1(freq, note);
+      const newOsc1 = makeOsc(freq, note);
       nodes.push(newOsc1);
     };
 

@@ -33,7 +33,7 @@ const Reverb = () => {
           </div>
         </div>
 
-        <div className='param'>
+        <div className='param impulse-selector'>
           <Selector
             onChange={handleImpulse}
             value={appState.reverb.impulse}
