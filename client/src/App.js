@@ -1,38 +1,36 @@
-import React from 'react';
-import Store from 'context/Store';
+import React, { useEffect, useContext } from 'react';
 import Keyboard from 'components/Keyboard/Keyboard';
 import Navbar from 'components/Navbar/Navbar';
 import Cube from 'components/Cube/Cube';
+
+import { CTX } from 'context/Store';
 import './App.scss';
 
 function App() {
-  const actx = new AudioContext();
-  const out = actx.destination;
+  const [appState, updateState] = useContext(CTX);
 
-  const fmOsc = actx.createOscillator();
-  const osc1 = actx.createOscillator();
-
-  osc1.frequency.value = 440;
-  fmOsc.frequency.value = 440;
-
-  const fmOscGain = actx.createGain();
-  fmOscGain.gain.value = 3000;
-
-  const osc1Gain = actx.createGain();
-  osc1.connect(osc1Gain);
-
-  fmOsc.connect(fmOscGain);
-  fmOscGain.connect(osc1.detune);
-  osc1.connect(out);
-
+  useEffect(() => {
+    const foundToken = localStorage.getItem('fmsynth-token');
+    console.log('foundToken: ', foundToken);
+    if (!foundToken) {
+      //rotate to auth
+      console.log('NO TOKEN!');
+      updateState({
+        type: 'CHANGE_ROTATION',
+        payload: `rotate3d(100, 0, 0, 270deg)`,
+        page: 'auth',
+      });
+    } else {
+      console.log('TOKENY TOKEN');
+      //login with token
+    }
+  }, []);
   return (
-    <Store>
-      <div className='App'>
-        <Keyboard />
-        <Navbar />
-        <Cube />
-      </div>
-    </Store>
+    <div className='App'>
+      <Keyboard />
+      <Navbar />
+      <Cube />
+    </div>
   );
 }
 

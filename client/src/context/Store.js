@@ -99,16 +99,12 @@ let nodes = [];
 
 export function reducer(state, action) {
   let { payload } = action;
-  let prop = payload.prop;
-  let value = payload.value;
+  let { prop, value } = payload ? payload : {};
+
+  // let prop = payload.prop;
+  // let value = payload.value;
 
   switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        isLoggedIn: true,
-      };
-
     case 'MAKE_OSC':
       const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);
       const osc2Freq = calcFreq(payload, state.osc2Settings.octaveOffset);
@@ -359,6 +355,22 @@ export function reducer(state, action) {
           highFrequency: payload.max,
         },
       };
+    case 'LOGIN':
+      let { user, token } = payload;
+      localStorage.setItem('fmsynth-token', token);
+
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: { name: user.name, email: user.email },
+      };
+    case 'LOGOUT':
+      localStorage.removeItem('fmsynth-token');
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: { name: '', email: '' },
+      };
     default:
       throw Error('reducer error');
   }
@@ -395,7 +407,7 @@ export default function Store(props) {
       type: fmOsc1.type,
       gain: fmOsc1Gain.gain.value,
     },
-    isLoggedIn: false,
+
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
     currentPage: 'osc',
     springConfig: 'molasses',
@@ -441,6 +453,9 @@ export default function Store(props) {
       mid: eq.mid.value,
       low: eq.low.value,
     },
+    isLoggedIn: false,
+    name: '',
+    email: '',
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
