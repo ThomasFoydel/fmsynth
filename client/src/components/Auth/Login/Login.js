@@ -15,6 +15,12 @@ const Login = ({ setCurrentShow }) => {
     }, 3400);
   }, [errorMessage]);
 
+  const handleKeyDown = (e) => {
+    if (e.charCode === 13) {
+      handleSubmit();
+    }
+  };
+
   const handleChange = (e) => {
     let { value, id } = e.target;
     setFormValues({ ...formValues, [id]: value });
@@ -44,6 +50,7 @@ const Login = ({ setCurrentShow }) => {
       <div className='center'>login</div>
       <input
         type='email'
+        onKeyPress={handleKeyDown}
         onChange={handleChange}
         placeholder='email'
         id='email'
@@ -51,8 +58,9 @@ const Login = ({ setCurrentShow }) => {
       />
       <input
         type='password'
-        onChange={handleChange}
+        onKeyPress={handleKeyDown}
         placeholder='password'
+        onChange={handleChange}
         id='password'
         dontbubble='true'
       />

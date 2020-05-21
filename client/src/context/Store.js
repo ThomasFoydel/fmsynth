@@ -368,6 +368,7 @@ export function reducer(state, action) {
         ...state,
         isLoggedIn: true,
         user: { name: user.name, email: user.email },
+        presets: user.presets,
       };
     case 'LOGOUT':
       localStorage.removeItem('fmsynth-token');
@@ -375,6 +376,7 @@ export function reducer(state, action) {
         ...state,
         isLoggedIn: false,
         user: { name: '', email: '' },
+        presets: {},
       };
     default:
       throw Error('reducer error');
@@ -412,7 +414,6 @@ export default function Store(props) {
       type: fmOsc1.type,
       gain: fmOsc1Gain.gain.value,
     },
-
     currentTransform: `rotate3d(0, 100, 0, 270deg)`,
     currentPage: 'osc',
     springConfig: 'molasses',
@@ -459,8 +460,8 @@ export default function Store(props) {
       low: eq.low.value,
     },
     isLoggedIn: false,
-    name: '',
-    email: '',
+    user: { name: '', email: '' },
+    presets: {},
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;

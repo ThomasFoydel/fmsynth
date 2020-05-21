@@ -17,7 +17,7 @@ const Presets = () => {
     const foundToken = localStorage.getItem('fmsynth-token');
     console.log('FOUND TOKEN PRESETSJS: ', foundToken);
     Axios.post(
-      '/presets/save',
+      '/presets/savenew',
       { name: presetName, state: appState },
       { headers: { 'x-auth-token': foundToken } }
     )
