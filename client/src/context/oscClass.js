@@ -11,8 +11,9 @@ export default class oscClass {
   ) {
     this.context = Tone.context;
     this.initialFreq = initialFreq;
-    this.osc = new Tone.Oscillator();
-    this.osc.start();
+    this.osc = new Tone.Oscillator().start();
+    // this.osc = Tone.context.createOscillator();
+    // this.osc.start();
     this.osc.detune.setValueAtTime(detune, this.context.currentTime);
     this.osc.type = type;
     this.osc.frequency.value = calculatedFrequency;

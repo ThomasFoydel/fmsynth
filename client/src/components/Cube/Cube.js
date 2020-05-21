@@ -9,6 +9,7 @@ import Oscillator1Controller from 'components/controls/Oscillators/Oscillators';
 import Dino from 'components/controls/Dino/Dino';
 import Effects2 from 'components/controls/Effects2/Effects2';
 import Auth from 'components/Auth/Auth';
+import Envelope from 'components/controls/Envelope/Envelope';
 
 const Cube = () => {
   const [appState, updateState] = useContext(CTX);
@@ -29,9 +30,9 @@ const Cube = () => {
         <div className={`side back ${currentPage === 'fm' && 'currentside'}`}>
           <Dino />
         </div>
-        <div
-          className={`side left ${currentPage === 'env' && 'currentside'}`}
-        ></div>
+        <div className={`side left ${currentPage === 'env' && 'currentside'}`}>
+          <Envelope />
+        </div>
         <div className={`side front ${currentPage === 'fx' && 'currentside'}`}>
           <Effects />
         </div>

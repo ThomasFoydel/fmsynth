@@ -54,9 +54,9 @@ lfoFilter.baseFrequency = 0;
 lfoFilter.filter._filters[0].type = 'highpass';
 let initEnv = {
   attack: 0.01,
-  decay: 1,
+  decay: 4.1,
   sustain: 1,
-  release: 0.1,
+  release: 1.21,
 };
 
 const fmOsc1 = actx.createOscillator();
@@ -355,6 +355,11 @@ export function reducer(state, action) {
           highFrequency: payload.max,
         },
       };
+    case 'CHANGE_ENVELOPE':
+      return {
+        ...state,
+        envelope: { ...state.envelope, [prop]: value },
+      };
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
@@ -378,7 +383,7 @@ export function reducer(state, action) {
 
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
-    actx: actx,
+    // actx: actx,
     nodes: [],
     envelope: initEnv,
     osc1Settings: {
@@ -460,3 +465,10 @@ export default function Store(props) {
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
 }
+
+// envelope: {
+//   attack: 0.01
+//   decay: 1
+//   release: 0.1
+//   sustain: 1
+// }

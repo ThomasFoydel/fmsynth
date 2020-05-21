@@ -13,6 +13,9 @@ const userSchema = {
     type: String,
     required: true,
   },
+  presets: {
+    type: Array,
+  },
 };
 
 module.exports = mongoose.model('User', userSchema);

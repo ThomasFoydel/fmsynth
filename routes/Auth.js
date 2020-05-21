@@ -79,13 +79,10 @@ router.post('/login', (req, res) => {
         );
 
         const userInfo = {
-          age: user.age,
-          city: user.city,
-          name: user.name,
+          userId: user._id,
           email: user.email,
-          profilePicId: user.profilePicId,
-          coverPicId: user.coverPicId,
-          _id: user._id,
+          name: user.name,
+          presets: user.presets,
         };
 
         res.json({
@@ -103,6 +100,7 @@ router.post('/login', (req, res) => {
   });
 });
 
+// remove ?
 router.get('/user/', auth, async (req, res) => {
   let { tokenUser } = req;
   if (tokenUser) {

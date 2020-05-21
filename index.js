@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const authRoutes = require('./routes/Auth');
+const presetsRoutes = require('./routes/Presets');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use('/auth', authRoutes);
+app.use('/presets', presetsRoutes);
 
 // build mode
 app.get('*', (req, res) => {
