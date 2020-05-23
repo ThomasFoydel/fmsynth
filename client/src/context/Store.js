@@ -229,6 +229,7 @@ export function reducer(state, action) {
       };
     case 'CHANGE_FM_WAVETABLE':
       fmOsc1.type = payload;
+
       return {
         ...state,
         fm1Settings: { ...state.fm1Settings, type: payload },
@@ -342,6 +343,7 @@ export function reducer(state, action) {
       };
     case 'CHANGE_EQ_GAIN':
       eq[prop].value = value;
+
       return { ...state, EQ: { ...state.EQ, [prop]: value } };
     case 'CHANGE_EQ_RANGE':
       console.log('CHANGE EQ RANGE. PAYLOAD: ', payload);
@@ -363,12 +365,23 @@ export function reducer(state, action) {
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
+      console.log('LOGIN, user: ', user);
+
+      const presetsArray = [];
+      user.presets.forEach((preset, i) => {
+        console.log('I: ', i);
+        const presetObj = {
+          text: preset.name,
+          value: preset.params,
+        };
+        presetsArray.push(presetObj);
+      });
 
       return {
         ...state,
         isLoggedIn: true,
         user: { name: user.name, email: user.email },
-        presets: user.presets,
+        presets: presetsArray,
       };
     case 'LOGOUT':
       localStorage.removeItem('fmsynth-token');
@@ -378,8 +391,47 @@ export function reducer(state, action) {
         user: { name: '', email: '' },
         presets: {},
       };
+    case 'LOAD_PRESET':
+      console.log('payload text::::: ', payload.text);
+      console.log('value: ', value);
+
+      eq.highFrequency.value = value.EQ.logMax;
+      eq.lowFrequency.value = value.EQ.logMin;
+      bitcrusher.wet.value = value.bitCrusher.wet;
+      bitcrusher.bits = value.bitCrusher.depth;
+      chebyshev.order = value.chebyshev.order;
+      chebyshev.wet.value = value.chebyshev.wet;
+      combFilter.delayTime.value = value.combFilter.delayTime;
+      combFilter.resonance.value = value.combFilter.resonance;
+      // combFilterCrossFade.fade.value = value.combFilterCrossFade.wet;
+      fmOsc1.type = value.fm1Settings.type;
+      // fmOsc1.frequency.value = value.fm1Settings.frequency;
+      console.log('fm osc freq? : ', value.fm1Settings.freqOffset);
+      // lfoFilter.type = value.lfoFilter.type;
+      console.log('fm osc freq? : ', value.lfoFilter.type);
+      // lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
+      lfoFilter.octaves = value.lfoFilter.octaves;
+      lfoFilter.depth.value = value.lfoFilter.depth;
+      lfoFilter.wet.value = value.lfoFilter.wet;
+      lfoFilter.filter._rolloff = value.lfoFilter.filterRolloff;
+      lfoFilter.filter._filters[0].Q.value = value.lfoFilter.filterQ;
+      lfoFilter.filter._filters[0].type = value.lfoFilter.filterRype;
+      pingPongDelay.wet.value = value.pingPong.wet;
+      pingPongDelay.delayTime.value = value.pingPong.delayTime;
+      pingPongDelay.feedback.value = value.pingPong.feedback;
+      reverb.load(impulses[value.reverb.impulse]);
+      reverb.wet.value = value.reverb.wet;
+
+      return { ...state, ...value };
+
+    case 'UPDATE_PRESETS':
+      console.log('update presets: ', action);
+      return { ...state };
     default:
-      throw Error('reducer error');
+      console.log('REDUCER ERROR: type: ', action.type);
+      console.log('REDUCER ERROR: payload: ', action.payload);
+      return { ...state };
+    // throw Error('reducer error');
   }
 }
 
@@ -419,6 +471,7 @@ export default function Store(props) {
     springConfig: 'molasses',
     // mouseField: { x: 0, y: 0 },
     lfoFilter: {
+      type: lfoFilter.type,
       wet: lfoFilter.wet.value,
       frequency: lfoFilter.frequency.value,
       depth: lfoFilter.depth.value,
@@ -461,15 +514,8 @@ export default function Store(props) {
     },
     isLoggedIn: false,
     user: { name: '', email: '' },
-    presets: {},
+    presets: [],
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
 }
-
-// envelope: {
-//   attack: 0.01
-//   decay: 1
-//   release: 0.1
-//   sustain: 1
-// }

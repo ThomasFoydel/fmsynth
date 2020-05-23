@@ -1,33 +1,33 @@
 const express = require('express');
+const auth = require('../middlewares/auth');
+const User = require('../models/user');
+
 const router = express.Router();
 
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
-const auth = require('../middlewares/auth');
-
-const User = require('../models/user');
-const Preset = require('../models/Preset');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const Preset = require('../models/Preset');
 
 router.post('/savenew', auth, async (req, res) => {
-  console.log('req body: ', req.tokenUser);
+  let { name, state, username } = req.body;
+  const { userId } = req.tokenUser;
 
-  let { name, state } = req.body;
-  if (req.tokenUser) {
-    console.log('REQ BODY: ', req.body);
-
-    const { userId } = req.tokenUser;
-    //   state = JSON.stringify(state);
-    //     const newPreset = new Preset({
-    //       name,
-    //       state,
-    //       userId,
-    //     });
-    //     newPreset
-    //       .save()
-    //       .then((result) => res.send(result))
-    //       .catch((err) => console.log('preset save error: ', err));
+  const foundUser = await User.findById(userId);
+  if (foundUser.presets) {
+    if (foundUser.presets.some((preset) => preset.name === name)) {
+      return res.send({ err: 'a preset with this name already exists' });
+    }
   }
+  const newPreset = { author: username, name: name, params: state };
+  User.findByIdAndUpdate(
+    userId,
+    { $push: { presets: newPreset } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      return res.send(updatedUser.presets);
+    })
+    .catch((err) => console.log('save preset error: ', err));
 });
 
 // router.get('/load', auth, async (req, res) => {
@@ -38,4 +38,12 @@ router.post('/savenew', auth, async (req, res) => {
 //   res.send(foundPresets);
 // });
 
+router.post('/savenew', auth, async (req, res) => {
+  let { userId } = req.tokenUser;
+  let { state, name } = req.body;
+
+  // User.findByIdAndUpdate(userId,{
+  //     $set: {`preset.${name}`: state }
+  // })
+});
 module.exports = router;

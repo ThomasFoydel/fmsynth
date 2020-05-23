@@ -1,14 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CTX } from 'context/Store';
 import Axios from 'axios';
+// import Selector from 'components/controls/Selector/Selector';
+import PresetsSelector from 'components/Auth/Presets/PresetsSelector';
 
 const Presets = () => {
   const [appState, updateState] = useContext(CTX);
   const [presetName, setPresetName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogOut = (e) => {
     updateState({ type: 'LOGOUT' });
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2800);
+  }, [errorMessage]);
 
   const handleName = (e) => {
     setPresetName(e.target.value);
@@ -16,12 +25,35 @@ const Presets = () => {
   const handleSave = async (e) => {
     const foundToken = localStorage.getItem('fmsynth-token');
     console.log('FOUND TOKEN PRESETSJS: ', foundToken);
+
+    const filterOut = [
+      'presets',
+      'currentPage',
+      'currentRotation',
+      'nodes',
+      'isLoggedIn',
+      'user',
+    ];
+    const filteredState = Object.keys(appState)
+      .filter((key) => !filterOut.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = appState[key];
+        return obj;
+      }, {});
+
     Axios.post(
       '/presets/savenew',
-      { name: presetName, state: appState },
+      { name: presetName, state: filteredState, username: appState.user.name },
       { headers: { 'x-auth-token': foundToken } }
     )
-      .then((result) => console.log('save preset, result: ', result))
+      .then((result) => {
+        if (result.data.err) {
+          setErrorMessage(result.data.err);
+        } else {
+          console.log('presets updated: ', result.data);
+          updateState('UPDATE_PRESETS', { payload: result.data });
+        }
+      })
       .catch((err) => console.log('save preset error: ', err));
   };
   const handleLoad = async (e) => {
@@ -44,6 +76,8 @@ const Presets = () => {
       />
       <button onClick={handleSave}>save</button>
       <button onClick={handleLoad}>load</button>
+      <div className='error-message'>{errorMessage}</div>
+      <PresetsSelector />
     </div>
   );
 };

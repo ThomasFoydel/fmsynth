@@ -100,14 +100,14 @@ router.post('/login', (req, res) => {
   });
 });
 
-// remove ?
+// get user auth info (happens on every reload of ui, in app.js)
 router.get('/user/', auth, async (req, res) => {
   let { tokenUser } = req;
   if (tokenUser) {
     User.find({ _id: tokenUser.userId })
       .then((foundUser) => {
-        const { name, email, _id } = foundUser[0];
-        return res.send({ name, email, id: _id });
+        const { name, email, _id, presets } = foundUser[0];
+        return res.send({ name, email, id: _id, presets });
       })
       .catch((error) => res.send({ err: 'no user found' }));
   } else {
