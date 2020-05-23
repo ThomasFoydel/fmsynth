@@ -42,7 +42,7 @@ const Login = ({ setCurrentShow }) => {
         }
       });
     } else {
-      setErrorMessage('all field required');
+      setErrorMessage('all fields required');
     }
   };
   return (

@@ -50,7 +50,6 @@ const PresetsSelector = () => {
       {appState.presets.length > 0 && (
         <Selector options={appState.presets} onChange={handleSelector} />
       )}
-      <h1>cool!</h1>
     </div>
   );
 };

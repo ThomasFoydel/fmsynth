@@ -51,7 +51,7 @@ const Presets = () => {
           setErrorMessage(result.data.err);
         } else {
           console.log('presets updated: ', result.data);
-          updateState('UPDATE_PRESETS', { payload: result.data });
+          updateState({ type: 'UPDATE_PRESETS', payload: result.data });
         }
       })
       .catch((err) => console.log('save preset error: ', err));

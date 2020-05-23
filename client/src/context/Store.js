@@ -392,6 +392,8 @@ export function reducer(state, action) {
         presets: {},
       };
     case 'LOAD_PRESET':
+      console.log('fm 1 osc: ', fmOsc1);
+      console.log('fm 1 oscgain: ', fmOsc1Gain);
       eq.high.value = value.EQ.high;
       eq.mid.value = value.EQ.mid;
       eq.low.value = value.EQ.low;
@@ -427,15 +429,17 @@ export function reducer(state, action) {
       pingPongDelay.feedback.value = value.pingPong.feedback;
       reverb.load(impulses[value.reverb.impulse]);
       reverb.wet.value = value.reverb.wet;
-
+      console.log('fm 2 osc: ', fmOsc1);
+      console.log('fm 2 oscgain: ', fmOsc1Gain);
       return { ...state, ...value };
 
     case 'UPDATE_PRESETS':
-      console.log('update presets: ', action);
+      console.log('update presets, action: ', action);
+      console.log('update presets, state: ', state);
       return { ...state };
     default:
-      console.log('REDUCER ERROR: type: ', action.type);
-      console.log('REDUCER ERROR: payload: ', action.payload);
+      console.log('REDUCER ERROR: action: ', action);
+
       return { ...state };
     // throw Error('reducer error');
   }
@@ -468,7 +472,7 @@ export default function Store(props) {
       gain: noiseGain.gain.value,
     },
     fm1Settings: {
-      freqOffset: 100,
+      freqOffset: fmOsc1.frequency.value,
       type: fmOsc1.type,
       gain: fmOsc1Gain.gain.value,
     },
