@@ -392,9 +392,9 @@ export function reducer(state, action) {
         presets: {},
       };
     case 'LOAD_PRESET':
-      console.log('payload text::::: ', payload.text);
-      console.log('value: ', value);
-
+      eq.high.value = value.EQ.high;
+      eq.mid.value = value.EQ.mid;
+      eq.low.value = value.EQ.low;
       eq.highFrequency.value = value.EQ.logMax;
       eq.lowFrequency.value = value.EQ.logMin;
       bitcrusher.wet.value = value.bitCrusher.wet;
@@ -403,19 +403,25 @@ export function reducer(state, action) {
       chebyshev.wet.value = value.chebyshev.wet;
       combFilter.delayTime.value = value.combFilter.delayTime;
       combFilter.resonance.value = value.combFilter.resonance;
-      // combFilterCrossFade.fade.value = value.combFilterCrossFade.wet;
+      if (value.combFilterCrossFade.wet > 0) {
+        combFilterCrossFade.fade.value = value.combFilterCrossFade.wet;
+      } else {
+        combFilterCrossFade.fade.value = 0.01;
+      }
       fmOsc1.type = value.fm1Settings.type;
-      // fmOsc1.frequency.value = value.fm1Settings.frequency;
-      console.log('fm osc freq? : ', value.fm1Settings.freqOffset);
-      // lfoFilter.type = value.lfoFilter.type;
-      console.log('fm osc freq? : ', value.lfoFilter.type);
-      // lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
+      fmOsc1.frequency.value = value.fm1Settings.freqOffset;
+      lfoFilter.type = value.lfoFilter.type;
+      if (value.lfoFilter.baseFrequency.logValue > 0) {
+        lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
+      } else {
+        lfoFilter.baseFrequency = 0.01;
+      }
       lfoFilter.octaves = value.lfoFilter.octaves;
       lfoFilter.depth.value = value.lfoFilter.depth;
       lfoFilter.wet.value = value.lfoFilter.wet;
       lfoFilter.filter._rolloff = value.lfoFilter.filterRolloff;
       lfoFilter.filter._filters[0].Q.value = value.lfoFilter.filterQ;
-      lfoFilter.filter._filters[0].type = value.lfoFilter.filterRype;
+      lfoFilter.filter._filters[0].type = value.lfoFilter.filterType;
       pingPongDelay.wet.value = value.pingPong.wet;
       pingPongDelay.delayTime.value = value.pingPong.delayTime;
       pingPongDelay.feedback.value = value.pingPong.feedback;
