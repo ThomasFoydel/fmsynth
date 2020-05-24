@@ -1,5 +1,5 @@
 .lfo-filter {
-  background: #777;
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
   border-radius: 5px;
   width: 90%;
   margin-left: 50%;
@@ -22,7 +22,6 @@
   }
   .basefreq-slider {
     margin-bottom: 1.2rem;
-    // text-align: center;
   }
 
   .sliders {
@@ -41,7 +40,6 @@
     flex-direction: column;
     min-width: 4.5rem;
     justify-items: space-around;
-    // border: 1px solid black;
 
     .param-name {
       margin-top: -0.6rem;

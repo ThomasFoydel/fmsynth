@@ -8,14 +8,14 @@
     padding: 1rem;
     width: 100%;
     height: 100%;
-    margin-top: 3rem;
+    // margin-top: 3rem;
     .active {
       color: red;
     }
   }
 
   .frequency-modulator {
-    background: gray;
+    background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
     border-radius: 5px;
     padding: 0.5rem 1rem 1rem 1rem;
   }
@@ -44,16 +44,18 @@
     transform: translateX(-50%);
     margin-bottom: 2rem;
   }
+
   .dino-innercontainer {
-    background: linear-gradient(rgb(167, 167, 167), rgb(75, 75, 75));
-    height: 8rem;
-    width: 8rem;
+    // background: linear-gradient(rgb(167, 167, 167), rgb(75, 75, 75));
+    background: linear-gradient(rgb(230, 230, 230), rgb(84, 84, 84));
+    height: 13.5rem;
+    width: 13.5rem;
     border-radius: 100px;
     margin-top: 0.5rem;
   }
   .dino {
     border-radius: 12rem;
-    height: 8rem;
-    width: 8rem;
+    height: 13.5rem;
+    width: 13.5rem;
   }
 }
