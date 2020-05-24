@@ -10,18 +10,30 @@ function findWithAttr(array, attr, val) {
   return -1;
 }
 
-const Selector = ({ options, value, initVal, onChange, size }) => {
+const Selector = ({
+  options,
+  value,
+  initVal,
+  onChange,
+  size,
+  presetSelector,
+}) => {
   //- initVal will set the init index,
   //- value will set the init index to the index of the item
   // in the options array with a value that matches the value prop
   const [currentVal, setCurrentVal] = useState(initVal || 0);
 
   useEffect(() => {
-    const foundIndex = findWithAttr(options, 'value', value);
+    if (presetSelector) {
+      console.log('OPTIONS: ', options);
+    }
+    const foundIndex = presetSelector
+      ? findWithAttr(options, 'text', value)
+      : findWithAttr(options, 'value', value);
     initVal = initVal ? initVal : 0;
     let initIndex = foundIndex === -1 ? initVal : foundIndex;
     setCurrentVal(initIndex);
-  }, []);
+  }, [value]);
 
   const updateOption = (e) => {
     if (e.target.id === 'left') {

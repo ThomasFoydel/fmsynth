@@ -392,6 +392,7 @@ export function reducer(state, action) {
         presets: {},
       };
     case 'LOAD_PRESET':
+      console.log('LOAD PRESET ACTION: ', action);
       eq.high.value = value.EQ.high;
       eq.mid.value = value.EQ.mid;
       eq.low.value = value.EQ.low;
@@ -409,6 +410,10 @@ export function reducer(state, action) {
         combFilterCrossFade.fade.value = 0.01;
       }
       fmOsc1.type = value.fm1Settings.type;
+      fmOsc1Gain.gain.exponentialRampToValueAtTime(
+        value.fm1Settings.gain,
+        now + 0.001
+      );
       fmOsc1.frequency.value = value.fm1Settings.freqOffset;
       lfoFilter.type = value.lfoFilter.type;
       if (value.lfoFilter.baseFrequency.logValue > 0) {
@@ -427,10 +432,16 @@ export function reducer(state, action) {
       pingPongDelay.feedback.value = value.pingPong.feedback;
       reverb.load(impulses[value.reverb.impulse]);
       reverb.wet.value = value.reverb.wet;
-      return { ...state, ...value };
+      return { ...state, ...value, currentPreset: action.text };
 
     case 'UPDATE_PRESETS':
-      return { ...state, presets: [...payload] };
+      console.log('UPDATE PRESETS, ACTION: ', action);
+      // return { ...state };
+      return {
+        ...state,
+        presets: [...payload.presets],
+        currentPreset: payload.current,
+      };
     default:
       console.log('REDUCER ERROR: action: ', action);
 
@@ -448,6 +459,7 @@ export default function Store(props) {
     currentPage: 'osc',
     springConfig: 'molasses',
     nodes: [],
+    currentPreset: 'default',
 
     // audio settings:
     envelope: initEnv,

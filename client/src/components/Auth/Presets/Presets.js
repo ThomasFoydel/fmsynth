@@ -3,6 +3,7 @@ import { CTX } from 'context/Store';
 import Axios from 'axios';
 // import Selector from 'components/controls/Selector/Selector';
 import PresetsSelector from 'components/Auth/Presets/PresetsSelector';
+import PresetsListSelector from 'components/Auth/Presets/PresetsListSelector';
 
 const Presets = () => {
   const [appState, updateState] = useContext(CTX);
@@ -33,6 +34,7 @@ const Presets = () => {
       'nodes',
       'isLoggedIn',
       'user',
+      'currentPreset',
     ];
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
@@ -50,8 +52,13 @@ const Presets = () => {
         if (result.data.err) {
           setErrorMessage(result.data.err);
         } else {
-          console.log('presets updated: ', result.data);
-          updateState({ type: 'UPDATE_PRESETS', payload: result.data });
+          updateState({
+            type: 'UPDATE_PRESETS',
+            payload: {
+              presets: result.data.presets,
+              current: result.data.current,
+            },
+          });
         }
       })
       .catch((err) => console.log('save preset error: ', err));
@@ -78,6 +85,7 @@ const Presets = () => {
       <button onClick={handleLoad}>load</button>
       <div className='error-message'>{errorMessage}</div>
       <PresetsSelector />
+      <PresetsListSelector />
     </div>
   );
 };

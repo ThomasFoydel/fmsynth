@@ -34,7 +34,9 @@ router.post('/savenew', auth, async (req, res) => {
         newArray.push(presetObj);
       });
 
-      return res.send(newArray);
+      const nameOfNewPreset =
+        updatedUser.presets[updatedUser.presets.length - 1].name;
+      return res.send({ presets: newArray, current: nameOfNewPreset });
     })
     .catch((err) => console.log('save preset error: ', err));
 });
@@ -47,7 +49,7 @@ router.post('/savenew', auth, async (req, res) => {
 //   res.send(foundPresets);
 // });
 
-router.post('/savenew', auth, async (req, res) => {
+router.post('/update', auth, async (req, res) => {
   let { userId } = req.tokenUser;
   let { state, name } = req.body;
 

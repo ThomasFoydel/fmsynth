@@ -8,7 +8,7 @@ import { CTX } from 'context/Store';
 
 const Auth = () => {
   const [appState, updateState] = useContext(CTX);
-  const [currentShow, setCurrentShow] = useState('register');
+  const [currentShow, setCurrentShow] = useState('login');
 
   return (
     <div className='auth'>

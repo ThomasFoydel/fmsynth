@@ -4,7 +4,7 @@ import Selector from 'components/controls/Selector/Selector';
 
 const PresetsSelector = () => {
   const [appState, updateState] = useContext(CTX);
-  const [presetsArray, setPresetsArray] = useState([]);
+  // const [presetsArray, setPresetsArray] = useState([]);
 
   console.log('appstate presets', appState.presets);
   //   useEffect(() => {
@@ -46,9 +46,15 @@ const PresetsSelector = () => {
   };
   return (
     <div>
+      {console.log('APPSTATE: ', appState)}
       {/* <Selector options={presetsArray} /> */}
       {appState.presets.length > 0 && (
-        <Selector options={appState.presets} onChange={handleSelector} />
+        <Selector
+          options={appState.presets}
+          onChange={handleSelector}
+          value={appState.currentPreset}
+          presetSelector={true}
+        />
       )}
     </div>
   );
