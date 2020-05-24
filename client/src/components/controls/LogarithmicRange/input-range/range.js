@@ -11,8 +11,8 @@ export default class LogRange extends React.Component {
     super(props);
     this.state = {
       value: {
-        min: this.props.initVal.min || 0,
-        max: this.props.initVal.max || 100,
+        min: this.props.initVal.lowFrequency || 0,
+        max: this.props.initVal.highFrequency || 100,
       },
     };
     this.logSlider = new Log({
@@ -56,7 +56,11 @@ export default class LogRange extends React.Component {
     return (
       <div>
         <RangeInput
-          value={this.state.value}
+          // value={this.state.value}
+          value={{
+            min: this.props.initVal.lowFrequency,
+            max: this.props.initVal.highFrequency,
+          }}
           onChange={this.onChange}
           formatLabel={this.formatLabel}
         />

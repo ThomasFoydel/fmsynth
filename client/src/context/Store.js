@@ -29,13 +29,11 @@ osc2Gain.connect(oscCombinedGain);
 noiseGain.connect(noiseReduceGain);
 noiseReduceGain.connect(oscCombinedGain);
 
-// to add: distortion chorus tremolo vibrato reverb pitchshift
 const chebyshev = new Tone.Chebyshev(2);
 const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
 const pingPongDelay = new Tone.PingPongDelay('4n', 0);
-// const filter = new Tone.Filter(15000, 'lowpass', -48);
 const reverb = new Tone.Convolver(impulses['block']);
 const eq = new Tone.EQ3();
 const limiter = new Tone.Limiter(-6);
@@ -72,8 +70,6 @@ Tone.connect(oscCombinedGain, bitcrusher);
 bitcrusher.connect(chebyshev);
 chebyshev.connect(lfoFilter);
 
-// filter effects
-
 // reverb and delay
 Tone.connect(lfoFilter, pingPongDelay);
 Tone.connect(pingPongDelay, combFilter);
@@ -101,9 +97,6 @@ let nodes = [];
 export function reducer(state, action) {
   let { payload } = action;
   let { prop, value } = payload ? payload : {};
-
-  // let prop = payload.prop;
-  // let value = payload.value;
 
   switch (action.type) {
     case 'MAKE_OSC':
@@ -460,8 +453,15 @@ export function reducer(state, action) {
 
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
-    // actx: actx,
+    isLoggedIn: false,
+    user: { name: '', email: '' },
+    presets: [],
+    currentTransform: `rotate3d(0, 100, 0, 270deg)`,
+    currentPage: 'osc',
+    springConfig: 'molasses',
     nodes: [],
+
+    // audio settings:
     envelope: initEnv,
     osc1Settings: {
       type: 'sine',
@@ -489,10 +489,6 @@ export default function Store(props) {
       type: fmOsc1.type,
       gain: fmOsc1Gain.gain.value,
     },
-    currentTransform: `rotate3d(0, 100, 0, 270deg)`,
-    currentPage: 'osc',
-    springConfig: 'molasses',
-    // mouseField: { x: 0, y: 0 },
     lfoFilter: {
       type: lfoFilter.type,
       wet: lfoFilter.wet.value,
@@ -504,10 +500,6 @@ export default function Store(props) {
       filterType: lfoFilter.filter._filters[0].type,
       filterRolloff: lfoFilter.filter._filters._rolloff,
     },
-    // filter: {
-    //   frequency: filter.frequency.value,
-    //   rolloff: filter.rolloff.value,
-    // },
     bitCrusher: { depth: bitcrusher.bits, wet: bitcrusher.wet.value },
     chebyshev: { wet: 0, order: 1 },
     pingPong: {
@@ -527,17 +519,20 @@ export default function Store(props) {
       fade: combFilterCrossFade.fade.value,
     },
     EQ: {
-      min: 0,
+      lowFrequency: 0,
       logMin: 0,
-      max: 100,
+      highFrequency: 100,
       logMax: 20000,
       high: eq.high.value,
       mid: eq.mid.value,
       low: eq.low.value,
     },
-    isLoggedIn: false,
-    user: { name: '', email: '' },
-    presets: [],
+    // actx: actx,
+    // mouseField: { x: 0, y: 0 },
+    // filter: {
+    //   frequency: filter.frequency.value,
+    //   rolloff: filter.rolloff.value,
+    // },
   });
 
   return <CTX.Provider value={stateHook}>{props.children}</CTX.Provider>;
