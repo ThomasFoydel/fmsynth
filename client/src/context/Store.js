@@ -47,7 +47,6 @@ reverb.wet.value = 0;
 const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
   depth: 0,
-  // filter: { rolloff: -48 },
 }).start();
 lfoFilter.baseFrequency = 0;
 lfoFilter.filter._filters[0].type = 'highpass';
@@ -76,8 +75,6 @@ Tone.connect(pingPongDelay, combFilter);
 pingPongDelay.connect(combFilterCrossFade, 0, 0);
 combFilter.connect(combFilterCrossFade, 0, 1);
 
-// Tone.connect(combFilterCrossFade, filter);
-// Tone.connect(filter, reverb);
 Tone.connect(combFilterCrossFade, reverb);
 
 Tone.connect(reverb, eq);
@@ -352,7 +349,6 @@ export function reducer(state, action) {
 
       return { ...state, EQ: { ...state.EQ, [prop]: value } };
     case 'CHANGE_EQ_RANGE':
-      console.log('CHANGE EQ RANGE. PAYLOAD: ', payload);
       eq.highFrequency.value = payload.logMax;
       eq.lowFrequency.value = payload.logMin;
       return {
@@ -371,8 +367,6 @@ export function reducer(state, action) {
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
-      console.log('LOGIN, user: ', user);
-
       const presetsArray = [];
       user.presets.forEach((preset, i) => {
         console.log('I: ', i);
@@ -398,13 +392,11 @@ export function reducer(state, action) {
         presets: {},
       };
     case 'LOAD_PRESET':
-      console.log('fm 1 osc: ', fmOsc1);
-      console.log('fm 1 oscgain: ', fmOsc1Gain);
       eq.high.value = value.EQ.high;
       eq.mid.value = value.EQ.mid;
       eq.low.value = value.EQ.low;
-      eq.highFrequency.value = value.EQ.logMax;
-      eq.lowFrequency.value = value.EQ.logMin;
+      eq.highFrequency.value = value.EQ.highFrequency;
+      eq.lowFrequency.value = value.EQ.lowFrequency;
       bitcrusher.wet.value = value.bitCrusher.wet;
       bitcrusher.bits = value.bitCrusher.depth;
       chebyshev.order = value.chebyshev.order;
@@ -435,14 +427,10 @@ export function reducer(state, action) {
       pingPongDelay.feedback.value = value.pingPong.feedback;
       reverb.load(impulses[value.reverb.impulse]);
       reverb.wet.value = value.reverb.wet;
-      console.log('fm 2 osc: ', fmOsc1);
-      console.log('fm 2 oscgain: ', fmOsc1Gain);
       return { ...state, ...value };
 
     case 'UPDATE_PRESETS':
-      console.log('update presets, action: ', action);
-      console.log('update presets, state: ', state);
-      return { ...state };
+      return { ...state, presets: [...payload] };
     default:
       console.log('REDUCER ERROR: action: ', action);
 

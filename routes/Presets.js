@@ -25,7 +25,16 @@ router.post('/savenew', auth, async (req, res) => {
     { new: true }
   )
     .then((updatedUser) => {
-      return res.send(updatedUser.presets);
+      const newArray = [];
+      updatedUser.presets.forEach((preset, i) => {
+        const presetObj = {
+          text: preset.name,
+          value: preset.params,
+        };
+        newArray.push(presetObj);
+      });
+
+      return res.send(newArray);
     })
     .catch((err) => console.log('save preset error: ', err));
 });
