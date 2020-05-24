@@ -14,12 +14,17 @@ body {
 html {
   font-size: 62.5%;
   background-size: cover;
+  min-height: 50rem;
   height: 100vh;
   // min-width: 1200px;
   // background-color: rgb(138, 34, 34);
+  background-size: cover;
 
-  background: radial-gradient(rgba(255, 255, 255, 0) 5%, rgba(0, 0, 0, 0.7) 75%),
-    url('./imgs/833.jpg');
+  background: radial-gradient(
+      rgba(255, 255, 255, 0.8) 5%,
+      rgba(0, 0, 0, 0.7) 75%
+    ),
+    url('./imgs/833.jpg') no-repeat;
   // linear-gradient(135deg, rgba(179, 0, 255, 0.217), rgba(255, 0, 0, 0.447)),
 }
 

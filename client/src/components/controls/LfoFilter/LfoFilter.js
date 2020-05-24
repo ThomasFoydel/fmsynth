@@ -43,7 +43,7 @@ const LfoFilter = () => {
   const handleBaseFrequency = (e) => {
     updateState({
       type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'baseFrequency', value: e.value },
+      payload: { prop: 'baseFrequency', value: e },
     });
   };
 
@@ -119,7 +119,9 @@ const LfoFilter = () => {
         <div className='param'>
           <Selector
             size='medium'
-            onChange={(e) => handleFilter(e, 'filterType')}
+            onChange={(e) =>
+              handleFilter({ value: e.value, prop: 'filterType' })
+            }
             value={appState.lfoFilter.filterType}
             options={[
               { text: 'lowpass', value: 'lowpass' },
@@ -147,7 +149,10 @@ const LfoFilter = () => {
           />
         </div>
       </div>
-
+      {console.log(
+        'LFO FILTER COMPONENT, appState.lfoFilter.baseFrequency.value: ',
+        appState.lfoFilter.baseFrequency
+      )}
       <div className='basefreq-slider'>
         <LogarithmicSlider
           onChange={handleBaseFrequency}
@@ -158,7 +163,6 @@ const LfoFilter = () => {
       </div>
 
       <div className='sliders'>
-        {/* <div className='name'>lfo filter</div> */}
         <div className='slider'>
           <Slider
             onChange={handleMix}
@@ -190,7 +194,7 @@ const LfoFilter = () => {
             step={1}
             property='octaves'
           />
-          <div className='param-name'>octaves</div>
+          <div className='param-name'>range</div>
         </div>
         <div className='slider'>
           <Slider

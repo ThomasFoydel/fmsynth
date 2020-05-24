@@ -49,6 +49,7 @@ reverb.wet.value = 0;
 const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
   depth: 0,
+  // filter: { rolloff: -48 },
 }).start();
 lfoFilter.baseFrequency = 0;
 lfoFilter.filter._filters[0].type = 'highpass';
@@ -249,21 +250,30 @@ export function reducer(state, action) {
         currentTransform: payload,
         currentPage: action.page,
       };
-    case 'CHANGE_MOUSEFIELD':
-      const { y } = payload;
-      const yTimesFour = y * 8;
-      const roundedEigth = Math.round(yTimesFour);
-      const plusOneTimesFour = (roundedEigth + 1) * 2;
-      // lfoOsc.frequency.value = newLfoVal;
-      lfoFilter.frequency.value = `${plusOneTimesFour}n`;
-      // fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
+    // case 'CHANGE_MOUSEFIELD':
+    //   const { y } = payload;
+    //   const yTimesFour = y * 8;
+    //   const roundedEigth = Math.round(yTimesFour);
+    //   const plusOneTimesFour = (roundedEigth + 1) * 2;
+    //   // lfoOsc.frequency.value = newLfoVal;
+    //   lfoFilter.frequency.value = `${plusOneTimesFour}n`;
+    //   // fmOsc1Gain.gain.linearRampToValueAtTime(payload.y * 7000, now);
 
-      return {
-        ...state,
-        mouseField: { y },
-      };
+    //   return {
+    //     ...state,
+    //     mouseField: { y },
+    //   };
     case 'CHANGE_LFO_FILTER':
-      if (prop === 'type' || prop === 'baseFrequency' || prop === 'octaves') {
+      if (prop === 'baseFrequency') {
+        lfoFilter.baseFrequency = value.logValue;
+        return {
+          ...state,
+          lfoFilter: {
+            ...state.lfoFilter,
+            baseFrequency: { value: value.value, logValue: value.logValue },
+          },
+        };
+      } else if (prop === 'type' || prop === 'octaves') {
         lfoFilter[prop] = value;
       } else {
         lfoFilter[prop].value = value;
@@ -277,7 +287,10 @@ export function reducer(state, action) {
         lfoFilter.filter._rolloff = value;
       } else if (prop === 'Q') {
         lfoFilter.filter._filters[0][prop].value = value;
+      } else if (prop === 'filterType') {
+        lfoFilter.filter._filters[0].type = value;
       } else {
+        console.log('ELSE!, ', payload);
         lfoFilter.filter._filters[0][prop] = value;
       }
       return {

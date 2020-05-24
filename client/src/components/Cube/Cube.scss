@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   color: rgb(255, 255, 255);
-  // transition: all 0.3s ease;
   background: linear-gradient(
     154deg,
     rgba(40, 40, 40, 0.7) 15%,
@@ -14,16 +13,30 @@
     rgba(43, 43, 43, 0.7) 93%
   );
   opacity: 0.3;
-  border: 1px solid rgb(232, 232, 232);
+  // background: linear-gradient(
+  //   154deg,
+  //   rgba(40, 40, 40, 1) 15%,
+  //   rgba(82, 82, 82, 1),
+  //   rgba(43, 43, 43, 1) 93%
+  // );
+  opacity: 0.7;
+  // border: 1px solid rgb(232, 232, 232);
+  border: 1px solid rgb(255, 255, 255);
 }
 .currentside {
   opacity: 1;
   background: linear-gradient(
     154deg,
-    rgba(85, 85, 85, 0.78) 15%,
-    rgba(46, 46, 46, 0.5),
-    rgba(216, 216, 216, 0.4) 95%
+    rgba(85, 85, 85, 0.9) 15%,
+    rgba(46, 46, 46, 0.9),
+    rgba(87, 87, 87, 0.9) 95%
   );
+  // background: linear-gradient(
+  //   154deg,
+  //   rgba(85, 85, 85, 0.78) 15%,
+  //   rgba(46, 46, 46, 0.5),
+  //   rgba(216, 216, 216, 0.4) 95%
+  // );
 }
 
 .scene {
