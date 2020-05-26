@@ -4,11 +4,13 @@ import Axios from 'axios';
 // import Selector from 'components/controls/Selector/Selector';
 import PresetsSelector from 'components/Auth/Presets/PresetsSelector';
 import PresetsListSelector from 'components/Auth/Presets/PresetsListSelector';
+import './Presets.scss';
 
 const Presets = () => {
   const [appState, updateState] = useContext(CTX);
   const [presetName, setPresetName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [openSaveAs, setOpenSaveAs] = useState(false);
 
   const handleLogOut = (e) => {
     updateState({ type: 'LOGOUT' });
@@ -25,7 +27,6 @@ const Presets = () => {
   };
   const handleSave = async (e) => {
     const foundToken = localStorage.getItem('fmsynth-token');
-    console.log('FOUND TOKEN PRESETSJS: ', foundToken);
 
     const filterOut = [
       'presets',
@@ -73,15 +74,22 @@ const Presets = () => {
   };
   return (
     <div>
+      {openSaveAs && (
+        <div className='save-as'>
+          <div className='close-btn' onClick={() => setOpenSaveAs(false)}></div>
+          <input
+            type='text'
+            placeholder='name...'
+            onChange={handleName}
+            value={presetName}
+            dontbubble='true'
+          />
+          <button onClick={handleSave}>save</button>
+        </div>
+      )}
       <button onClick={handleLogOut}>logout</button>
-      <input
-        type='text'
-        placeholder='preset name'
-        onChange={handleName}
-        value={presetName}
-        dontbubble='true'
-      />
-      <button onClick={handleSave}>save</button>
+
+      <button onClick={() => setOpenSaveAs(true)}>save as...</button>
       <button onClick={handleLoad}>load</button>
       <div className='error-message'>{errorMessage}</div>
       <PresetsSelector />

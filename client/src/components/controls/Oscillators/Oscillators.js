@@ -139,7 +139,7 @@ const Oscillator1Controller = () => {
           <div className='osc-selector'>
             <Selector
               onChange={(e) =>
-                changeOsc1({ value: e.value, prop: 'octaveOffset' })
+                changeOsc2({ value: e.value, prop: 'octaveOffset' })
               }
               value={appState.osc2Settings.octaveOffset}
               size='small'

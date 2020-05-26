@@ -149,10 +149,6 @@ const LfoFilter = () => {
           />
         </div>
       </div>
-      {console.log(
-        'LFO FILTER COMPONENT, appState.lfoFilter.baseFrequency.value: ',
-        appState.lfoFilter.baseFrequency
-      )}
       <div className='basefreq-slider'>
         <LogarithmicSlider
           onChange={handleBaseFrequency}

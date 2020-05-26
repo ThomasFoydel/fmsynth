@@ -1,0 +1,56 @@
+.presetlistselector {
+  max-height: 10rem;
+  overflow: scroll;
+
+  background: rgb(12, 12, 12);
+  .preset-option {
+    border-top: 1px solide gray;
+    border-bottom: 1px solid gray;
+    background: rgba(255, 255, 255, 0.178);
+    cursor: pointer;
+    &:hover {
+      background: rgba(249, 249, 249, 0.762);
+      color: red;
+    }
+  }
+
+  .current-true {
+    background: rgb(238, 71, 71);
+    color: rgb(26, 26, 26);
+  }
+}
+
+.save-as {
+  background: rgb(45, 45, 45);
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  //   position: absolute;
+  top: 0;
+  height: 5rem;
+
+  .close-btn {
+    height: 2rem;
+    width: 2rem;
+    // position: absolute;
+    top: 0;
+    background: rgb(164, 12, 12);
+    clip-path: polygon(
+      20% 0%,
+      0% 20%,
+      30% 50%,
+      0% 80%,
+      20% 100%,
+      50% 70%,
+      80% 100%,
+      100% 80%,
+      70% 50%,
+      100% 20%,
+      80% 0%,
+      50% 30%
+    );
+    &:hover {
+      background: rgb(216, 76, 76);
+    }
+  }
+}

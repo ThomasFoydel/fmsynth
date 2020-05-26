@@ -369,7 +369,6 @@ export function reducer(state, action) {
       localStorage.setItem('fmsynth-token', token);
       const presetsArray = [];
       user.presets.forEach((preset, i) => {
-        console.log('I: ', i);
         const presetObj = {
           text: preset.name,
           value: preset.params,
@@ -435,7 +434,6 @@ export function reducer(state, action) {
       return { ...state, ...value, currentPreset: action.text };
 
     case 'UPDATE_PRESETS':
-      console.log('UPDATE PRESETS, ACTION: ', action);
       // return { ...state };
       return {
         ...state,

@@ -11,45 +11,53 @@ function App() {
   const [appState, updateState] = useContext(CTX);
 
   useEffect(() => {
-    const foundToken = localStorage.getItem('fmsynth-token');
+    let subscribed = true;
 
-    if (!foundToken) {
-      console.log('no token');
-      updateState({
-        type: 'LOGOUT',
-      });
+    if (subscribed) {
+      const foundToken = localStorage.getItem('fmsynth-token');
 
-      //rotate to auth
-      updateState({
-        type: 'CHANGE_ROTATION',
-        payload: `rotate3d(100, 0, 0, 270deg)`,
-        page: 'auth',
-      });
-    } else {
-      const setAuthInfo = (async) => {
-        Axios.get('/auth/user', {
-          headers: { 'x-auth-token': foundToken },
-        })
-          .then((result) => {
-            console.log('RESULT: ', result);
-            if (!result.data.err) {
-              updateState({
-                type: 'LOGIN',
-                payload: { user: result.data, token: foundToken },
-              });
-            } else {
-              console.log('err: ', result.data.err);
-            }
+      if (!foundToken) {
+        console.log('no token');
+        updateState({
+          type: 'LOGOUT',
+        });
+
+        //rotate to auth
+        updateState({
+          type: 'CHANGE_ROTATION',
+          payload: `rotate3d(100, 0, 0, 270deg)`,
+          page: 'auth',
+        });
+      } else {
+        const setAuthInfo = (async) => {
+          Axios.get('/auth/user', {
+            headers: { 'x-auth-token': foundToken },
           })
-          .catch((err) => {
-            console.log(err);
-            updateState({
-              type: 'LOGOUT',
+            .then((result) => {
+              console.log('RESULT: ', result);
+              if (!result.data.err) {
+                updateState({
+                  type: 'LOGIN',
+                  payload: { user: result.data, token: foundToken },
+                });
+              } else {
+                console.log('err: ', result.data.err);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              updateState({
+                type: 'LOGOUT',
+              });
             });
-          });
-      };
-      setAuthInfo();
+        };
+        setAuthInfo();
+      }
     }
+
+    return () => {
+      subscribed = false;
+    };
   }, []);
 
   return (
