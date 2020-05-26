@@ -1,26 +1,41 @@
 .presetlistselector {
   max-height: 10rem;
   overflow: scroll;
-
   background: rgb(12, 12, 12);
+
   .preset-option {
-    border-top: 1px solide gray;
-    border-bottom: 1px solid gray;
+    height: 2.2rem;
+    padding-top: 0.1rem;
+    padding-left: 0.5rem;
+    border-top: 1px solid rgb(165, 165, 165);
+    border-bottom: 1px solid rgb(165, 165, 165);
     background: rgba(255, 255, 255, 0.178);
     cursor: pointer;
+
     &:hover {
-      background: rgba(249, 249, 249, 0.762);
-      color: red;
+      background: rgba(249, 249, 249, 0.962);
+      color: rgb(162, 6, 6);
     }
   }
 
   .current-true {
+    cursor: default;
     background: rgb(238, 71, 71);
     color: rgb(26, 26, 26);
+    border-color: rgb(238, 71, 71);
+
+    &:hover {
+      background: rgb(238, 71, 71);
+      color: rgb(26, 26, 26);
+    }
+    // border-color: rgb(244, 244, 244);
+    // border-top: 1px solid white;
+    // border-bottom: 1px solid white;
   }
 }
 
-.save-as {
+.save-as,
+.save-over {
   background: rgb(45, 45, 45);
   z-index: 2;
   left: 50%;

@@ -4,9 +4,44 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-// const Preset = require('../models/Preset');
+function findWithAttr(array, attr, val) {
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i][attr] === val) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+router.post('/save', auth, async (req, res) => {
+  let { userId } = req.tokenUser;
+  let { state, name } = req.body;
+  // console.log('state: ', state);
+
+  let presetToUpdate = `preset.${name}`;
+  User.findByIdAndUpdate(
+    userId,
+    { $set: { [presetToUpdate]: state } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      // console.log('UPDATED USER: ', updatedUser);
+      const newArray = [];
+      updatedUser.presets.forEach((preset, i) => {
+        const presetObj = {
+          text: preset.name,
+          value: preset.params,
+        };
+        newArray.push(presetObj);
+      });
+
+      const nameOfNewPreset =
+        updatedUser.presets[updatedUser.presets.length - 1].name;
+
+      return res.send({ presets: newArray, current: nameOfNewPreset });
+    })
+    .catch((err) => console.log('preset update error: ', err));
+});
 
 router.post('/savenew', auth, async (req, res) => {
   let { name, state, username } = req.body;
@@ -41,6 +76,57 @@ router.post('/savenew', auth, async (req, res) => {
     .catch((err) => console.log('save preset error: ', err));
 });
 
+router.post('/delete', auth, async (req, res) => {
+  let { name } = req.body;
+  const { userId } = req.tokenUser;
+
+  if (name === 'default') {
+    return res.send({ err: 'cannot delete default preset' });
+  }
+
+  const foundUser = await User.findById(userId);
+  if (foundUser.presets) {
+    if (!foundUser.presets.some((preset) => preset.name === name)) {
+      return res.send({ err: 'no preset found with this name' });
+    }
+  }
+
+  //// determine index/name of new current preset
+  let newIndex;
+  const deleteIndex = findWithAttr(foundUser.presets, 'name', name);
+  // const presetToDelete = foundUser.presets[currentPreset];
+  // const deleteIndex = foundUser.presets.indexOf(currentPreset);
+  console.log('deleteIndex: ', deleteIndex);
+  // console.log('deleteIndex: ', deleteIndex);
+  if (deleteIndex > 0) {
+    newIndex = deleteIndex - 1;
+  } else {
+    // newIndex = foundUser.presets.length - 2;
+    newIndex = 0;
+  }
+  console.log('newIndex: ', newIndex);
+  /////////////////////
+
+  User.findByIdAndUpdate(
+    userId,
+    { $pull: { presets: { name } } },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      const newArray = [];
+      updatedUser.presets.forEach((preset, i) => {
+        const presetObj = {
+          text: preset.name,
+          value: preset.params,
+        };
+        newArray.push(presetObj);
+      });
+      const nameOfNewCurrent = updatedUser.presets[newIndex].name;
+      return res.send({ presets: newArray, current: nameOfNewCurrent });
+    })
+    .catch((err) => console.log('save preset error: ', err));
+});
+
 // router.get('/load', auth, async (req, res) => {
 //   console.log('REQ TOKEN USER: ', req.tokenUser);
 //   const { userId } = req.tokenUser;
@@ -49,12 +135,4 @@ router.post('/savenew', auth, async (req, res) => {
 //   res.send(foundPresets);
 // });
 
-router.post('/update', auth, async (req, res) => {
-  let { userId } = req.tokenUser;
-  let { state, name } = req.body;
-
-  // User.findByIdAndUpdate(userId,{
-  //     $set: {`preset.${name}`: state }
-  // })
-});
 module.exports = router;

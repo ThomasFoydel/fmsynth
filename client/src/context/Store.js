@@ -280,7 +280,6 @@ export function reducer(state, action) {
       } else if (prop === 'filterType') {
         lfoFilter.filter._filters[0].type = value;
       } else {
-        console.log('ELSE!, ', payload);
         lfoFilter.filter._filters[0][prop] = value;
       }
       return {
@@ -391,7 +390,6 @@ export function reducer(state, action) {
         presets: {},
       };
     case 'LOAD_PRESET':
-      console.log('LOAD PRESET ACTION: ', action);
       eq.high.value = value.EQ.high;
       eq.mid.value = value.EQ.mid;
       eq.low.value = value.EQ.low;
@@ -434,7 +432,6 @@ export function reducer(state, action) {
       return { ...state, ...value, currentPreset: action.text };
 
     case 'UPDATE_PRESETS':
-      // return { ...state };
       return {
         ...state,
         presets: [...payload.presets],

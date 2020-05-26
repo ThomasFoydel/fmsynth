@@ -10,9 +10,13 @@ const Login = ({ setCurrentShow }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
+    let subscribed = true;
     setTimeout(() => {
-      setErrorMessage('');
+      if (subscribed) {
+        setErrorMessage('');
+      }
     }, 3400);
+    return () => (subscribed = false);
   }, [errorMessage]);
 
   const handleKeyDown = (e) => {
@@ -29,7 +33,6 @@ const Login = ({ setCurrentShow }) => {
     let { email, password } = formValues;
     if (email && password) {
       Axios.post('/auth/login', formValues).then((result) => {
-        console.log('RESULT: ', result);
         if (result.data.err) {
           setErrorMessage(result.data.err);
         } else {

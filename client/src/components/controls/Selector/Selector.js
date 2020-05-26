@@ -22,12 +22,10 @@ const Selector = ({ options, value, initVal, onChange, size }) => {
     const foundIndex = findWithAttr(options, 'value', value);
     initVal = initVal ? initVal : 0;
     let initIndex = foundIndex === -1 ? initVal : foundIndex;
-    console.log('INIT INDEX: ', initIndex);
     setCurrentVal(initIndex);
   }, [value]);
 
   const updateOption = (e) => {
-    console.log('current val : ', currentVal);
     if (e.target.id === 'left') {
       if (currentVal > 0) {
         setCurrentVal(currentVal - 1);
