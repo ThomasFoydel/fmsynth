@@ -48,7 +48,10 @@ const Oscillator1Controller = () => {
   };
 
   const changeNoise = (e) => {
-    updateState({ type: 'CHANGE_NOISE', payload: { prop: 'type', value: e } });
+    updateState({
+      type: 'CHANGE_NOISE',
+      payload: { prop: 'type', value: e.value },
+    });
   };
 
   const changeNoiseGain = (e) => {
