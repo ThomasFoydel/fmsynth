@@ -15,7 +15,8 @@ const Presets = () => {
   const filterOut = [
     'presets',
     'currentPage',
-    'currentRotation',
+    'currentTransform',
+    'springConfig',
     'nodes',
     'isLoggedIn',
     'user',
@@ -80,7 +81,7 @@ const Presets = () => {
       }, {});
 
     Axios.post(
-      '/presets/savenew',
+      '/presets/newsave',
       { name: presetName, state: filteredState, username: appState.user.name },
       { headers: { 'x-auth-token': foundToken } }
     )
@@ -95,6 +96,7 @@ const Presets = () => {
               current: result.data.current,
             },
           });
+          setOpenSaveAs(false);
         }
       })
       .catch((err) => console.log('save preset error: ', err));

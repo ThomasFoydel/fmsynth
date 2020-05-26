@@ -16,9 +16,11 @@ function findWithAttr(array, attr, val) {
 router.post('/save', auth, async (req, res) => {
   let { userId } = req.tokenUser;
   let { state, name } = req.body;
-  // console.log('state: ', state);
+  console.log('/save, name: ', name);
+  console.log('/save, state: ', state);
 
   let presetToUpdate = `preset.${name}`;
+
   User.findByIdAndUpdate(
     userId,
     { $set: { [presetToUpdate]: state } },
@@ -37,13 +39,13 @@ router.post('/save', auth, async (req, res) => {
 
       const nameOfNewPreset =
         updatedUser.presets[updatedUser.presets.length - 1].name;
-
+      // console.log('/save, new array: ', newArray);
       return res.send({ presets: newArray, current: nameOfNewPreset });
     })
     .catch((err) => console.log('preset update error: ', err));
 });
 
-router.post('/savenew', auth, async (req, res) => {
+router.post('/newsave', auth, async (req, res) => {
   let { name, state, username } = req.body;
   const { userId } = req.tokenUser;
 
@@ -84,6 +86,7 @@ router.post('/delete', auth, async (req, res) => {
     return res.send({ err: 'cannot delete default preset' });
   }
 
+  // check if preset exists
   const foundUser = await User.findById(userId);
   if (foundUser.presets) {
     if (!foundUser.presets.some((preset) => preset.name === name)) {
@@ -91,21 +94,14 @@ router.post('/delete', auth, async (req, res) => {
     }
   }
 
-  //// determine index/name of new current preset
+  // determine index/name of new current preset
   let newIndex;
   const deleteIndex = findWithAttr(foundUser.presets, 'name', name);
-  // const presetToDelete = foundUser.presets[currentPreset];
-  // const deleteIndex = foundUser.presets.indexOf(currentPreset);
-  console.log('deleteIndex: ', deleteIndex);
-  // console.log('deleteIndex: ', deleteIndex);
   if (deleteIndex > 0) {
     newIndex = deleteIndex - 1;
   } else {
-    // newIndex = foundUser.presets.length - 2;
     newIndex = 0;
   }
-  console.log('newIndex: ', newIndex);
-  /////////////////////
 
   User.findByIdAndUpdate(
     userId,

@@ -14,7 +14,7 @@ const Selector = ({ options, value, initVal, onChange, size }) => {
   //- initVal will set the init index,
   //- value will set the init index to the index of the item
   // in the options array with a value that matches the value prop
-  const [currentVal, setCurrentVal] = useState(initVal || 0);
+  const [currentVal, setCurrentVal] = useState(0);
 
   useEffect(() => {
     // REMOVE INIT INDEX FUNCTIONALITY REPLACE SO

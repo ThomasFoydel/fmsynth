@@ -1,15 +1,15 @@
 .presetlistselector {
   max-height: 10rem;
   overflow: scroll;
-  background: rgb(12, 12, 12);
-
+  background: rgb(40, 40, 40);
+  height: 10rem;
   .preset-option {
     height: 2.2rem;
     padding-top: 0.1rem;
     padding-left: 0.5rem;
     border-top: 1px solid rgb(165, 165, 165);
     border-bottom: 1px solid rgb(165, 165, 165);
-    background: rgba(255, 255, 255, 0.178);
+    // background: rgba(43, 43, 43, 0.378);
     cursor: pointer;
 
     &:hover {

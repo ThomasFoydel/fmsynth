@@ -42,16 +42,18 @@ export default class oscClass {
     this.start();
   }
   start() {
-    let { currentTime } = this.context;
-    this.gateGain.gain.setValueAtTime(0, currentTime + this.easing);
-    this.gateGain.gain.linearRampToValueAtTime(
-      1,
-      currentTime + this.envelope.attack + this.easing
-    );
-    this.gateGain.gain.linearRampToValueAtTime(
-      this.envelope.sustain,
-      currentTime + this.envelope.attack + this.envelope.decay + this.easing
-    );
+    if (this.context) {
+      let { currentTime } = this.context;
+      this.gateGain.gain.setValueAtTime(0, currentTime + this.easing);
+      this.gateGain.gain.linearRampToValueAtTime(
+        1,
+        currentTime + this.envelope.attack + this.easing
+      );
+      this.gateGain.gain.linearRampToValueAtTime(
+        this.envelope.sustain,
+        currentTime + this.envelope.attack + this.envelope.decay + this.easing
+      );
+    }
   }
   stop() {
     let { currentTime } = this.context;

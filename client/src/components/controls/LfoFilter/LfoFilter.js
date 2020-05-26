@@ -71,7 +71,7 @@ const LfoFilter = () => {
           <Selector
             onChange={handleType}
             size='medium'
-            initVal={0}
+            value={appState.lfoFilter.type}
             options={[
               { text: 'sine', value: 'sine' },
               { text: 'sawtooth', value: 'sawtooth' },
@@ -84,7 +84,7 @@ const LfoFilter = () => {
           <Selector
             onChange={handleRate}
             size='medium'
-            initVal={0}
+            value={appState.lfoFilter.frequency}
             options={[
               { text: '1n', value: '1n' },
               // { text: '1d', value: '1n.' },
