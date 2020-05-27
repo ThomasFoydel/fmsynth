@@ -43,15 +43,22 @@
     background: rgb(227, 227, 227);
     border: none;
     border-radius: 3px;
-    // &:hover {
-    //   border-radius: 5px;
-    //   background-color: rgb(196, 196, 196);
-    //   border-color: rgb(196, 196, 196);
-    // }
   }
 
   .login-err {
     width: 100%;
     margin-top: 0.1rem;
+  }
+  .default-user-login {
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.164);
+    position: absolute;
+    border-radius: 0.3rem;
+    left: 0;
+    transform: scale(0.55);
+    top: 8rem;
+    padding: 0.5rem 0.5rem;
+    text-align: center;
   }
 }
