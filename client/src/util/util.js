@@ -329,7 +329,6 @@ export var whiteNoise = function (audioContext) {
   */
 
 export function stopOsc(actx, release, easing, gateGain, osc) {
-  console.log('STOP OSC CALLED', osc);
   let now = actx.currentTime;
   gateGain.gain.setValueAtTime(gateGain.gain.value, now);
   gateGain.gain.cancelScheduledValues(now);

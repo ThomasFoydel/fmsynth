@@ -16,9 +16,6 @@ function findWithAttr(array, attr, val) {
 router.post('/save', auth, async (req, res) => {
   let { userId } = req.tokenUser;
   let { state, name } = req.body;
-  console.log('/save, name: ', name);
-  console.log('/save, state: ', state);
-
   let presetToUpdate = `preset.${name}`;
 
   User.findByIdAndUpdate(
@@ -27,7 +24,6 @@ router.post('/save', auth, async (req, res) => {
     { new: true }
   )
     .then((updatedUser) => {
-      // console.log('UPDATED USER: ', updatedUser);
       const newArray = [];
       updatedUser.presets.forEach((preset, i) => {
         const presetObj = {
@@ -39,7 +35,6 @@ router.post('/save', auth, async (req, res) => {
 
       const nameOfNewPreset =
         updatedUser.presets[updatedUser.presets.length - 1].name;
-      // console.log('/save, new array: ', newArray);
       return res.send({ presets: newArray, current: nameOfNewPreset });
     })
     .catch((err) => console.log('preset update error: ', err));
@@ -122,13 +117,5 @@ router.post('/delete', auth, async (req, res) => {
     })
     .catch((err) => console.log('save preset error: ', err));
 });
-
-// router.get('/load', auth, async (req, res) => {
-//   console.log('REQ TOKEN USER: ', req.tokenUser);
-//   const { userId } = req.tokenUser;
-//   const foundPresets = await Preset.find({ userId });
-//   console.log('found presets: ', foundPresets);
-//   res.send(foundPresets);
-// });
 
 module.exports = router;

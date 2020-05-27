@@ -7,7 +7,6 @@ const Envelope = () => {
   const [appState, updateState] = useContext(CTX);
 
   const handleChange = (e, prop) => {
-    console.log(prop);
     if (e === 0) {
       e = 0.5;
     }

@@ -22,24 +22,29 @@ const Register = ({ setCurrentShow }) => {
     if (email && name && password && confirmpassword) {
       Axios.post('/auth/register', formValues)
         .then((result) => {
-          console.log('RESULT: ', result);
           if (result.data.err) {
             setErrorMessage(result.data.err);
           } else {
-            console.log('SUCCES: ', result);
             setCurrentShow('login');
           }
         })
         .catch((err) => console.log('registration error: ', err));
     } else {
-      console.log('all inputs required!');
       setErrorMessage('all inputs required!');
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.charCode === 13) {
+      handleSubmit();
+    }
+  };
+
   return (
     <div className='register'>
       <div className='title'>register</div>
       <input
+        onKeyPress={handleKeyDown}
         className='center'
         type='text'
         onChange={handleChange}
@@ -48,6 +53,7 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        onKeyPress={handleKeyDown}
         className='center'
         type='email'
         onChange={handleChange}
@@ -56,6 +62,7 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        onKeyPress={handleKeyDown}
         className='center'
         type='password'
         onChange={handleChange}
@@ -64,6 +71,7 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        onKeyPress={handleKeyDown}
         className='center'
         type='password'
         onChange={handleChange}

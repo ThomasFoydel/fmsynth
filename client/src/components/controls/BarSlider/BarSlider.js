@@ -45,7 +45,6 @@ const BarSlider = ({ children, onChange, min, max, value, property, size }) => {
       newY += minimum;
 
       const newVals = { prop: property, value: newY };
-      //   console.log(newVals);
       onChange(newVals);
     }
   };

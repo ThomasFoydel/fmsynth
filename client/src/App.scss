@@ -79,7 +79,15 @@ div {
 
 button {
   outline: none;
+  cursor: pointer;
+  &:hover {
+    color: rgb(172, 68, 68);
+  }
 }
 button::-moz-focus-inner {
   border: 0;
+}
+
+input:focus {
+  outline-color: rgba(205, 38, 38, 0.644);
 }

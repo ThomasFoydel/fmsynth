@@ -11,7 +11,6 @@ module.exports = function (req, res, next) {
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      console.log('expired');
       return res.status(401).send({ msg: 'token expired' });
     }
     res.status(401).json({ msg: 'Authorizaton denied' });

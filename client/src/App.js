@@ -34,7 +34,6 @@ function App() {
             headers: { 'x-auth-token': foundToken },
           })
             .then((result) => {
-              console.log('RESULT: ', result);
               if (!result.data.err) {
                 updateState({
                   type: 'LOGIN',
@@ -45,7 +44,6 @@ function App() {
               }
             })
             .catch((err) => {
-              console.log(err);
               updateState({
                 type: 'LOGOUT',
               });

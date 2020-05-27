@@ -39,7 +39,6 @@ const Presets = () => {
   };
 
   const handleSave = async (e) => {
-    console.log('HANDLE SAVE');
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
       .reduce((obj, key) => {
