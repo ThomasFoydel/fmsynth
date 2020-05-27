@@ -1,54 +1,16 @@
-.presetlistselector {
-  max-height: 10rem;
-  overflow: scroll;
-  background: rgb(40, 40, 40);
-  height: 10rem;
-  .preset-option {
-    height: 2.2rem;
-    padding-top: 0.1rem;
-    padding-left: 0.5rem;
-    border-top: 1px solid rgb(165, 165, 165);
-    border-bottom: 1px solid rgb(165, 165, 165);
-    // background: rgba(43, 43, 43, 0.378);
-    cursor: pointer;
-
-    &:hover {
-      background: rgba(249, 249, 249, 0.962);
-      color: rgb(162, 6, 6);
-    }
-  }
-
-  .current-true {
-    cursor: default;
-    background: rgb(238, 71, 71);
-    color: rgb(26, 26, 26);
-    border-color: rgb(238, 71, 71);
-
-    &:hover {
-      background: rgb(238, 71, 71);
-      color: rgb(26, 26, 26);
-    }
-    // border-color: rgb(244, 244, 244);
-    // border-top: 1px solid white;
-    // border-bottom: 1px solid white;
-  }
-}
-
-.save-as,
-.save-over {
-  background: rgb(45, 45, 45);
-  z-index: 2;
-  left: 50%;
-  transform: translateX(-50%);
-  //   position: absolute;
-  top: 0;
-  height: 5rem;
+.presets {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  border-radius: 5px;
+  min-height: 23rem;
+  padding: 1rem;
 
   .close-btn {
+    cursor: pointer;
     height: 2rem;
     width: 2rem;
-    // position: absolute;
-    top: 0;
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
     background: rgb(164, 12, 12);
     clip-path: polygon(
       20% 0%,
@@ -67,5 +29,112 @@
     &:hover {
       background: rgb(216, 76, 76);
     }
+  }
+  .confirm-btn {
+    position: absolute;
+    bottom: 0.3rem;
+    width: 7rem;
+    height: 1.8rem;
+    text-align: center;
+  }
+  .confirm-text {
+    text-align: center;
+    font-size: 0.5rem;
+    line-height: 1.2rem;
+    width: 21rem;
+    overflow: hidden;
+  }
+  .save-as-input {
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 13rem;
+    margin-top: 0.5rem;
+  }
+}
+
+.presetlistselector {
+  max-height: 10rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: rgb(40, 40, 40);
+  height: 10rem;
+  max-width: 23rem;
+  border-radius: 5px;
+  padding-bottom: 2rem;
+
+  .preset-option {
+    height: 2.2rem;
+    padding-top: 0.1rem;
+    padding-left: 0.5rem;
+    border-top: 1px solid rgb(165, 165, 165);
+    border-bottom: 1px solid rgb(165, 165, 165);
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(249, 249, 249, 0.962);
+      color: rgb(133, 5, 5);
+      font-weight: bold;
+    }
+  }
+
+  .current-true {
+    // cursor: default;
+    background: rgb(238, 71, 71);
+    color: rgb(26, 26, 26);
+    border-color: rgb(238, 71, 71);
+    font-weight: bold;
+
+    &:hover {
+      background: rgb(238, 71, 71);
+      color: rgb(26, 26, 26);
+    }
+    // border-color: rgb(244, 244, 244);
+    // border-top: 1px solid white;
+    // border-bottom: 1px solid white;
+  }
+}
+
+.save-as,
+.save-over,
+.delete-open {
+  background: rgb(45, 45, 45);
+  z-index: 2;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  height: 5rem;
+  width: 21rem;
+  position: relative;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.delete-open {
+}
+
+.presetselector {
+  margin-bottom: 0.4rem;
+  width: 21rem;
+
+  .value {
+    overflow: hidden;
+  }
+}
+
+.open-btns {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  button {
+    cursor: pointer;
+    width: 7rem;
+    height: 2rem;
   }
 }

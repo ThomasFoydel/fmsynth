@@ -10,7 +10,7 @@ function findWithAttr(array, attr, val) {
   return -1;
 }
 
-const PresetsSelector = () => {
+const PresetsSelector = ({ closeSaveDelete }) => {
   const [appState, updateState] = useContext(CTX);
   const { presets, currentPreset } = appState;
   const currentIndex = findWithAttr(presets, 'text', currentPreset);
@@ -35,6 +35,8 @@ const PresetsSelector = () => {
       }
     }
 
+    closeSaveDelete();
+
     updateState({
       type: 'LOAD_PRESET',
       payload: newCurrent,
@@ -43,18 +45,16 @@ const PresetsSelector = () => {
   };
 
   return (
-    <div>
-      <div className={`selector selector-large center`}>
-        <div className='option'>
-          <div className='left-button' id='left' onClick={handleSelector}>
-            {'<'}
-          </div>
-          {presets[currentIndex] && (
-            <div className='value'>{presets[currentIndex].text}</div>
-          )}
-          <div className='right-button' id='right' onClick={handleSelector}>
-            {'>'}
-          </div>
+    <div className={`selector center presetselector`}>
+      <div className='option'>
+        <div className='left-button' id='left' onClick={handleSelector}>
+          {'<'}
+        </div>
+        {presets[currentIndex] && (
+          <div className='value'>{presets[currentIndex].text}</div>
+        )}
+        <div className='right-button' id='right' onClick={handleSelector}>
+          {'>'}
         </div>
       </div>
     </div>

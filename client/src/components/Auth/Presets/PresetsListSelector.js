@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 
 import { CTX } from 'context/Store';
-const PresetsListSelector = () => {
+const PresetsListSelector = ({ closeSaveDelete }) => {
   const [appState, updateState] = useContext(CTX);
   const presets = appState.presets;
 
-  useEffect(() => {}, [appState.currentPreset]);
+  // useEffect(() => {}, [appState.currentPreset]);
 
   const handleSelection = (e) => {
     const { id } = e.target;
@@ -16,6 +16,7 @@ const PresetsListSelector = () => {
         payload: { value: presetParams[0].value },
         text: id,
       });
+      closeSaveDelete();
     }
   };
   return (

@@ -11,6 +11,7 @@ const Presets = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [openSaveAs, setOpenSaveAs] = useState(false);
   const [saveOverOpen, setSaveOverOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const foundToken = localStorage.getItem('fmsynth-token');
   const filterOut = [
     'presets',
@@ -97,6 +98,7 @@ const Presets = () => {
             },
           });
           setOpenSaveAs(false);
+          setPresetName('');
         }
       })
       .catch((err) => console.log('save preset error: ', err));
@@ -118,6 +120,7 @@ const Presets = () => {
     )
       .then((result) => {
         if (result.data.err) {
+          setDeleteOpen(false);
           setErrorMessage(result.data.err);
         } else {
           updateState({
@@ -127,46 +130,99 @@ const Presets = () => {
               current: result.data.current,
             },
           });
+          setDeleteOpen(false);
         }
       })
-      .catch((err) => console.log('save preset error: ', err));
+      .catch((err) => {
+        console.log('save preset error: ', err);
+      });
+  };
+
+  const openTheSave = () => {
+    setSaveOverOpen(!saveOverOpen);
+    setOpenSaveAs(false);
+    setDeleteOpen(false);
+  };
+
+  const openTheSaveAs = () => {
+    setOpenSaveAs(!openSaveAs);
+    setSaveOverOpen(false);
+    setDeleteOpen(false);
+  };
+
+  const openTheDelete = () => {
+    setDeleteOpen(!deleteOpen);
+    setOpenSaveAs(false);
+    setSaveOverOpen(false);
+  };
+
+  const closeSaveDelete = () => {
+    setDeleteOpen(false);
+    setOpenSaveAs(false);
+    setSaveOverOpen(false);
   };
 
   return (
-    <div>
+    <div className='presets'>
+      <button className='logout-btn' onClick={handleLogOut}>
+        logout
+      </button>
+
+      <PresetsSelector closeSaveDelete={closeSaveDelete} />
+      <PresetsListSelector closeSaveDelete={closeSaveDelete} />
+
+      <div className='open-btns'>
+        <button onClick={openTheSave}>save</button>
+        <button onClick={openTheSaveAs}>save as...</button>
+        <button onClick={openTheDelete}>delete</button>
+      </div>
+
       {openSaveAs && (
         <div className='save-as'>
-          <div className='close-btn' onClick={() => setOpenSaveAs(false)}></div>
+          <div className='close-btn' onClick={() => setOpenSaveAs(false)} />
           <input
+            className='save-as-input'
             type='text'
             placeholder='name...'
             onChange={handleName}
             value={presetName}
             dontbubble='true'
+            maxLength='20'
           />
-          <button onClick={handleSaveAs}>save as</button>
+          <button className='confirm-btn center' onClick={handleSaveAs}>
+            save
+          </button>
         </div>
       )}
       {saveOverOpen && (
         <div className='save-over'>
-          save over {appState.currentPreset}
-          <button
-            // className='close-btn'
-            onClick={() => setSaveOverOpen(false)}
-          >
-            cancel
+          <div className='close-btn' onClick={() => setSaveOverOpen(false)} />
+          <div className='confirm-text'>
+            save over
+            <br />
+            {appState.currentPreset}?
+          </div>
+          <button className='confirm-btn center' onClick={handleSave}>
+            confirm
           </button>
-          <button onClick={handleSave}>confirm</button>
         </div>
       )}
 
-      <button onClick={() => setSaveOverOpen(true)}>save</button>
-      <button onClick={() => setOpenSaveAs(true)}>save as...</button>
-      <button onClick={handleDelete}>delete</button>
+      {deleteOpen && (
+        <div className='delete-open'>
+          <div className='close-btn' onClick={() => setDeleteOpen(false)} />
+          <div className='confirm-text'>
+            delete
+            <br />
+            {appState.currentPreset}?
+          </div>
+          <button className='confirm-btn center' onClick={handleDelete}>
+            confirm
+          </button>
+        </div>
+      )}
+
       <div className='error-message'>{errorMessage}</div>
-      <PresetsSelector />
-      <PresetsListSelector />
-      <button onClick={handleLogOut}>logout</button>
     </div>
   );
 };
