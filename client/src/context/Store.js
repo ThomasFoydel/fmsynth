@@ -365,16 +365,20 @@ export function reducer(state, action) {
       };
     case 'LOGIN':
       let { user, token } = payload;
+      console.log('login payload: ', payload);
+
       localStorage.setItem('fmsynth-token', token);
       const presetsArray = [];
-      user.presets.forEach((preset, i) => {
-        const presetObj = {
-          text: preset.name,
-          value: preset.params,
-        };
-        presetsArray.push(presetObj);
-      });
 
+      if (user.presets) {
+        user.presets.forEach((preset, i) => {
+          const presetObj = {
+            text: preset.name,
+            value: preset.params,
+          };
+          presetsArray.push(presetObj);
+        });
+      }
       return {
         ...state,
         isLoggedIn: true,
