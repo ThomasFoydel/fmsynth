@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
     return res.send({ err: 'Passwords do not match' });
   }
   if (!email.includes('@') || !email.includes('.')) {
-    return res.send({ err: 'Email input invalid' });
+    return res.send({ err: 'Valid email required' });
   }
 
   const existingUser = await User.findOne({ email: email });

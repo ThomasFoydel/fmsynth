@@ -50,8 +50,9 @@ const Login = ({ setCurrentShow }) => {
   };
   return (
     <div className='login'>
-      <div className='center'>login</div>
+      <div className='title'>sign in</div>
       <input
+        className='center'
         type='email'
         onKeyPress={handleKeyDown}
         onChange={handleChange}
@@ -60,6 +61,7 @@ const Login = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        className='center'
         type='password'
         onKeyPress={handleKeyDown}
         placeholder='password'
@@ -67,9 +69,18 @@ const Login = ({ setCurrentShow }) => {
         id='password'
         dontbubble='true'
       />
-      <button onClick={handleSubmit}>sign in</button>
-      <button onClick={() => setCurrentShow('register')}>sign up</button>
-      <div className='center'>{errorMessage}</div>
+      <div className='btns-container center'>
+        <button className='signin-btn' onClick={handleSubmit}>
+          sign in
+        </button>
+        <button
+          className='signup-btn'
+          onClick={() => setCurrentShow('register')}
+        >
+          sign up
+        </button>
+      </div>
+      <div className='login-err center'>{errorMessage}</div>
     </div>
   );
 };

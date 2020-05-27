@@ -33,12 +33,14 @@ const Register = ({ setCurrentShow }) => {
         .catch((err) => console.log('registration error: ', err));
     } else {
       console.log('all inputs required!');
+      setErrorMessage('all inputs required!');
     }
   };
   return (
     <div className='register'>
-      <div className='center'>register</div>
+      <div className='title'>register</div>
       <input
+        className='center'
         type='text'
         onChange={handleChange}
         placeholder='name'
@@ -46,6 +48,7 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        className='center'
         type='email'
         onChange={handleChange}
         placeholder='email'
@@ -53,6 +56,7 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        className='center'
         type='password'
         onChange={handleChange}
         placeholder='password'
@@ -60,18 +64,23 @@ const Register = ({ setCurrentShow }) => {
         dontbubble='true'
       />
       <input
+        className='center'
         type='password'
         onChange={handleChange}
-        placeholder='confirmpassword'
+        placeholder='confirm password'
         id='confirmpassword'
         dontbubble='true'
       />
-      <button onClick={handleSubmit}>submit</button>
-      <button onClick={() => setCurrentShow('login')}>
+      <button className='center register-btn' onClick={handleSubmit}>
+        submit
+      </button>
+      <button
+        className='center signin-btn'
+        onClick={() => setCurrentShow('login')}
+      >
         i already have an account
       </button>
-
-      {errorMessage}
+      <div className='err-msg'>{errorMessage}</div>
     </div>
   );
 };
