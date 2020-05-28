@@ -84,7 +84,7 @@ router.post('/login', (req, res) => {
           name: user.name,
           presets: user.presets,
         };
-
+        console.log('Auth.js route, userInfo: ', userInfo);
         res.json({
           status: 'success',
           message: 'Login successful',

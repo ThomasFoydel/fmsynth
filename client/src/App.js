@@ -35,6 +35,7 @@ function App() {
           })
             .then((result) => {
               if (!result.data.err) {
+                console.log('App.js line 38 login result: ', result.data);
                 updateState({
                   type: 'LOGIN',
                   payload: { user: result.data, token: foundToken },
