@@ -117,6 +117,10 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .delete-open {
@@ -137,7 +141,7 @@
   justify-content: space-around;
   button {
     cursor: pointer;
-    width: 7rem;
+    width: 6.5rem;
     height: 2rem;
   }
 }
