@@ -329,6 +329,7 @@ export function reducer(state, action) {
       return { ...state, pingPong: { ...state.pingPong, feedback: payload } };
 
     case 'CHANGE_REVERB_IMPULSE':
+      console.log('store CHANGE_REVERB_IMPULSE payload: ', payload);
       reverb.load(impulses[payload]);
       return { ...state, reverb: { ...state.reverb, impulse: payload } };
     case 'CHANGE_REVERB_MIX':
