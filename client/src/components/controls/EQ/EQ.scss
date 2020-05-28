@@ -5,6 +5,7 @@
   width: 90%;
   margin-left: 50%;
   transform: translateX(-50%);
+  padding-top: 0.1rem;
 
   .sliders {
     display: flex;
@@ -28,7 +29,6 @@
     margin-bottom: 0.3rem;
   }
   .name {
-    // color: rgb(255, 56, 56);
     letter-spacing: 1rem;
     margin-left: 1.1rem;
     transform: translateX(0%) translateY(-0.3rem);
