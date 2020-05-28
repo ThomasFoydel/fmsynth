@@ -433,7 +433,6 @@ export function reducer(state, action) {
       return { ...state, ...value, currentPreset: action.text };
 
     case 'UPDATE_PRESETS':
-      console.log('UPDATE PRESETS ACTION: ', action);
       return {
         ...state,
         presets: [...payload.presets],

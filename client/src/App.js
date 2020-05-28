@@ -43,9 +43,9 @@ function App() {
               }
             })
             .catch((err) => {
-              // updateState({
-              //   type: 'LOGOUT',
-              // });
+              updateState({
+                type: 'LOGOUT',
+              });
             });
         };
         setAuthInfo();
