@@ -12,6 +12,9 @@ const app = express();
 const port = process.env.PORT || 8000;
 app.use(bodyParser.json());
 
+app.use('/auth', authRoutes);
+app.use('/presets', presetsRoutes);
+
 // static file declaration
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cors());
@@ -20,12 +23,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
   //
   app.get('*', (req, res) => {
-    res.sendfile(path.join((__dirname = 'client/build/index.html')));
+    res.sendFile(path.join((__dirname = 'client/build/index.html')));
   });
 }
-
-app.use('/auth', authRoutes);
-app.use('/presets', presetsRoutes);
 
 // build mode
 app.get('*', (req, res) => {
