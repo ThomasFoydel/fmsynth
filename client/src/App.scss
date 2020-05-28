@@ -17,8 +17,7 @@ html {
   background-size: cover;
   min-height: 50rem;
   height: 100vh;
-  // min-width: 1200px;
-  // background-color: rgb(138, 34, 34);
+
   background-size: cover;
   background: radial-gradient(
       rgba(50, 50, 50, 0.8) 5%,
@@ -26,12 +25,6 @@ html {
       rgba(255, 255, 255, 0.98) 90%
     ),
     url('./imgs/833.jpg');
-  // background: radial-gradient(
-  //     rgba(187, 26, 26, 0.954) 5%,
-  //     rgba(0, 0, 0, 0.85) 75%
-  //   ),
-  //   url('./imgs/833.jpg') no-repeat;
-  // linear-gradient(135deg, rgba(179, 0, 255, 0.217), rgba(255, 0, 0, 0.447)),
 }
 
 body {
@@ -51,11 +44,6 @@ body {
   transform: translateX(-50%);
   text-align: center;
 }
-
-// .synth-name {
-//   font-family: 'Anton', sans-serif;
-//   font-size: 9rem;
-// }
 
 h1,
 h2,

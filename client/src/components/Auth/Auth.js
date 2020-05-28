@@ -7,7 +7,7 @@ import './Auth.scss';
 import { CTX } from 'context/Store';
 
 const Auth = () => {
-  const [appState, updateState] = useContext(CTX);
+  const [appState] = useContext(CTX);
   const [currentShow, setCurrentShow] = useState('login');
 
   return (

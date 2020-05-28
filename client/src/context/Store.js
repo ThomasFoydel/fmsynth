@@ -365,11 +365,8 @@ export function reducer(state, action) {
       };
     case 'LOGIN':
       let { user, token } = payload;
-      console.log('login payload: ', payload);
-
       localStorage.setItem('fmsynth-token', token);
       const presetsArray = [];
-
       if (user.presets) {
         user.presets.forEach((preset, i) => {
           const presetObj = {
@@ -436,6 +433,7 @@ export function reducer(state, action) {
       return { ...state, ...value, currentPreset: action.text };
 
     case 'UPDATE_PRESETS':
+      console.log('UPDATE PRESETS ACTION: ', action);
       return {
         ...state,
         presets: [...payload.presets],

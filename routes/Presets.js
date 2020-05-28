@@ -16,11 +16,19 @@ function findWithAttr(array, attr, val) {
 router.post('/save', auth, async (req, res) => {
   let { userId } = req.tokenUser;
   let { state, name } = req.body;
-  let presetToUpdate = `preset.${name}`;
+  if (name === 'default') {
+    return res.send({ err: 'cannot save over default' });
+  }
+
+  const foundUser = await User.findById(userId);
+  const foundPresets = foundUser.presets;
+
+  const indexOfPresetToUpdate = findWithAttr(foundPresets, 'name', name);
+  foundPresets[indexOfPresetToUpdate].params = state;
 
   User.findByIdAndUpdate(
     userId,
-    { $set: { [presetToUpdate]: state } },
+    { $set: { presets: foundPresets } },
     { new: true }
   )
     .then((updatedUser) => {

@@ -25,7 +25,6 @@ const Dino = () => {
     });
   };
   const handleFmGain = (e) => {
-    // let { value } = e.target;
     if (e === 0) {
       e = 0.00001;
     }
@@ -53,18 +52,6 @@ const Dino = () => {
               ]}
             />
           </div>
-          {/* <div
-          className='frequency'
-          style={{
-            color: 'white',
-            background: `rgba(${
-              (appState.fm1Settings.freqOffset / 2000) * 255
-            }, 0, 0, 1)`,
-          }}
-        >
-          frequency offset: {appState.fm1Settings.freqOffset}
-        </div> */}
-
           <div className='param frequency'>
             <InputRange
               formatLabel={(value, type) => `${value * 20}Hz`}
@@ -77,17 +64,6 @@ const Dino = () => {
             />
             <div className='param-name center'>frequency</div>
           </div>
-          {/* <div
-          className='gain'
-          style={{
-            color: 'white',
-            background: `rgba(${
-              (appState.fm1Settings.gain / 10000) * 255
-            }, 0, 0, 1)`,
-          }}
-        >
-          gain: {Math.floor(appState.fm1Settings.gain)}
-        </div> */}
           <div className='param gain'>
             <InputRange
               formatLabel={(value, type) => `${value * 100}`}

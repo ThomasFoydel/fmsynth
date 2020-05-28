@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { CTX } from 'context/Store';
 
 const Login = ({ setCurrentShow }) => {
-  const [appState, updateState] = useContext(CTX);
+  const [, updateState] = useContext(CTX);
   const [formValues, setFormValues] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 

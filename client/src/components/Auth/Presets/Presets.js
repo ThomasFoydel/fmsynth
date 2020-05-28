@@ -45,7 +45,6 @@ const Presets = () => {
         obj[key] = appState[key];
         return obj;
       }, {});
-
     Axios.post(
       '/presets/save',
       {
@@ -56,18 +55,18 @@ const Presets = () => {
       { headers: { 'x-auth-token': foundToken } }
     )
       .then((result) => {
-        console.log('PRESETS SAVE /UPDATE: .then RESULT: ', result);
-        // if (result.data.err) {
-        //   setErrorMessage(result.data.err);
-        // } else {
-        //   updateState({
-        //     type: 'UPDATE_PRESETS',
-        //     payload: {
-        //       presets: result.data.presets,
-        //       current: result.data.current,
-        //     },
-        // });
-        // }
+        if (result.data.err) {
+          setErrorMessage(result.data.err);
+        } else {
+          updateState({
+            type: 'UPDATE_PRESETS',
+            payload: {
+              presets: result.data.presets,
+              current: result.data.current,
+            },
+          });
+        }
+        setSaveOverOpen(false);
       })
       .catch((err) => console.log('save preset error: ', err));
   };
@@ -102,14 +101,6 @@ const Presets = () => {
       })
       .catch((err) => console.log('save preset error: ', err));
   };
-  // const handleLoad = async (e) => {
-  //   const foundToken = localStorage.getItem('fmsynth-token');
-  //   if (foundToken) {
-  //     Axios.get('/presets/load', { headers: { 'x-auth-token': foundToken } })
-  //       .then((result) => console.log('load presets result: ', result))
-  //       .catch((err) => console.log('load presets err: ', err));
-  //   }
-  // };
 
   const handleDelete = async (e) => {
     Axios.post(
@@ -138,18 +129,21 @@ const Presets = () => {
   };
 
   const openTheSave = () => {
+    setErrorMessage('');
     setSaveOverOpen(!saveOverOpen);
     setOpenSaveAs(false);
     setDeleteOpen(false);
   };
 
   const openTheSaveAs = () => {
+    setErrorMessage('');
     setOpenSaveAs(!openSaveAs);
     setSaveOverOpen(false);
     setDeleteOpen(false);
   };
 
   const openTheDelete = () => {
+    setErrorMessage('');
     setDeleteOpen(!deleteOpen);
     setOpenSaveAs(false);
     setSaveOverOpen(false);
@@ -221,7 +215,7 @@ const Presets = () => {
         </div>
       )}
 
-      <div className='error-message'>{errorMessage}</div>
+      <div className='error-message center'>{errorMessage}</div>
     </div>
   );
 };
