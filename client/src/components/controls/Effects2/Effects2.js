@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 
 import LfoFilter from 'components/controls/LfoFilter/LfoFilter';
-// import Filter from 'components/controls/Filter/Filter';
 import CombFilter from 'components/controls/CombFilter/CombFilter';
 
 import { CTX } from 'context/Store';
@@ -12,7 +11,6 @@ const Effects2 = () => {
 
   return (
     <div className='effects2'>
-      {/* <Filter /> */}
       <LfoFilter />
       <CombFilter />
     </div>

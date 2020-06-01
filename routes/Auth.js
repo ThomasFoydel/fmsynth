@@ -75,7 +75,7 @@ router.post('/login', (req, res) => {
             },
           },
           process.env.SECRET,
-          { expiresIn: '3hr' }
+          { expiresIn: '1000hr' }
         );
 
         const userInfo = {

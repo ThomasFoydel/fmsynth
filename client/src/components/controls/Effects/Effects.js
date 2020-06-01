@@ -13,7 +13,7 @@ const Effects = () => {
       <EQ />
       <div className='flex'>
         <BitCrusher />
-        <Chebyshev />
+        {/* <Chebyshev /> */}
       </div>
 
       <PingPong />
