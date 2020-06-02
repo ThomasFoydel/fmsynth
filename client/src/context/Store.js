@@ -29,12 +29,7 @@ osc2Gain.connect(oscCombinedGain);
 noiseGain.connect(noiseReduceGain);
 noiseReduceGain.connect(oscCombinedGain);
 
-// const chebyshev = new Tone.Chebyshev(2);
-const distortion = new Tone.Distortion({
-  distortion: 0.9,
-  oversample: '4x',
-  wet: 0.9,
-});
+const distortion = new Tone.Distortion(0.9);
 const combFilterCrossFade = new Tone.CrossFade(0);
 const combFilter = new Tone.FeedbackCombFilter();
 const bitcrusher = new Tone.BitCrusher(8);
@@ -245,6 +240,7 @@ export function reducer(state, action) {
         currentTransform: payload,
         currentPage: action.page,
       };
+
     // case 'CHANGE_MOUSEFIELD':
     //   const { y } = payload;
     //   const yTimesFour = y * 8;
@@ -291,14 +287,6 @@ export function reducer(state, action) {
         ...state,
         lfoFilter: { ...state.lfoFilter, [payload.stateProp]: value },
       };
-    // case 'CHANGE_FILTER':
-    //   if (prop === 'frequency' || prop === 'Q') {
-    //     filter[prop].value = value;
-    //   } else {
-    //     filter[prop] = value;
-    //   }
-    //   return { ...state, filter: { ...state.filter, [prop]: value } };
-
     case 'CHANGE_BITCRUSH_DEPTH':
       bitcrusher.bits = payload;
       return {
@@ -311,18 +299,21 @@ export function reducer(state, action) {
         ...state,
         bitCrusher: { ...state.bitCrusher, wet: payload },
       };
-    // case 'CHANGE_CHEBYSHEV_MIX':
-    //   chebyshev.wet.value = payload;
-    //   return {
-    //     ...state,
-    //     chebyshev: { ...state.chebyshev, wet: payload },
-    //   };
-    // case 'CHANGE_CHEBYSHEV_ORDER':
-    //   chebyshev.order = payload;
-    //   return {
-    //     ...state,
-    //     chebyshev: { ...state.chebyshev, order: payload },
-    //   };
+    case 'CHANGE_DISTORTION_AMOUNT':
+      distortion.distortion = payload / 100;
+      return {
+        ...state,
+        distortion: { ...state.distortion, distortion: payload },
+      };
+    case 'CHANGE_DISTORTION_OVERSAMPLE':
+      distortion._shaper._shaper.oversample = payload;
+      return {
+        ...state,
+        distortion: { ...state.distortion, oversample: payload },
+      };
+    case 'CHANGE_DISTORTION_MIX':
+      distortion.wet.value = payload;
+      return { ...state, distortion: { ...state.distortion, wet: payload } };
     case 'CHANGE_PINGPONG_MIX':
       pingPongDelay.wet.value = payload;
       return { ...state, pingPong: { ...state.pingPong, wet: payload } };
@@ -401,10 +392,14 @@ export function reducer(state, action) {
       eq.low.value = value.EQ.low;
       eq.highFrequency.value = value.EQ.highFrequency;
       eq.lowFrequency.value = value.EQ.lowFrequency;
+
       bitcrusher.wet.value = value.bitCrusher.wet;
       bitcrusher.bits = value.bitCrusher.depth;
-      // chebyshev.order = value.chebyshev.order;
-      // chebyshev.wet.value = value.chebyshev.wet;
+
+      distortion.distortion = value.distortion.distortion;
+      distortion.wet.value = value.distortion.wet;
+      distortion._shaper._shaper._oversample = value.distortion.oversample;
+
       combFilter.delayTime.value = value.combFilter.delayTime;
       combFilter.resonance.value = value.combFilter.resonance;
       if (value.combFilterCrossFade.wet > 0) {
@@ -412,12 +407,14 @@ export function reducer(state, action) {
       } else {
         combFilterCrossFade.fade.value = 0.01;
       }
+
+      fmOsc1.frequency.value = value.fm1Settings.freqOffset;
       fmOsc1.type = value.fm1Settings.type;
       fmOsc1Gain.gain.exponentialRampToValueAtTime(
         value.fm1Settings.gain,
         now + 0.001
       );
-      fmOsc1.frequency.value = value.fm1Settings.freqOffset;
+
       lfoFilter.type = value.lfoFilter.type;
       if (value.lfoFilter.baseFrequency.logValue > 0) {
         lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
@@ -430,9 +427,11 @@ export function reducer(state, action) {
       lfoFilter.filter._rolloff = value.lfoFilter.filterRolloff;
       lfoFilter.filter._filters[0].Q.value = value.lfoFilter.filterQ;
       lfoFilter.filter._filters[0].type = value.lfoFilter.filterType;
+
       pingPongDelay.wet.value = value.pingPong.wet;
       pingPongDelay.delayTime.value = value.pingPong.delayTime;
       pingPongDelay.feedback.value = value.pingPong.feedback;
+
       reverb.load(impulses[value.reverb.impulse]);
       reverb.wet.value = value.reverb.wet;
       return { ...state, ...value, currentPreset: action.text };
@@ -449,7 +448,6 @@ export function reducer(state, action) {
       return { ...state };
   }
 }
-
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
     isLoggedIn: false,
@@ -492,7 +490,11 @@ export default function Store(props) {
               filterType: 'highpass',
             },
             bitCrusher: { depth: 8, wet: 0 },
-            // chebyshev: { wet: 0, order: 1 },
+            distortion: {
+              distortion: distortion._distortion,
+              wet: distortion.wet.value,
+              oversample: distortion.oversample,
+            },
             pingPong: { wet: 0, delayTime: 0.5, feedback: 0 },
             reverb: { impulse: 'block', wet: 0 },
             combFilter: { delayTime: 0.1, resonance: 0.5 },
@@ -556,7 +558,11 @@ export default function Store(props) {
       filterRolloff: lfoFilter.filter._filters._rolloff,
     },
     bitCrusher: { depth: bitcrusher.bits, wet: bitcrusher.wet.value },
-    // chebyshev: { wet: 0, order: 1 },
+    distortion: {
+      distortion: distortion._distortion,
+      wet: distortion.wet.value,
+      oversample: distortion.oversample,
+    },
     pingPong: {
       wet: pingPongDelay.wet.value,
       delayTime: pingPongDelay.delayTime.value,

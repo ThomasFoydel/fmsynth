@@ -72,7 +72,6 @@ export default class oscClass {
       }
       return curve;
     }
-
     var now = currentTime;
     this.gateGain.gain.cancelScheduledValues(0);
     var currentVol = this.gateGain.gain.value;

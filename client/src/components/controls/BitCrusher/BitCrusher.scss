@@ -1,9 +1,9 @@
 .bitcrusher {
   background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
   width: 9rem;
-  height: 6.4rem;
+  height: 6.2rem;
   border-radius: 5px;
-  margin: 0.5rem 0.25rem;
+  margin-right: 0.5rem;
 
   .name {
     height: 1.2rem;
@@ -28,5 +28,6 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    transform: scale(0.8);
   }
 }

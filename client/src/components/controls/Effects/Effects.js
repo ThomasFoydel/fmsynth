@@ -1,6 +1,6 @@
 import React from 'react';
 import BitCrusher from 'components/controls/BitCrusher/BitCrusher';
-import Chebyshev from 'components/controls/Chebyshev/Chebyshev';
+import Distortion from 'components/controls/Distortion/Distortion';
 import PingPong from 'components/controls/PingPong/PingPong';
 import Reverb from 'components/controls/Reverb/Reverb';
 import EQ from 'components/controls/EQ/EQ';
@@ -11,12 +11,11 @@ const Effects = () => {
   return (
     <div className='effects'>
       <EQ />
+      <Distortion />
       <div className='flex'>
         <BitCrusher />
-        {/* <Chebyshev /> */}
+        <PingPong />
       </div>
-
-      <PingPong />
 
       <Reverb />
     </div>

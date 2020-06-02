@@ -26,12 +26,17 @@
     width: 80%;
     margin-left: 50%;
     transform: translateX(-50%);
-    margin-bottom: 0.3rem;
+    margin-top: 1.8rem;
+    margin-bottom: 1rem;
   }
   .name {
-    letter-spacing: 1rem;
-    margin-left: 1.1rem;
-    transform: translateX(0%) translateY(-0.3rem);
+    position: absolute;
+    letter-spacing: 0.5rem;
+    width: 2.6rem;
+    top: -1.6rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
     text-align: center;
+    z-index: -1;
   }
 }

@@ -15,6 +15,15 @@ const EQ = () => {
   };
   return (
     <div className='EQ'>
+      <div className='range-slider'>
+        <LogarithmicRange
+          onChange={handleRange}
+          label={'Hz'}
+          maxVal={20000}
+          initVal={appState.EQ}
+        />
+        <div className='name'>EQ</div>
+      </div>
       <div className='sliders'>
         <div className='param'>
           <Slider
@@ -49,15 +58,6 @@ const EQ = () => {
           />
           <div className='label'>high</div>
         </div>
-      </div>
-      <div className='range-slider'>
-        <LogarithmicRange
-          onChange={handleRange}
-          label={'Hz'}
-          maxVal={20000}
-          initVal={appState.EQ}
-        />
-        <div className='name'>EQ</div>
       </div>
     </div>
   );
