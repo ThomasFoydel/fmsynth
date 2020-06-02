@@ -94,7 +94,7 @@ let nodes = [];
 export function reducer(state, action) {
   let { payload } = action;
   let { prop, value } = payload ? payload : {};
-  console.log(state.distortion);
+
   switch (action.type) {
     case 'MAKE_OSC':
       const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);

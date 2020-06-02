@@ -54,7 +54,7 @@ const Login = ({ setCurrentShow }) => {
       <div className='default-user-login'>
         for testing:
         <br />
-        email: name@gmail.com
+        email: test@gmail.com
         <br />
         password: password
       </div>

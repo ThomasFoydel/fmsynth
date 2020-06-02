@@ -190,7 +190,7 @@ const Oscillator1Controller = () => {
           <div className='osc-selector'>
             <Selector
               size='small'
-              // value={appState.subOscSettings.type}
+              value={appState.subOscSettings.type}
               onChange={(e) => changeSubOsc({ value: e.value, prop: 'type' })}
               options={[
                 { text: 'sine', value: 'sine' },
