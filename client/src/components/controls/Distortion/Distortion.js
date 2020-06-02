@@ -23,7 +23,7 @@ const Distortion = () => {
 
   return (
     <div className='distortion'>
-      <div className='name'>distortion</div>
+      <div className='title-name'>distortion</div>
       <div className='sliders-container'>
         <div className='param'>
           <div className='name'>oversample</div>

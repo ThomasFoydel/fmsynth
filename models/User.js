@@ -50,7 +50,7 @@ const userSchema = {
           filterType: 'highpass',
         },
         bitCrusher: { depth: 8, wet: 0 },
-        chebyshev: { wet: 0, order: 1 },
+        distortion: { wet: 0, distortion: 0.9, oversample: 'none' },
         pingPong: { wet: 0, delayTime: 0.5, feedback: 0 },
         reverb: { impulse: 'block', wet: 0 },
         combFilter: { delayTime: 0.1, resonance: 0.5 },
