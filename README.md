@@ -1,8 +1,6 @@
-# an fm synth for the browser
+<div align="center"><h1>fm synth</h1></div>
 
-<div align="center"> <h1>fm synth</h1></div>
-
-<div align="center"><h5>A synthesizer for the browser <a href="http://fm-synth.herokuapp.com/">live demo here </a></h5></div>
+<div align="center"><h5>An FM synthesizer for the browser <a href="http://fm-synth.herokuapp.com/">live demo here </a></h5></div>
 
 <img src="/client/public/imgs/preview.jpg" width="100%" >
 
