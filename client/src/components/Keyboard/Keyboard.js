@@ -14,7 +14,7 @@ const Keyboard = () => {
   useEffect(() => {
     const keyboard = new QwertyHancock({
       id: 'keyboard',
-      width: 820,
+      width: 500,
       height: 125,
       octaves: 2,
       startNote: 'C5',
