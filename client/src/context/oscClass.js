@@ -1,3 +1,5 @@
+// current issue, line 82, Failed to execute 'setValueCurveAtTime'  on 'AudioParam': setValueCurveAtTime(..., 902.4012925170068, 0.1) overlaps setValueCurveAtTime(..., 902.3941950113378, 0.01)
+
 export default class oscClass {
   constructor(
     Tone,
@@ -77,7 +79,7 @@ export default class oscClass {
     var currentVol = this.gateGain.gain.value;
     this.gateGain.gain.setValueCurveAtTime(
       expCurve(currentVol, 1),
-      now,
+      now - 0.01,
       this.envelope.attack
     );
     this.gateGain.gain.setValueCurveAtTime(
