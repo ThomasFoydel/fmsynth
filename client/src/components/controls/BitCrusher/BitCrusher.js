@@ -19,7 +19,7 @@ const BitCrusher = () => {
 
   return (
     <div className='bitcrusher'>
-      <h4 className='name'>bitcrusher</h4>
+      <h4 className='title-name'>bitcrusher</h4>
       <div className='sliders-container'>
         <div className='param'>
           <div className='name'>depth</div>

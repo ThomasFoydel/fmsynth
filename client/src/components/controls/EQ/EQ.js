@@ -22,7 +22,7 @@ const EQ = () => {
           maxVal={20000}
           initVal={appState.EQ}
         />
-        <div className='name'>EQ</div>
+        <div className='title-name'>EQ</div>
       </div>
       <div className='sliders'>
         <div className='param'>

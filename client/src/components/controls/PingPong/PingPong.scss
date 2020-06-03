@@ -2,16 +2,12 @@
   background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
   height: 6.2rem;
   border-radius: 5px;
-  // margin-top: 0.25rem;
-  // margin-bottom: 0.5rem;
-  // transform: translateX(-50%);
-  // margin-left: 50%;
   width: 16rem;
 
-  .name {
+  .title-name {
     height: 1.4rem;
     text-align: center;
-    margin-top: -0.3rem;
+    font-weight: bold;
   }
   .param {
     width: 4.5rem;
@@ -21,7 +17,8 @@
       text-align: center;
       transform: translateX(-50%);
       margin-left: 50%;
-      margin-top: -0.1rem;
+      margin-top: 0.1rem;
+      margin-bottom: -0.4rem;
     }
   }
   .sliders-container {

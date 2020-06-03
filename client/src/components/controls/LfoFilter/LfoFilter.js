@@ -65,7 +65,7 @@ const LfoFilter = () => {
   };
   return (
     <div className='lfo-filter'>
-      <div className='name center'>lfo filter</div>
+      <div className='title-name center'>lfo filter</div>
       <div className='selectors'>
         <div className='param'>
           <Selector

@@ -67,7 +67,7 @@ const Oscillator1Controller = () => {
     <div className='osc1-controller'>
       <div className='section-1'>
         <div className='osc'>
-          <div className='center'>osc 1</div>
+          <div className='center osc-name'>osc 1</div>
           <div className='osc-selector'>
             <Selector
               onChange={(e) => changeOsc1({ value: e.value, prop: 'type' })}
@@ -125,7 +125,7 @@ const Oscillator1Controller = () => {
         </div>
 
         <div className='osc'>
-          <div className='center'>osc 2</div>
+          <div className='center osc-name'>osc 2</div>
           <div className='osc-selector'>
             <Selector
               size='small'
@@ -186,7 +186,7 @@ const Oscillator1Controller = () => {
 
       <div className='section-2'>
         <div className='osc'>
-          <div className='center'>sub osc</div>
+          <div className='center osc-name'>sub osc</div>
           <div className='osc-selector'>
             <Selector
               size='small'
@@ -231,7 +231,7 @@ const Oscillator1Controller = () => {
         </div>
 
         <div className='osc'>
-          <div className='center'>noise</div>
+          <div className='center osc-name'>noise</div>
           <div className='osc-selector noise-selector'>
             <Selector
               size='small'

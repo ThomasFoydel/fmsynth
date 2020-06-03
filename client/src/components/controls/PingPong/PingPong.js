@@ -28,7 +28,7 @@ const PingPong = () => {
 
   return (
     <div className='pingpong'>
-      <div className='name'>ping-pong</div>
+      <div className='title-name'>ping-pong</div>
 
       <div className='sliders-container'>
         <div className='param'>

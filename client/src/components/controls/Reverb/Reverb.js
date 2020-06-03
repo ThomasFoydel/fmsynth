@@ -20,7 +20,7 @@ const Reverb = () => {
 
   return (
     <div className='reverb'>
-      <div className='name'>convolver</div>
+      <div className='title-name'>convolver</div>
       <div className='sliders-container'>
         <div className='param'>
           <div className='slider'>

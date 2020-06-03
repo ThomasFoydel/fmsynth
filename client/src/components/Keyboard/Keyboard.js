@@ -15,7 +15,7 @@ const Keyboard = () => {
     const keyboard = new QwertyHancock({
       id: 'keyboard',
       width: 820,
-      height: 85,
+      height: 125,
       octaves: 2,
       startNote: 'C5',
       whiteKeyColour: '#1c1c1c',
