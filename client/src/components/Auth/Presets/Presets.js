@@ -22,6 +22,7 @@ const Presets = () => {
     'isLoggedIn',
     'user',
     'currentPreset',
+    'keyboardOctaveOffset',
   ];
 
   const handleLogOut = (e) => {

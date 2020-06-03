@@ -10,7 +10,7 @@
     font-weight: bold;
   }
   .param {
-    width: 4.5rem;
+    width: 4.6rem;
     .name {
       height: 0.5rem;
       width: 4rem;
@@ -20,6 +20,9 @@
       margin-top: 0.1rem;
       margin-bottom: -0.4rem;
     }
+  }
+  .time-param {
+    width: 6rem;
   }
   .sliders-container {
     min-width: 100%;
@@ -34,5 +37,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+  .time-selector {
+    margin-top: 1.5rem;
+    // max-width: 5rem;
+    // background: red;
+    height: 4rem;
+    width: 5rem;
   }
 }

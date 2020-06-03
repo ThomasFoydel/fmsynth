@@ -97,11 +97,18 @@ export function reducer(state, action) {
 
   switch (action.type) {
     case 'MAKE_OSC':
-      const osc1Freq = calcFreq(payload, state.osc1Settings.octaveOffset);
-      const osc2Freq = calcFreq(payload, state.osc2Settings.octaveOffset);
+      // use state.keyboardOctaveOffset to calc Freq
+      const osc1Freq = calcFreq(
+        payload,
+        state.osc1Settings.octaveOffset + state.keyboardOctaveOffset
+      );
+      const osc2Freq = calcFreq(
+        payload,
+        state.osc2Settings.octaveOffset + state.keyboardOctaveOffset
+      );
       const subOscFreq = calcFreq(
         payload,
-        state.subOscSettings.octaveOffset - 2
+        state.subOscSettings.octaveOffset - 2 + state.keyboardOctaveOffset
       );
       const newOsc1 = new oscClass(
         Tone,
@@ -318,7 +325,7 @@ export function reducer(state, action) {
       pingPongDelay.wet.value = payload;
       return { ...state, pingPong: { ...state.pingPong, wet: payload } };
     case 'CHANGE_PINGPONG_TIME':
-      pingPongDelay.delayTime.value = `${payload}n`;
+      pingPongDelay.delayTime.value = payload;
       return { ...state, pingPong: { ...state.pingPong, delayTime: payload } };
     case 'CHANGE_PINGPONG_FEEDBACK':
       pingPongDelay.feedback.value = payload;
@@ -517,6 +524,7 @@ export default function Store(props) {
     springConfig: 'molasses',
     nodes: [],
     currentPreset: 'default',
+    keyboardOctaveOffset: -1,
 
     // audio settings:
     envelope: initEnv,

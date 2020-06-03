@@ -3,7 +3,6 @@
   width: 18rem;
   background: rgb(91, 91, 91);
   text-align: center;
-  //   position: absolute;
   bottom: 1rem;
   right: 0.5rem;
 
@@ -47,4 +46,16 @@
 
 .selector-small {
   width: 10rem;
+}
+.selector-xs {
+  width: 6rem;
+  .option {
+    border: solid rgb(77, 77, 77) 1px;
+  }
+  .left-button {
+    border-radius: 3px 0 0 3px;
+  }
+  .right-button {
+    border-radius: 0 3px 3px 0;
+  }
 }

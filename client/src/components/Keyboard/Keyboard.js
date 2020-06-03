@@ -5,7 +5,7 @@ import { CTX } from 'context/Store';
 import './keyboard.scss';
 
 const Keyboard = () => {
-  const [appState, updateState] = useContext(CTX);
+  const [, updateState] = useContext(CTX);
 
   const makeOsc = (freq, note) => {
     updateState({ type: 'MAKE_OSC', payload: freq });
