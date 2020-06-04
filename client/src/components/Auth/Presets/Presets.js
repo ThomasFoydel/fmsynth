@@ -167,7 +167,7 @@ const Presets = () => {
 
       <div className='open-btns'>
         <button onClick={openTheSave}>save</button>
-        <button onClick={openTheSaveAs}>save as...</button>
+        <button onClick={openTheSaveAs}>save new</button>
         <button onClick={openTheDelete}>delete</button>
       </div>
 

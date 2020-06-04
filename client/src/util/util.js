@@ -135,6 +135,16 @@ export const noteFreqs = [
   { note: 'A8', freq: 7040 },
   { note: 'A#8', freq: 7458.62 },
   { note: 'B8', freq: 7902.13 },
+
+  { note: 'C9', freq: 8372.019 },
+  { note: 'C#9', freq: 8869.845 },
+  { note: 'D9', freq: 9397.273 },
+  { note: 'D#9', freq: 9956.064 },
+  { note: 'E9', freq: 10548.083 },
+  { note: 'F9', freq: 11175.305 },
+  { note: 'F#9', freq: 11839.823 },
+  { note: 'G9', freq: 12543.855 },
+  { note: 'G#9', freq: 13289.752 },
 ];
 
 export function findWithAttr(array, attr, value) {

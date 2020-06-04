@@ -67,19 +67,19 @@ Tone.connect(oscCombinedGain, bitcrusher);
 
 // harmonics, distortion, tone effects
 bitcrusher.connect(distortion);
-distortion.connect(lfoFilter);
+distortion.connect(pingPongDelay);
 
 // reverb and delay
-Tone.connect(lfoFilter, pingPongDelay);
+// Tone.connect(lfoFilter, pingPongDelay);
+
 Tone.connect(pingPongDelay, combFilter);
 pingPongDelay.connect(combFilterCrossFade, 0, 0);
 combFilter.connect(combFilterCrossFade, 0, 1);
 
-Tone.connect(combFilterCrossFade, reverb);
-
+Tone.connect(combFilterCrossFade, lfoFilter);
+Tone.connect(subOscGain, lfoFilter);
+Tone.connect(lfoFilter, reverb);
 Tone.connect(reverb, eq);
-
-Tone.connect(subOscGain, eq);
 
 Tone.connect(eq, limiter);
 
@@ -366,6 +366,8 @@ export function reducer(state, action) {
         ...state,
         envelope: { ...state.envelope, [prop]: value },
       };
+    case 'SHIFT_KEYBOARD_OCTAVE':
+      return { ...state, keyboardOctaveOffset: payload };
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
@@ -524,7 +526,7 @@ export default function Store(props) {
     springConfig: 'molasses',
     nodes: [],
     currentPreset: 'default',
-    keyboardOctaveOffset: -1,
+    keyboardOctaveOffset: 0,
 
     // audio settings:
     envelope: initEnv,
