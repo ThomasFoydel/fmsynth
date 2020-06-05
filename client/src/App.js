@@ -1,14 +1,16 @@
 import React, { useEffect, useContext } from 'react';
+import Axios from 'axios';
+
 import Keyboard from 'components/Keyboard/Keyboard';
 import Navbar from 'components/Navbar/Navbar';
 import Cube from 'components/Cube/Cube';
+import MasterVol from 'components/controls/MasterVol/MasterVol';
 
 import { CTX } from 'context/Store';
 import './App.scss';
-import Axios from 'axios';
 
 function App() {
-  const [appState, updateState] = useContext(CTX);
+  const [, updateState] = useContext(CTX);
 
   useEffect(() => {
     let subscribed = true;
@@ -62,6 +64,7 @@ function App() {
       <Keyboard />
       <Navbar />
       <Cube />
+      <MasterVol />
     </div>
   );
 }

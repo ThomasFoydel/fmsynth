@@ -368,6 +368,9 @@ export function reducer(state, action) {
       };
     case 'SHIFT_KEYBOARD_OCTAVE':
       return { ...state, keyboardOctaveOffset: payload };
+    case 'CHANGE_MASTER_VOLUME':
+      masterVol.volume.value = payload;
+      return { ...state, masterVol: payload };
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
@@ -457,6 +460,7 @@ export function reducer(state, action) {
       return { ...state };
   }
 }
+console.log('masterVol.volume.value: ', masterVol.volume.value);
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
     isLoggedIn: false,
@@ -527,6 +531,8 @@ export default function Store(props) {
     nodes: [],
     currentPreset: 'default',
     keyboardOctaveOffset: 0,
+
+    masterVol: masterVol.volume.value,
 
     // audio settings:
     envelope: initEnv,
