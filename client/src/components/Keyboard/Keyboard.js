@@ -55,15 +55,22 @@ const Keyboard = () => {
   };
   return (
     <div className='keyboard-area'>
-      {appState.keyboardOctaveOffset > -1 && (
-        <div className='down-btn' id='down' onClick={handleOctaveShift}></div>
-      )}
       <div className='keyboard-container'>
         <div className='keyboard' id='keyboard'></div>
       </div>
-      {appState.keyboardOctaveOffset < 1 && (
-        <div className='up-btn' id='up' onClick={handleOctaveShift}></div>
-      )}
+      <div className='btns-container'>
+        {appState.keyboardOctaveOffset > -1 ? (
+          <div className='down-btn' id='down' onClick={handleOctaveShift}></div>
+        ) : (
+          <div className='arrow-spacing' />
+        )}
+        <div className='spacing'></div>
+        {appState.keyboardOctaveOffset < 1 ? (
+          <div className='up-btn' id='up' onClick={handleOctaveShift}></div>
+        ) : (
+          <div className='arrow-spacing' />
+        )}
+      </div>
     </div>
   );
 };
