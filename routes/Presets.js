@@ -29,7 +29,7 @@ router.post('/save', auth, async (req, res) => {
   User.findByIdAndUpdate(
     userId,
     { $set: { presets: foundPresets } },
-    { new: true }
+    { new: true, useFindAndModify: false }
   )
     .then((updatedUser) => {
       const newArray = [];
@@ -55,14 +55,14 @@ router.post('/newsave', auth, async (req, res) => {
   const foundUser = await User.findById(userId);
   if (foundUser.presets) {
     if (foundUser.presets.some((preset) => preset.name === name)) {
-      return res.send({ err: 'a preset with this name already exists' });
+      return res.send({ err: 'preset with this name already exists' });
     }
   }
   const newPreset = { author: username, name: name, params: state };
   User.findByIdAndUpdate(
     userId,
     { $push: { presets: newPreset } },
-    { new: true }
+    { new: true, useFindAndModify: false }
   )
     .then((updatedUser) => {
       const newArray = [];
@@ -109,7 +109,7 @@ router.post('/delete', auth, async (req, res) => {
   User.findByIdAndUpdate(
     userId,
     { $pull: { presets: { name } } },
-    { new: true }
+    { new: true, useFindAndModify: false }
   )
     .then((updatedUser) => {
       const newArray = [];

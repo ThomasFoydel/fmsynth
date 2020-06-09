@@ -57,6 +57,7 @@ const Presets = () => {
     )
       .then((result) => {
         if (result.data.err) {
+          setSaveOverOpen(false);
           setErrorMessage(result.data.err);
         } else {
           updateState({
@@ -72,7 +73,11 @@ const Presets = () => {
       .catch((err) => console.log('save preset error: ', err));
   };
 
-  const handleSaveAs = async (e) => {
+  const handleSaveAs = async () => {
+    if (!presetName) {
+      setOpenSaveAs(false);
+      return setErrorMessage('name value required');
+    }
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
       .reduce((obj, key) => {
@@ -87,6 +92,8 @@ const Presets = () => {
     )
       .then((result) => {
         if (result.data.err) {
+          setOpenSaveAs(false);
+          setPresetName('');
           setErrorMessage(result.data.err);
         } else {
           updateState({
