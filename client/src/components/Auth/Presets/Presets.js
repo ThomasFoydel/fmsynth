@@ -121,6 +121,11 @@ const Presets = () => {
               current: result.data.current,
             },
           });
+          updateState({
+            type: 'LOAD_PRESET',
+            text: result.data.current,
+            payload: result.data.presets[result.data.newCurrentIndex],
+          });
           setDeleteOpen(false);
         }
       })

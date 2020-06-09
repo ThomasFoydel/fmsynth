@@ -428,12 +428,8 @@ export function reducer(state, action) {
         now + 0.001
       );
 
+      lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
       lfoFilter.type = value.lfoFilter.type;
-      if (value.lfoFilter.baseFrequency.logValue > 0) {
-        lfoFilter.baseFrequency = value.lfoFilter.baseFrequency.logValue;
-      } else {
-        lfoFilter.baseFrequency = 0.01;
-      }
       lfoFilter.octaves = value.lfoFilter.octaves;
       lfoFilter.depth.value = value.lfoFilter.depth;
       lfoFilter.wet.value = value.lfoFilter.wet;

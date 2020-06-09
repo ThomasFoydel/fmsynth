@@ -121,7 +121,12 @@ router.post('/delete', auth, async (req, res) => {
         newArray.push(presetObj);
       });
       const nameOfNewCurrent = updatedUser.presets[newIndex].name;
-      return res.send({ presets: newArray, current: nameOfNewCurrent });
+
+      return res.send({
+        presets: newArray,
+        current: nameOfNewCurrent,
+        newCurrentIndex: newIndex,
+      });
     })
     .catch((err) => console.log('save preset error: ', err));
 });
