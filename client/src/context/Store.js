@@ -11,8 +11,6 @@ const out = actx.master;
 const now = actx.currentTime;
 
 const masterVol = new Tone.Volume(-10);
-Tone.Transport.bpm.rampTo(140, 0.1);
-
 const oscCombinedGain = actx.createGain();
 const osc1Gain = actx.createGain();
 const osc2Gain = actx.createGain();
@@ -48,6 +46,7 @@ const lfoFilter = new Tone.AutoFilter({
   frequency: '2n',
   depth: 0,
 }).start();
+lfoFilter.sync().start(0);
 lfoFilter.baseFrequency = 0;
 lfoFilter.filter._filters[0].type = 'highpass';
 let initEnv = {
@@ -70,8 +69,6 @@ bitcrusher.connect(distortion);
 distortion.connect(pingPongDelay);
 
 // reverb and delay
-// Tone.connect(lfoFilter, pingPongDelay);
-
 Tone.connect(pingPongDelay, combFilter);
 pingPongDelay.connect(combFilterCrossFade, 0, 0);
 combFilter.connect(combFilterCrossFade, 0, 1);
@@ -87,7 +84,6 @@ Tone.connect(limiter, masterVol);
 masterVol.connect(out);
 
 const CTX = React.createContext();
-
 export { CTX };
 let nodes = [];
 
@@ -97,7 +93,6 @@ export function reducer(state, action) {
 
   switch (action.type) {
     case 'MAKE_OSC':
-      // use state.keyboardOctaveOffset to calc Freq
       const osc1Freq = calcFreq(
         payload,
         state.osc1Settings.octaveOffset + state.keyboardOctaveOffset
@@ -348,7 +343,6 @@ export function reducer(state, action) {
       };
     case 'CHANGE_EQ_GAIN':
       eq[prop].value = value;
-
       return { ...state, EQ: { ...state.EQ, [prop]: value } };
     case 'CHANGE_EQ_RANGE':
       eq.highFrequency.value = payload.logMax;
@@ -371,6 +365,13 @@ export function reducer(state, action) {
     case 'CHANGE_MASTER_VOLUME':
       masterVol.volume.value = payload;
       return { ...state, masterVol: payload };
+    case 'CHANGE_MASTER_BPM':
+      Tone.Transport.bpm.rampTo(payload, 0.01);
+      combFilter.delayTime.value = state.combFilter.delayTime;
+      lfoFilter.frequency.value = state.lfoFilter.frequency;
+      pingPongDelay.delayTime.value = state.pingPong.delayTime;
+      return { ...state, masterBpm: payload };
+
     case 'LOGIN':
       let { user, token } = payload;
       localStorage.setItem('fmsynth-token', token);
@@ -460,7 +461,7 @@ export function reducer(state, action) {
       return { ...state };
   }
 }
-console.log('masterVol.volume.value: ', masterVol.volume.value);
+
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
     isLoggedIn: false,
@@ -533,6 +534,7 @@ export default function Store(props) {
     keyboardOctaveOffset: 0,
 
     masterVol: masterVol.volume.value,
+    masterBpm: Tone.Transport.bpm.value,
 
     // audio settings:
     envelope: initEnv,

@@ -5,6 +5,7 @@ import Keyboard from 'components/Keyboard/Keyboard';
 import Navbar from 'components/Navbar/Navbar';
 import Cube from 'components/Cube/Cube';
 import MasterVol from 'components/controls/MasterVol/MasterVol';
+import MasterBPM from 'components/controls/MasterBPM/MasterBPM';
 
 import { CTX } from 'context/Store';
 import './App.scss';
@@ -64,7 +65,10 @@ function App() {
       <Keyboard />
       <Navbar />
       <Cube />
-      <MasterVol />
+      <div className='hidden-masters'>
+        <MasterVol />
+        <MasterBPM />
+      </div>
     </div>
   );
 }

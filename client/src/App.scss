@@ -79,3 +79,20 @@ button::-moz-focus-inner {
 input:focus {
   outline-color: rgba(205, 38, 38, 0.644);
 }
+
+.hidden-masters {
+  opacity: 0;
+  background: rgb(80, 80, 80);
+  position: absolute;
+  border-radius: 0 5px 5px 0;
+  overflow: hidden;
+  // display: flex;
+  top: 3rem;
+  // left: 50%;
+  // transform: translateX(-50%);
+  left: 0;
+  transition: 0.3s all ease;
+  &:hover {
+    opacity: 1;
+  }
+}

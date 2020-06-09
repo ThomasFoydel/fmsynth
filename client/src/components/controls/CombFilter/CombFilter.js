@@ -48,6 +48,10 @@ const CombFilter = () => {
                 { text: '16t', value: '16t' },
                 { text: '32n', value: '32n' },
                 { text: '32t', value: '32t' },
+                { text: '64n', value: '64n' },
+                { text: '64t', value: '64t' },
+                { text: '128n', value: '128n' },
+                { text: '128t', value: '128t' },
               ]}
             />
           </div>
