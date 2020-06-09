@@ -58,7 +58,7 @@ function App() {
     return () => {
       subscribed = false;
     };
-  }, []);
+  }, [updateState]);
 
   return (
     <div className='App'>

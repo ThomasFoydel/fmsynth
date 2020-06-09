@@ -2,11 +2,18 @@
   display: flex;
 
   .btns-container {
+    padding: 0.4rem;
     position: absolute;
-    margin-top: 59.5rem;
+    margin-top: 76rem;
     display: flex;
     margin-left: 50%;
     transform: translateX(-50%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    width: 10rem;
+    &:hover {
+      opacity: 1;
+    }
   }
   .down-btn,
   .up-btn {
@@ -16,8 +23,8 @@
     border-radius: 5px;
     transition: all 0.2s ease;
     opacity: 0.3;
-    width: 10rem;
-    height: 3rem;
+    width: 3rem;
+    height: 2.5rem;
     cursor: pointer;
     &:hover {
       opacity: 1;
@@ -26,34 +33,38 @@
     }
   }
   .down-btn {
-    // left: 10rem;
     clip-path: polygon(
-      40% 0%,
-      40% 20%,
-      100% 20%,
-      100% 80%,
-      40% 80%,
-      40% 100%,
-      0% 50%
+      0 30%,
+      30% 30%,
+      70% 30%,
+      100% 30%,
+      100% 70%,
+      70% 70%,
+      30% 70%,
+      0 70%
     );
   }
   .up-btn {
-    // right: 10rem;
     clip-path: polygon(
-      0% 20%,
-      60% 20%,
-      60% 0%,
-      100% 50%,
-      60% 100%,
-      60% 80%,
-      0% 80%
+      0 30%,
+      30% 30%,
+      30% 0,
+      70% 0,
+      70% 30%,
+      100% 30%,
+      100% 70%,
+      70% 70%,
+      70% 100%,
+      30% 100%,
+      30% 70%,
+      0 70%
     );
   }
   .spacing {
-    width: 20rem;
+    width: 4rem;
   }
   .arrow-spacing {
-    width: 10rem;
+    width: 4rem;
   }
 }
 
@@ -61,7 +72,7 @@
   margin-left: 50%;
   transform: translateX(-50%);
   width: 48rem;
-  overflow-x: hidden;
+  overflow: hidden;
   margin-top: 63rem;
   position: absolute;
   background: black;

@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import { CTX } from 'context/Store';
 const PresetsListSelector = ({ closeSaveDelete }) => {
   const [appState, updateState] = useContext(CTX);
   const presets = appState.presets;
-
-  // useEffect(() => {}, [appState.currentPreset]);
 
   const handleSelection = (e) => {
     const { id } = e.target;

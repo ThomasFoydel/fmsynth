@@ -12,7 +12,7 @@ import Auth from 'components/Auth/Auth';
 import Envelope from 'components/controls/Envelope/Envelope';
 
 const Cube = () => {
-  const [appState, updateState] = useContext(CTX);
+  const [appState] = useContext(CTX);
   const { springConfig, currentTransform, currentPage } = appState;
 
   const animationProps = useSpring({

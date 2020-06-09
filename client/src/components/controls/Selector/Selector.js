@@ -20,10 +20,10 @@ const Selector = ({ options, value, initVal, onChange, size }) => {
     // REMOVE INIT INDEX FUNCTIONALITY REPLACE SO
     // SELECTOR DOESNT START AT 0 INDEX
     const foundIndex = findWithAttr(options, 'value', value);
-    initVal = initVal ? initVal : 0;
-    let initIndex = foundIndex === -1 ? initVal : foundIndex;
+    let initial = initVal ? initVal : 0;
+    let initIndex = foundIndex === -1 ? initial : foundIndex;
     setCurrentVal(initIndex);
-  }, [value]);
+  }, [initVal, setCurrentVal, options, value]);
 
   const updateOption = (e) => {
     if (e.target.id === 'left') {

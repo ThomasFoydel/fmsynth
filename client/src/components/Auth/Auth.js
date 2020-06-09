@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Register from 'components/Auth/Register/Register';
 import Login from 'components/Auth/Login/Login';
 import Presets from 'components/Auth/Presets/Presets';
