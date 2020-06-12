@@ -110,6 +110,12 @@ const Presets = () => {
       .catch((err) => console.log('save preset error: ', err));
   };
 
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      handleSaveAs();
+    }
+  };
+
   const handleDelete = async (e) => {
     Axios.post(
       '/presets/delete',
@@ -191,6 +197,7 @@ const Presets = () => {
             type='text'
             placeholder='name...'
             onChange={handleName}
+            onKeyPress={handleKeyPress}
             value={presetName}
             dontbubble='true'
             maxLength='20'
