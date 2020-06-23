@@ -120,7 +120,7 @@ const LfoFilter = () => {
           <Selector
             size='medium'
             onChange={(e) =>
-              handleFilter({ value: e.value, prop: 'filterType' })
+              handleFilter({ value: e.value, prop: 'filterType' }, 'filterType')
             }
             value={appState.lfoFilter.filterType}
             options={[
