@@ -90,7 +90,6 @@ let nodes = [];
 export function reducer(state, action) {
   let { payload } = action;
   let { prop, value } = payload ? payload : {};
-
   switch (action.type) {
     case 'MAKE_OSC':
       const osc1Freq = calcFreq(
@@ -278,6 +277,7 @@ export function reducer(state, action) {
     case 'CHANGE_LFO_FILTER_FILTER':
       if (prop === 'rolloff') {
         lfoFilter.filter._rolloff = value;
+        value = +value;
       } else if (prop === 'Q') {
         lfoFilter.filter._filters[0][prop].value = value;
       } else if (prop === 'filterType') {
@@ -457,7 +457,6 @@ export function reducer(state, action) {
       return { ...state };
   }
 }
-
 export default function Store(props) {
   const stateHook = React.useReducer(reducer, {
     isLoggedIn: false,
@@ -498,6 +497,7 @@ export default function Store(props) {
               octaves: 2.6,
               filterQ: 1,
               filterType: 'highpass',
+              // filterRolloff:
             },
             bitCrusher: { depth: 8, wet: 0 },
             distortion: {
@@ -569,7 +569,7 @@ export default function Store(props) {
       octaves: lfoFilter.octaves,
       filterQ: lfoFilter.filter._filters[0].Q.value,
       filterType: lfoFilter.filter._filters[0].type,
-      filterRolloff: lfoFilter.filter._filters._rolloff,
+      filterRolloff: lfoFilter.filter._rolloff,
     },
     bitCrusher: { depth: bitcrusher.bits, wet: bitcrusher.wet.value },
     distortion: {

@@ -10,7 +10,7 @@ function findWithAttr(array, attr, val) {
   return -1;
 }
 
-const Selector = ({ options, value, initVal, onChange, size }) => {
+const Selector = ({ options, value, initVal, onChange, size, thing }) => {
   //- initVal will set the init index,
   //- value will set the init index to the index of the item
   // in the options array with a value that matches the value prop
@@ -20,6 +20,7 @@ const Selector = ({ options, value, initVal, onChange, size }) => {
     // REMOVE INIT INDEX FUNCTIONALITY REPLACE SO
     // SELECTOR DOESNT START AT 0 INDEX
     const foundIndex = findWithAttr(options, 'value', value);
+
     let initial = initVal ? initVal : 0;
     let initIndex = foundIndex === -1 ? initial : foundIndex;
     setCurrentVal(initIndex);
@@ -53,7 +54,9 @@ const Selector = ({ options, value, initVal, onChange, size }) => {
         <div className='left-button' id='left' onClick={updateOption}>
           {'<'}
         </div>
-        <div className='value'>{options[currentVal].text}</div>
+        <div className='value'>
+          {options[currentVal] && options[currentVal].text}
+        </div>
         <div className='right-button' id='right' onClick={updateOption}>
           {'>'}
         </div>

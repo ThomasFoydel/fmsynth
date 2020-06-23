@@ -58,11 +58,16 @@ const LfoFilter = () => {
 
   const handleFilter = (e, stateProp) => {
     let { prop, value } = e;
+    console.log('prop n stuff:  ', prop, value, stateProp);
     updateState({
       type: 'CHANGE_LFO_FILTER_FILTER',
       payload: { prop, value, stateProp },
     });
   };
+  console.log(
+    'appState.lfoFilter.filterRolloff: ',
+    appState.lfoFilter.filterRolloff
+  );
   return (
     <div className='lfo-filter'>
       <div className='title-name center'>lfo filter</div>
@@ -137,10 +142,10 @@ const LfoFilter = () => {
         <div className='param'>
           <Selector
             onChange={(e) =>
-              handleFilter({ value: e.value, prop: 'rolloff' }, 'filterRoloff')
+              handleFilter({ value: e.value, prop: 'rolloff' }, 'filterRolloff')
             }
             size='medium'
-            initVal={appState.lfoFilter.filterRolloff}
+            value={appState.lfoFilter.filterRolloff}
             options={[
               { text: '-12', value: -12 },
               { text: '-24', value: -24 },
