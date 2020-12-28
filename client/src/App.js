@@ -31,7 +31,7 @@ function App() {
           page: 'auth',
         });
       } else {
-        const setAuthInfo = (async) => {
+        const setAuthInfo = async () => {
           Axios.get('/auth/user', {
             headers: { 'x-auth-token': foundToken },
           })
