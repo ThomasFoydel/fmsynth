@@ -6,13 +6,19 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Michroma';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/Michroma-Regular.ttf') format('opentype');
+}
+
 html {
   overflow-y: hidden;
   font-size: 62.5%;
   background-size: cover;
   min-height: 50rem;
   height: 100vh;
-
   background-size: cover;
   background: radial-gradient(
       rgba(50, 50, 50, 0.8) 5%,
@@ -23,7 +29,6 @@ html {
 }
 
 body {
-  font-family: 'Michroma', sans-serif;
   font-weight: 400;
   line-height: 1.7;
   box-sizing: border-box;
@@ -34,8 +39,8 @@ body {
   overscroll-behavior: none;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Michroma', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {

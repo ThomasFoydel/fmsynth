@@ -1,67 +1,18 @@
-import Axios from 'axios'
+import React from 'react'
 import dynamic from 'next/dynamic'
-import React, { useEffect, useContext } from 'react'
 import MasterVol from '../components/controls/MasterVol/MasterVol'
 import MasterBPM from '../components/controls/MasterBPM/MasterBPM'
 import Navbar from '../components/Navbar/Navbar'
 import styles from '../styles/Home.module.scss'
 import Cube from '../components/Cube/Cube'
-import { CTX } from '../context/Store'
 
-const Keyboard = dynamic(() => import('../components/Keyboard/Keyboard'), { ssr: false })
+const Keyboard = dynamic(() => import('../components/Keyboard/Keyboard'), {
+  ssr: false
+})
 
 function Home() {
-  const [, updateState] = useContext(CTX)
-
-  useEffect(() => {
-    let subscribed = true
-
-    if (subscribed) {
-      const foundToken = localStorage.getItem('fmsynth-token')
-
-      if (!foundToken) {
-        updateState({
-          type: 'LOGOUT',
-        })
-
-        //rotate to auth
-        updateState({
-          type: 'CHANGE_ROTATION',
-          payload: `rotate3d(100, 0, 0, 270deg)`,
-          page: 'auth',
-        })
-      } else {
-        const setAuthInfo = async () => {
-          Axios.get('/auth/user', {
-            headers: { 'x-auth-token': foundToken },
-          })
-            .then((result) => {
-              if (!result.data.err) {
-                updateState({
-                  type: 'LOGIN',
-                  payload: { user: result.data, token: foundToken },
-                })
-              } else {
-                console.log('err: ', result.data.err)
-              }
-            })
-            .catch(() => {
-              updateState({
-                type: 'LOGOUT',
-              })
-            })
-        }
-        setAuthInfo()
-      }
-    }
-
-    return () => {
-      subscribed = false
-    }
-  }, [updateState])
-
   return (
-    <div className="App">
+    <div>
       <Keyboard />
       <Navbar />
       <Cube />
