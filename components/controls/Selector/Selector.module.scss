@@ -1,6 +1,6 @@
 .selector {
   border-radius: 5px;
-  max-width: 18rem;
+  width: 18rem;
   background: rgb(91, 91, 91);
   text-align: center;
   bottom: 1rem;
@@ -45,11 +45,11 @@
   }
 }
 
-.selectorSmall {
+.selector-small {
   width: 10rem;
 }
 
-.selectorxs {
+.selector-xs {
   width: 6rem;
 
   .option {
