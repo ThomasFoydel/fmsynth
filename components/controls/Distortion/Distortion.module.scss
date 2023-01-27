@@ -1,0 +1,34 @@
+.distortion {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  width: 21rem;
+  height: 6.5rem;
+  border-radius: 5px;
+  margin: 0.5rem 0;
+  margin-left: 50%;
+  transform: translateX(-50%);
+
+  .slidersContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .name {
+      height: 1.3rem;
+      font-size: 0.5rem;
+    }
+
+    .param {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .titleName {
+    height: 1.2rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    text-align: center;
+    font-weight: bold;
+  }
+}

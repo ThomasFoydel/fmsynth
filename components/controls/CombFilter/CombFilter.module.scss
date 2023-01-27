@@ -1,0 +1,42 @@
+.combFilter {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  width: 24rem;
+  border-radius: 5px;
+  position: relative;
+  margin-left: 50%;
+  transform: translateX(-50%);
+
+  .delaySelector {
+    margin-top: 0.4rem;
+    margin-left: 0.4rem;
+  }
+
+  .name {
+    line-height: 1.3rem;
+    text-align: center;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.15rem;
+    font-weight: bold;
+  }
+  .mixSlider {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .resonance {
+    width: 90%;
+    margin-top: 2rem;
+    margin-left: 50%;
+    transform: translateX(-50%) translateY(-0.4rem);
+  }
+
+  .resonanceName {
+    position: absolute;
+    font-size: 0.1rem;
+    bottom: 0.1rem;
+    left: 6.3rem;
+    color: rgb(210, 210, 210);
+  }
+}

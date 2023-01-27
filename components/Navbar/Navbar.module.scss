@@ -1,0 +1,28 @@
+.navbar {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%);
+  color: rgb(34, 34, 34);
+
+  .option {
+    margin-left: 1rem;
+    transition: all 0.15s ease;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(255, 139, 139);
+    }
+  }
+
+  .active {
+    color: rgb(244, 22, 22);
+    font-weight: bold;
+
+    &:hover {
+      color: rgb(244, 22, 22);
+    }
+  }
+}
