@@ -6,12 +6,11 @@ import Slider from '../Slider/Slider'
 const BitCrusher = () => {
   const [appState, updateState] = useContext(CTX)
 
-  const handleDepth = (e) => {
-    updateState({ type: 'CHANGE_BITCRUSH_DEPTH', payload: e.value })
+  const handleDepth = ({ value }) => {
+    updateState({ type: 'CHANGE_BITCRUSH_DEPTH', payload: value })
   }
 
-  const handleMix = (e) => {
-    let { value } = e
+  const handleMix = ({ value }) => {
     value /= 100
     updateState({ type: 'CHANGE_BITCRUSH_MIX', payload: value })
   }
@@ -27,7 +26,8 @@ const BitCrusher = () => {
             <Slider
               onChange={handleDepth}
               value={appState.bitCrusher.depth}
-              property="depth"
+              property='depth'
+              min={1}
               max={8}
             />
           </div>
@@ -39,7 +39,7 @@ const BitCrusher = () => {
             <Slider
               onChange={handleMix}
               value={appState.bitCrusher.wet * 100}
-              property="wet"
+              property='wet'
               max={100}
             />
           </div>

@@ -21,7 +21,7 @@ const Envelope = () => {
   return (
     <div className={styles.envelope}>
       {values.map(({ name, max }) => (
-        <>
+        <div key={name}>
           <div className={styles.param}>
             <div className={styles.paramName}>{name}</div>
             <InputRange
@@ -35,7 +35,7 @@ const Envelope = () => {
           <div className={styles.valueDisplay}>
             {appState.envelope[name].toFixed(1)}
           </div>
-        </>
+        </div>
       ))}
     </div>
   )

@@ -7,18 +7,17 @@ import Slider from '../Slider/Slider'
 const Distortion = () => {
   const [appState, updateState] = useContext(CTX)
 
-  const handleMix = (e) => {
-    let { value } = e
+  const handleMix = ({ value }) => {
     value /= 100
     updateState({ type: 'CHANGE_DISTORTION_MIX', payload: value })
   }
 
-  const handleOversample = (e) => {
-    updateState({ type: 'CHANGE_DISTORTION_OVERSAMPLE', payload: e.value })
+  const handleOversample = ({ value }) => {
+    updateState({ type: 'CHANGE_DISTORTION_OVERSAMPLE', payload: value })
   }
 
-  const handleDistortion = (e) => {
-    updateState({ type: 'CHANGE_DISTORTION_AMOUNT', payload: e.value })
+  const handleDistortion = ({ value }) => {
+    updateState({ type: 'CHANGE_DISTORTION_AMOUNT', payload: value })
   }
 
   return (
@@ -30,11 +29,11 @@ const Distortion = () => {
           <Selector
             value={appState.distortion.oversample}
             onChange={handleOversample}
-            size="small"
+            size='small'
             options={[
               { text: 'none', value: 'none' },
               { text: '2x', value: '2x' },
-              { text: '4x', value: '4x' },
+              { text: '4x', value: '4x' }
             ]}
           />
         </div>
@@ -44,7 +43,7 @@ const Distortion = () => {
           <Slider
             onChange={handleMix}
             value={appState.distortion.wet * 100}
-            property="wet"
+            property='wet'
             max={100}
           />
         </div>
@@ -52,8 +51,8 @@ const Distortion = () => {
           <div className={styles.name}>amount</div>
           <Slider
             onChange={handleDistortion}
-            value={appState.distortion.distortion * 100}
-            property="wet"
+            value={appState.distortion.distortion}
+            property='wet'
             max={100}
           />
         </div>
