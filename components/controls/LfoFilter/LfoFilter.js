@@ -8,59 +8,64 @@ import Slider from '../Slider/Slider'
 const LfoFilter = () => {
   const [appState, updateState] = useContext(CTX)
 
-  const handleMix = (e) => {
-    e.value /= 100
+  const updateFilter = (prop, value) => {
     updateState({
       type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'wet', value: e.value },
+      payload: { prop, value }
     })
   }
 
-  const handleDepth = (e) => {
-    e.value /= 100
-    updateState({
-      type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'depth', value: e.value },
-    })
-  }
+  const handleMix = ({ value }) => updateFilter('wet', value)
 
-  const handleType = (e) => {
-    updateState({
-      type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'type', value: e.value },
-    })
-  }
+  const handleDepth = ({ value }) => updateFilter('depth', value)
 
-  const handleRate = (e) => {
-    updateState({
-      type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'frequency', value: e.value },
-    })
-  }
+  const handleType = ({ value }) => updateFilter('type', value)
 
-  const handleBaseFrequency = (e) => {
-    updateState({
-      type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'baseFrequency', value: e },
-    })
-  }
+  const handleRate = ({ value }) => updateFilter('frequency', value)
 
-  const handleOctaves = (e) => {
-    let { value } = e
-    value /= 10
-    updateState({
-      type: 'CHANGE_LFO_FILTER',
-      payload: { prop: 'octaves', value },
-    })
-  }
+  const handleBFrequency = (value) => updateFilter('baseFrequency', value)
 
-  const handleFilter = (e, stateProp) => {
-    let { prop, value } = e
+  const handleOctaves = ({ value }) => updateFilter('octaves', value)
+
+  const handleFilter = ({ prop, value }, stateProp) => {
     updateState({
       type: 'CHANGE_LFO_FILTER_FILTER',
-      payload: { prop, value, stateProp },
+      payload: { prop, value, stateProp }
     })
   }
+
+  const handleQ = (e) => handleFilter(e, 'filterQ')
+
+  const sliders = [
+    {
+      name: 'mix',
+      handleChange: handleMix,
+      property: 'wet',
+      max: 1,
+      step: 0.1
+    },
+    {
+      name: 'depth',
+      handleChange: handleDepth,
+      property: 'depth',
+      max: 1,
+      step: 0.1
+    },
+    {
+      name: 'range',
+      handleChange: handleOctaves,
+      property: 'octaves',
+      max: 8,
+      step: 0.5
+    },
+    {
+      name: 'Q',
+      handleChange: handleQ,
+      property: 'filterQ',
+      max: 10,
+      step: 0.5
+    }
+  ]
 
   return (
     <div className={styles.lfoFilter}>
@@ -69,20 +74,20 @@ const LfoFilter = () => {
         <div className={styles.param}>
           <Selector
             onChange={handleType}
-            size="medium"
+            size='medium'
             value={appState.lfoFilter.type}
             options={[
               { text: 'sine', value: 'sine' },
               { text: 'sawtooth', value: 'sawtooth' },
               { text: 'square', value: 'square' },
-              { text: 'triangle', value: 'triangle' },
+              { text: 'triangle', value: 'triangle' }
             ]}
           />
         </div>
         <div className={styles.param}>
           <Selector
             onChange={handleRate}
-            size="medium"
+            size='medium'
             value={appState.lfoFilter.frequency}
             options={[
               { text: '1n', value: '1n' },
@@ -111,14 +116,16 @@ const LfoFilter = () => {
 
               { text: '64n', value: '64n' },
               // { text: '64d', value: '64n.' },
-              { text: '64t', value: '64t' },
+              { text: '64t', value: '64t' }
             ]}
           />
         </div>
         <div className={styles.param}>
           <Selector
-            size="medium"
-            onChange={(e) => handleFilter({ value: e.value, prop: 'filterType' }, 'filterType')}
+            size='medium'
+            onChange={(e) =>
+              handleFilter({ value: e.value, prop: 'filterType' }, 'filterType')
+            }
             value={appState.lfoFilter.filterType}
             options={[
               { text: 'lowpass', value: 'lowpass' },
@@ -127,41 +134,56 @@ const LfoFilter = () => {
               { text: 'lowshelf', value: 'lowshelf' },
               { text: 'highshelf', value: 'highshelf' },
               { text: 'allpass', value: 'allpass' },
-              { text: 'peaking', value: 'peaking' },
+              { text: 'peaking', value: 'peaking' }
             ]}
           />
         </div>
         <div className={styles.param}>
           <Selector
-            onChange={(e) => handleFilter({ value: e.value, prop: 'rolloff' }, 'filterRolloff')}
-            size="medium"
+            onChange={(e) =>
+              handleFilter({ value: e.value, prop: 'rolloff' }, 'filterRolloff')
+            }
+            size='medium'
             value={appState.lfoFilter.filterRolloff}
             options={[
               { text: '-12', value: -12 },
               { text: '-24', value: -24 },
-              { text: '-48', value: -48 },
+              { text: '-48', value: -48 }
             ]}
           />
         </div>
       </div>
       <div className={styles.basefreqSlider}>
         <LogarithmicSlider
-          onChange={handleBaseFrequency}
+          onChange={handleBFrequency}
           maxVal={20000}
           initVal={appState.lfoFilter.baseFrequency.value}
-          label="Hz"
+          label='Hz'
         />
       </div>
 
       <div className={styles.sliders}>
-        <div className={styles.slider}>
+        {sliders.map(({ name, property, handleChange, max, step }) => (
+          <div className={styles.slider} key={name}>
+            <Slider
+              onChange={handleChange}
+              value={appState.lfoFilter[property]}
+              min={0}
+              max={max}
+              step={step}
+              property={property}
+            />
+            <div className={styles.paramName}>{name}</div>
+          </div>
+        ))}
+        {/* <div className={styles.slider}>
           <Slider
             onChange={handleMix}
             value={appState.lfoFilter.wet * 100}
             min={0}
             max={100}
             step={1}
-            property="wet"
+            property='wet'
           />
           <div className={styles.paramName}>mix</div>
         </div>
@@ -172,7 +194,7 @@ const LfoFilter = () => {
             min={0}
             max={100}
             step={1}
-            property="depth"
+            property='depth'
           />
           <div className={styles.paramName}>depth</div>
         </div>
@@ -183,21 +205,21 @@ const LfoFilter = () => {
             min={0}
             max={100}
             step={1}
-            property="octaves"
+            property='octaves'
           />
           <div className={styles.paramName}>range</div>
         </div>
         <div className={styles.slider}>
           <Slider
-            onChange={(e) => handleFilter(e, 'filterQ')}
+            onChange={handleQ}
             value={appState.lfoFilter.filterQ}
             min={0}
             max={100}
             step={1}
-            property="Q"
+            property='Q'
           />
           <div className={styles.paramName}>Q</div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

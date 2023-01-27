@@ -45,7 +45,7 @@ function Home() {
                 console.log('err: ', result.data.err)
               }
             })
-            .catch((err) => {
+            .catch(() => {
               updateState({
                 type: 'LOGOUT',
               })
