@@ -1,7 +1,7 @@
 .reverb {
   background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
   height: 6rem;
-  width: 26rem;
+  width: 95%;
   border-radius: 5px;
   position: relative;
   transform: translateX(-50%);
@@ -40,7 +40,7 @@
     align-items: center;
   }
 
-  .impulse-selector {
+  .impulseSelector {
     display: block;
     margin-top: 1rem;
     margin-left: 2rem;
