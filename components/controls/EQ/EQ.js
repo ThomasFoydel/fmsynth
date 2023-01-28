@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import LogarithmicRange from '../LogarithmicRange/LogarithmicRange'
+import LogarithmicRange from '../Logarithmic/Range'
 import { CTX } from '../../../context/SynthProvider/Store'
 import Slider from '../Slider/Slider'
 import styles from './EQ.module.scss'
@@ -32,7 +32,7 @@ const EQ = () => {
             min={0}
             max={24}
             step={1}
-            property="low"
+            property='low'
           />
           <div className={styles.label}>low</div>
         </div>
@@ -43,7 +43,7 @@ const EQ = () => {
             min={0}
             max={24}
             step={1}
-            property="mid"
+            property='mid'
           />
           <div className={styles.label}>mid</div>
         </div>
@@ -54,7 +54,7 @@ const EQ = () => {
             min={0}
             max={24}
             step={1}
-            property="high"
+            property='high'
           />
           <div className={styles.label}>high</div>
         </div>
