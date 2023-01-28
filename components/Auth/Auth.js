@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { CTX } from '../../context/SynthProvider/Store'
 import Register from './Register/Register'
 import Presets from './Presets/Presets'
-import styles from './Auth.module.scss'
 import Login from './Login/Login'
 
 const Auth = () => {
@@ -54,7 +53,7 @@ const Auth = () => {
   const dontBubble = (e) => e.stopPropagation()
 
   return (
-    <div className={styles.auth} onKeyDown={dontBubble}>
+    <div onKeyDown={dontBubble}>
       {appState.isLoggedIn ? (
         <Presets />
       ) : (

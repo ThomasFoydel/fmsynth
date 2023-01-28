@@ -8,7 +8,7 @@ const initialValues = {
   nodes: [],
   currentPreset: 'default',
   keyboardOctaveOffset: 0,
-  masterVol: -10,
+  masterVol: 0,
   masterBpm: 120,
   envelope: {
     attack: 0.1,
