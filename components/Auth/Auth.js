@@ -21,8 +21,7 @@ const Auth = () => {
 
         updateRotation({
           type: 'CHANGE_ROTATION',
-          payload: `rotate3d(100, 0, 0, 270deg)`,
-          page: 'auth'
+          payload: { rotation: `rotate3d(100, 0, 0, 270deg)`, page: 'auth' }
         })
       } else {
         const setAuthInfo = async () => {

@@ -11,11 +11,11 @@ import Auth from '../Auth/Auth'
 import cn from 'classnames'
 
 const Cube = () => {
-  const [{ currentTransform, currentPage }] = useContext(RotationCTX)
+  const [{ rotation, page }] = useContext(RotationCTX)
 
   const animationProps = useSpring({
     from: { transform: 'rotate3d(0, 100, 0, 270deg)' },
-    transform: currentTransform,
+    transform: rotation,
     config: config.molasses
   })
 
@@ -26,7 +26,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.right,
-            currentPage === 'osc' && styles.currentSide
+            page === 'osc' && styles.currentSide
           )}>
           <Oscillator1Controller />
         </div>
@@ -34,7 +34,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.back,
-            currentPage === 'fm' && styles.currentSide
+            page === 'fm' && styles.currentSide
           )}>
           <Dino />
         </div>
@@ -42,7 +42,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.left,
-            currentPage === 'env' && styles.currentSide
+            page === 'env' && styles.currentSide
           )}>
           <Envelope />
         </div>
@@ -50,7 +50,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.front,
-            currentPage === 'fx' && styles.currentSide
+            page === 'fx' && styles.currentSide
           )}>
           <Effects />
         </div>
@@ -58,7 +58,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.bottom,
-            currentPage === 'fxII' && styles.currentSide
+            page === 'fxII' && styles.currentSide
           )}>
           <Effects2 />
         </div>
@@ -66,7 +66,7 @@ const Cube = () => {
           className={cn(
             styles.side,
             styles.top,
-            currentPage === 'auth' && styles.currentSide
+            page === 'auth' && styles.currentSide
           )}>
           <Auth />
         </div>

@@ -47,8 +47,7 @@ const Login = ({ setCurrentShow }) => {
           updateAuth({ type: 'LOGIN', payload: result.data.data })
           updateRotation({
             type: 'CHANGE_ROTATION',
-            payload: `rotate3d(0, 100, 0, 270deg)`,
-            page: 'osc'
+            payload: { rotation: `rotate3d(0, 100, 0, 270deg)`, page: 'osc' }
           })
         }
       })

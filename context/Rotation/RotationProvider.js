@@ -7,13 +7,15 @@ if (typeof window !== 'undefined') {
   RotationCTX = createContext()
 
   function reducer(state, action) {
-    let { payload } = action
+    const { payload } = action
+    const { rotation, page } = payload
+
     switch (action.type) {
       case 'CHANGE_ROTATION':
         return {
           ...state,
-          currentTransform: payload,
-          currentPage: action.page
+          rotation,
+          page
         }
 
       default:
@@ -24,7 +26,8 @@ if (typeof window !== 'undefined') {
 
   RotationProvider = (props) => {
     const stateHook = useReducer(reducer, {
-      currentTransform: `rotate3d(0, 100, 0, 270deg)`
+      rotation: 'rotate3d(0, 100, 0, 270deg)',
+      page: 'osc'
     })
 
     return (
