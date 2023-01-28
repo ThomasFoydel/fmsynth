@@ -81,7 +81,7 @@ const initialValues = {
     wet: 0
   },
   combFilter: {
-    delayTime: 0.1,
+    delayTime: '8t',
     resonance: 0.5,
     wet: 0
   },
@@ -91,6 +91,10 @@ const initialValues = {
     high: 0,
     mid: 0,
     low: 0
+  },
+  vibrato: {
+    depth: 0.5,
+    wet: 0
   }
 }
 
@@ -98,8 +102,6 @@ if (Tone && typeof window !== 'undefined') {
   const { audio } = new Synth()
 
   const {
-    actx,
-    out,
     now,
     masterVol,
     osc1Gain,
@@ -113,10 +115,10 @@ if (Tone && typeof window !== 'undefined') {
     reverb,
     reverbCrossfade,
     eq,
-    limiter,
     lfoFilter,
     fmOsc1,
-    fmOsc1Gain
+    fmOsc1Gain,
+    vibrato
   } = audio
 
   CTX = createContext()
@@ -351,6 +353,11 @@ if (Tone && typeof window !== 'undefined') {
           lfoFilter: { ...state.lfoFilter, [payload.stateProp]: value }
         }
 
+      case 'CHANGE_VIBRATO': {
+        vibrato[prop].value = payload.value
+        return { ...state, vibrato: { ...state.vibrato, [prop]: value } }
+      }
+
       case 'CHANGE_DISTORTION_AMOUNT':
         distortion.distortion = payload / 100
         return {
@@ -425,7 +432,7 @@ if (Tone && typeof window !== 'undefined') {
 
       case 'CHANGE_MASTER_BPM':
         Tone.Transport.bpm.rampTo(payload, 0.01)
-        // combFilter.delayTime.value = state.combFilter.delayTime
+        combFilter.delayTime.value = state.combFilter.delayTime
         lfoFilter.frequency.value = state.lfoFilter.frequency
         pingPongDelay.delayTime.value = state.pingPong.delayTime
         return { ...state, masterBpm: payload }
@@ -470,8 +477,8 @@ if (Tone && typeof window !== 'undefined') {
         distortion.wet.value = value.distortion.wet
         distortion._shaper._shaper._oversample = value.distortion.oversample
 
-        // combFilter.delayTime.value = value.combFilter.delayTime
-        // combFilter.resonance.value = value.combFilter.resonance
+        combFilter.delayTime.value = value.combFilter.delayTime
+        combFilter.resonance.value = value.combFilter.resonance
         if (value.combFilterCrossFade.wet > 0) {
           combFilterCrossFade.fade.value = value.combFilter.wet
         } else {

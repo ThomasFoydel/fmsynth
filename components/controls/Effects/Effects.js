@@ -1,8 +1,8 @@
 import React from 'react'
-import Vibrato from '../Vibrato/Vibrato'
 import Distortion from '../Distortion/Distortion'
 import PingPong from '../PingPong/PingPong'
 import styles from './Effects.module.scss'
+import Vibrato from '../Vibrato/Vibrato'
 import Reverb from '../Reverb/Reverb'
 import EQ from '../EQ/EQ'
 
