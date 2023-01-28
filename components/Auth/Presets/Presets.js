@@ -23,7 +23,7 @@ const Presets = () => {
     'isLoggedIn',
     'user',
     'currentPreset',
-    'keyboardOctaveOffset',
+    'keyboardOctaveOffset'
   ]
 
   const handleLogOut = (e) => {
@@ -52,7 +52,7 @@ const Presets = () => {
       {
         name: appState.currentPreset,
         state: filteredState,
-        username: appState.user.name,
+        username: appState.user.name
       },
       { headers: { 'x-auth-token': foundToken } }
     )
@@ -65,8 +65,8 @@ const Presets = () => {
             type: 'UPDATE_PRESETS',
             payload: {
               presets: result.data.presets,
-              current: result.data.current,
-            },
+              current: result.data.current
+            }
           })
         }
         setSaveOverOpen(false)
@@ -101,8 +101,8 @@ const Presets = () => {
             type: 'UPDATE_PRESETS',
             payload: {
               presets: result.data.presets,
-              current: result.data.current,
-            },
+              current: result.data.current
+            }
           })
           setOpenSaveAs(false)
           setPresetName('')
@@ -111,8 +111,8 @@ const Presets = () => {
       .catch((err) => console.error('save preset error: ', err))
   }
 
-  const handleKeyPress = (e) => {
-    if (e.charCode === 13) {
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 'Enter') {
       handleSaveAs()
     }
   }
@@ -132,13 +132,13 @@ const Presets = () => {
             type: 'UPDATE_PRESETS',
             payload: {
               presets: result.data.presets,
-              current: result.data.current,
-            },
+              current: result.data.current
+            }
           })
           updateState({
             type: 'LOAD_PRESET',
             text: result.data.current,
-            payload: result.data.presets[result.data.newCurrentIndex],
+            payload: result.data.presets[result.data.newCurrentIndex]
           })
           setDeleteOpen(false)
         }
@@ -192,31 +192,41 @@ const Presets = () => {
 
       {openSaveAs && (
         <div className={styles.saveAs}>
-          <div className={styles.closeBtn} onClick={() => setOpenSaveAs(false)} />
+          <div
+            className={styles.closeBtn}
+            onClick={() => setOpenSaveAs(false)}
+          />
           <input
             className={styles.saveAsInput}
-            type="text"
-            placeholder="name..."
+            type='text'
+            placeholder='name...'
             onChange={handleName}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
             value={presetName}
-            dontbubble="true"
-            maxLength="20"
+            dontbubble='true'
+            maxLength='20'
           />
-          <button className={cn(styles.confirmBtn, 'center')} onClick={handleSaveAs}>
+          <button
+            className={cn(styles.confirmBtn, 'center')}
+            onClick={handleSaveAs}>
             save
           </button>
         </div>
       )}
       {saveOverOpen && (
         <div className={styles.saveOver}>
-          <div className={styles.closeBtn} onClick={() => setSaveOverOpen(false)} />
+          <div
+            className={styles.closeBtn}
+            onClick={() => setSaveOverOpen(false)}
+          />
           <div className={styles.confirmText}>
             save over
             <br />
             {appState.currentPreset}?
           </div>
-          <button className={cn(styles.confirmBtn, 'center')} onClick={handleSave}>
+          <button
+            className={cn(styles.confirmBtn, 'center')}
+            onClick={handleSave}>
             confirm
           </button>
         </div>
@@ -224,13 +234,18 @@ const Presets = () => {
 
       {deleteOpen && (
         <div className={styles.deleteOpen}>
-          <div className={styles.closeBtn} onClick={() => setDeleteOpen(false)} />
+          <div
+            className={styles.closeBtn}
+            onClick={() => setDeleteOpen(false)}
+          />
           <div className={styles.confirmText}>
             delete
             <br />
             {appState.currentPreset}?
           </div>
-          <button className={cn(styles.confirmBtn, 'center')} onClick={handleDelete}>
+          <button
+            className={cn(styles.confirmBtn, 'center')}
+            onClick={handleDelete}>
             confirm
           </button>
         </div>
