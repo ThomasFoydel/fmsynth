@@ -36,7 +36,7 @@ const Register = ({ setCurrentShow }) => {
   }
 
   const handleKeyDown = (e) => {
-    if (e.charCode === 13) {
+    if (e.keyCode === 'Enter') {
       handleSubmit()
     }
   }
@@ -45,45 +45,49 @@ const Register = ({ setCurrentShow }) => {
     <div className={styles.register}>
       <div className={styles.title}>register</div>
       <input
-        onKeyPress={handleKeyDown}
-        className="center"
-        type="text"
+        onKeyDown={handleKeyDown}
+        className='center'
+        type='text'
         onChange={handleChange}
-        placeholder="name"
-        id="name"
-        dontbubble="true"
+        placeholder='name'
+        id='name'
+        dontbubble='true'
       />
       <input
-        onKeyPress={handleKeyDown}
-        className="center"
-        type="email"
+        onKeyDown={handleKeyDown}
+        className='center'
+        type='email'
         onChange={handleChange}
-        placeholder="email"
-        id="email"
-        dontbubble="true"
+        placeholder='email'
+        id='email'
+        dontbubble='true'
       />
       <input
-        onKeyPress={handleKeyDown}
-        className="center"
-        type="password"
+        onKeyDown={handleKeyDown}
+        className='center'
+        type='password'
         onChange={handleChange}
-        placeholder="password"
-        id="password"
-        dontbubble="true"
+        placeholder='password'
+        id='password'
+        dontbubble='true'
       />
       <input
-        onKeyPress={handleKeyDown}
-        className="center"
-        type="password"
+        onKeyDown={handleKeyDown}
+        className='center'
+        type='password'
         onChange={handleChange}
-        placeholder="confirm password"
-        id="confirmpassword"
-        dontbubble="true"
+        placeholder='confirm password'
+        id='confirmpassword'
+        dontbubble='true'
       />
-      <button className={cn('center', styles.registerBtn)} onClick={handleSubmit}>
+      <button
+        className={cn('center', styles.registerBtn)}
+        onClick={handleSubmit}>
         submit
       </button>
-      <button className={cn('center', styles.signinBtn)} onClick={() => setCurrentShow('login')}>
+      <button
+        className={cn('center', styles.signinBtn)}
+        onClick={() => setCurrentShow('login')}>
         i already have an account
       </button>
       <div className={styles.errMsg}>{errorMessage}</div>

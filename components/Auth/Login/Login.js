@@ -20,7 +20,7 @@ const Login = ({ setCurrentShow }) => {
   }, [errorMessage])
 
   const handleKeyDown = (e) => {
-    if (e.charCode === 13) {
+    if (e.keyCode === 'Enter') {
       handleSubmit()
     }
   }
@@ -40,7 +40,7 @@ const Login = ({ setCurrentShow }) => {
           updateState({
             type: 'CHANGE_ROTATION',
             payload: `rotate3d(0, 100, 0, 270deg)`,
-            page: 'osc',
+            page: 'osc'
           })
         }
       })
@@ -59,28 +59,30 @@ const Login = ({ setCurrentShow }) => {
         password: password
       </div>
       <input
-        className="center"
-        type="email"
-        onKeyPress={handleKeyDown}
+        className='center'
+        type='email'
+        onKeyDown={handleKeyDown}
         onChange={handleChange}
-        placeholder="email"
-        id="email"
-        dontbubble="true"
+        placeholder='email'
+        id='email'
+        dontbubble='true'
       />
       <input
-        className="center"
-        type="password"
-        onKeyPress={handleKeyDown}
-        placeholder="password"
+        className='center'
+        type='password'
+        onKeyDown={handleKeyDown}
+        placeholder='password'
         onChange={handleChange}
-        id="password"
-        dontbubble="true"
+        id='password'
+        dontbubble='true'
       />
       <div className={cn(styles.btnsContainer, 'center')}>
         <button className={styles.signinBtn} onClick={handleSubmit}>
           sign in
         </button>
-        <button className={styles.signupBtn} onClick={() => setCurrentShow('register')}>
+        <button
+          className={styles.signupBtn}
+          onClick={() => setCurrentShow('register')}>
           sign up
         </button>
       </div>
