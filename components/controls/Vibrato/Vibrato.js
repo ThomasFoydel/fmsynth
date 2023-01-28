@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Vibrato.module.scss'
 import Slider from '../Slider/Slider'
 

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styles from './Distortion.module.scss'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import Selector from '../Selector/Selector'
 import Slider from '../Slider/Slider'
 

@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
         }
 
       default:
-        console.error('REDUCER ERROR: action: ', action)
+        console.error('ROTATION REDUCER ERROR: action: ', action)
         return { ...state }
     }
   }

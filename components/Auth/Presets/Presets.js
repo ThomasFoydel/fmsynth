@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React, { useContext, useState, useEffect } from 'react'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import PresetsListSelector from './PresetsListSelector'
 import PresetsSelector from './PresetsSelector'
 import styles from './Presets.module.scss'
@@ -16,11 +16,7 @@ const Presets = () => {
   const foundToken = localStorage.getItem('fmsynth-token')
   const filterOut = [
     'presets',
-    'currentTransform',
-    'springConfig',
     'nodes',
-    'isLoggedIn',
-    'user',
     'currentPreset',
     'keyboardOctaveOffset'
   ]

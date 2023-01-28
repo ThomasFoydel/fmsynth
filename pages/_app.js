@@ -2,16 +2,18 @@ import '../styles/globals.css'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-const SynthProvider = dynamic(() => import('../context/SynthProvider/Store'), {
+const SynthProvider = dynamic(() => import('../context/Synth/SynthProvider'), {
   ssr: false
 })
 
 const RotationProvider = dynamic(
   () => import('../context/Rotation/RotationProvider'),
-  {
-    ssr: false
-  }
+  { ssr: false }
 )
+
+const AuthProvider = dynamic(() => import('../context/Auth/AuthProvider'), {
+  ssr: false
+})
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -44,11 +46,13 @@ function MyApp({ Component, pageProps }) {
 
         <title>FM SYNTH</title>
       </Head>
-      <SynthProvider>
+      <AuthProvider>
         <RotationProvider>
-          <Component {...pageProps} />
+          <SynthProvider>
+            <Component {...pageProps} />
+          </SynthProvider>
         </RotationProvider>
-      </SynthProvider>
+      </AuthProvider>
     </div>
   )
 }

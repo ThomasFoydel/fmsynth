@@ -1,6 +1,6 @@
 import QwertyHancock from 'qwerty-hancock'
 import React, { useEffect, useContext } from 'react'
-import { CTX } from '../../context/SynthProvider/Store'
+import { CTX } from '../../context/Synth/SynthProvider'
 import styles from './keyboard.module.scss'
 
 const Keyboard = () => {

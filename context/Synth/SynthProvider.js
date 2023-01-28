@@ -313,34 +313,12 @@ if (Tone && typeof window !== 'undefined') {
         pingPongDelay.delayTime.value = state.pingPong.delayTime
         return { ...state, masterBpm: payload }
 
-      case 'LOGIN':
-        let { user, token } = payload
-        localStorage.setItem('fmsynth-token', token)
-        const presetsArray = []
-        if (user.presets) {
-          user.presets.forEach((preset, i) => {
-            const presetObj = {
-              text: preset.name,
-              value: preset.params
-            }
-            presetsArray.push(presetObj)
-          })
-        }
-        return {
-          ...state,
-          isLoggedIn: true,
-          user: { name: user.name, email: user.email },
-          presets: presetsArray
-        }
-
-      case 'LOGOUT':
-        localStorage.removeItem('fmsynth-token')
-        return {
-          ...state,
-          isLoggedIn: false,
-          user: { name: '', email: '' },
-          presets: []
-        }
+      case 'LOAD_PRESETS':
+        const presets = payload.map((preset) => ({
+          text: preset.name,
+          value: preset.params
+        }))
+        return { ...state, presets }
 
       case 'LOAD_PRESET':
         synth.applyPreset(value)
@@ -353,7 +331,7 @@ if (Tone && typeof window !== 'undefined') {
           currentPreset: payload.current
         }
       default:
-        console.error('REDUCER ERROR: action: ', action)
+        console.error('SYNTH REDUCER ERROR: action: ', action)
         return { ...state }
     }
   }

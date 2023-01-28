@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import React, { useContext } from 'react'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Presets.module.scss'
 
 const PresetsListSelector = ({ closeSaveDelete }) => {

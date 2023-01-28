@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { RotationCTX } from '../../context/Rotation/RotationProvider'
-import { CTX } from '../../context/SynthProvider/Store'
+import { AuthCTX } from '../../context/Auth/AuthProvider'
 import Register from './Register/Register'
 import Presets from './Presets/Presets'
 import Login from './Login/Login'
 
 const Auth = () => {
-  const [appState, updateState] = useContext(CTX)
+  const [authState, updateAuth] = useContext(AuthCTX)
   const [, updateRotation] = useContext(RotationCTX)
   const [currentShow, setCurrentShow] = useState('login')
 
@@ -17,7 +17,7 @@ const Auth = () => {
       const foundToken = localStorage.getItem('fmsynth-token')
 
       if (!foundToken) {
-        updateState({ type: 'LOGOUT' })
+        updateAuth({ type: 'LOGOUT' })
 
         updateRotation({
           type: 'CHANGE_ROTATION',
@@ -31,7 +31,7 @@ const Auth = () => {
           })
             .then((result) => {
               if (!result.data.err) {
-                updateState({
+                updateAuth({
                   type: 'LOGIN',
                   payload: { user: result.data, token: foundToken }
                 })
@@ -40,7 +40,7 @@ const Auth = () => {
               }
             })
             .catch(() => {
-              updateState({ type: 'LOGOUT' })
+              updateAuth({ type: 'LOGOUT' })
             })
         }
         setAuthInfo()
@@ -56,7 +56,7 @@ const Auth = () => {
 
   return (
     <div onKeyDown={dontBubble}>
-      {appState.isLoggedIn ? (
+      {authState.isLoggedIn ? (
         <Presets />
       ) : (
         <>

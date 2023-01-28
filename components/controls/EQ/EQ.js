@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import LogarithmicRange from '../Logarithmic/Range'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import Slider from '../Slider/Slider'
 import styles from './EQ.module.scss'
 

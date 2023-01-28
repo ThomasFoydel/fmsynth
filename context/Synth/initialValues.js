@@ -1,8 +1,5 @@
 const initialValues = {
-  isLoggedIn: false,
-  user: { name: '', email: '' },
   presets: [],
-  springConfig: 'molasses',
   nodes: [],
   currentPreset: 'default',
   keyboardOctaveOffset: 0,

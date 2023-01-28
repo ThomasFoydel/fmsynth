@@ -2,14 +2,16 @@ import Axios from 'axios'
 import cn from 'classnames'
 import React, { useState, useEffect, useContext } from 'react'
 import { RotationCTX } from '../../../context/Rotation/RotationProvider'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { AuthCTX } from '../../../context/Auth/AuthProvider'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Login.module.scss'
 
 const Login = ({ setCurrentShow }) => {
   const [, updateState] = useContext(CTX)
+  const [, updateRotation] = useContext(RotationCTX)
+  const [, updateAuth] = useContext(AuthCTX)
   const [formValues, setFormValues] = useState({})
   const [errorMessage, setErrorMessage] = useState('')
-  const [, updateRotation] = useContext(RotationCTX)
 
   useEffect(() => {
     let subscribed = true
@@ -38,7 +40,11 @@ const Login = ({ setCurrentShow }) => {
         if (result.data.err) {
           setErrorMessage(result.data.err)
         } else {
-          updateState({ type: 'LOGIN', payload: result.data.data })
+          updateState({
+            type: 'LOAD_PRESETS',
+            payload: result.data.data.presets
+          })
+          updateAuth({ type: 'LOGIN', payload: result.data.data })
           updateRotation({
             type: 'CHANGE_ROTATION',
             payload: `rotate3d(0, 100, 0, 270deg)`,

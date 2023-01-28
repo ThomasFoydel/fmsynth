@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Selector from '..//Selector/Selector'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './PingPong.module.scss'
 import Slider from '../Slider/Slider'
 import cn from 'classnames'

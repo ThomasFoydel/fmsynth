@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import LogarithmicSlider from '..Logarithmic/LogarithmicSlider'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import Selector from '..Selector/Selector'
 import styles from './Filter.module.scss'
 import Slider from '../Slider/Slider'

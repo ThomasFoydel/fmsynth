@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import InputRange from 'react-input-range'
 import styles from './CombFilter.module.scss'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import Selector from '../Selector/Selector'
 import Slider from '../Slider/Slider'
 

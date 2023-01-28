@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useSpring, animated, config } from 'react-spring'
 import Oscillator1Controller from '../controls/Oscillators/Oscillators'
 import { RotationCTX } from '../../context/Rotation/RotationProvider'
-import { CTX } from '../../context/SynthProvider/Store'
 import Envelope from '../controls/Envelope/Envelope'
 import Effects2 from '../controls/Effects2/Effects2'
 import Effects from '../controls/Effects/Effects'
@@ -12,14 +11,12 @@ import Auth from '../Auth/Auth'
 import cn from 'classnames'
 
 const Cube = () => {
-  const [appState] = useContext(CTX)
   const [{ currentTransform, currentPage }] = useContext(RotationCTX)
-  const { springConfig } = appState
 
   const animationProps = useSpring({
     from: { transform: 'rotate3d(0, 100, 0, 270deg)' },
     transform: currentTransform,
-    config: config[springConfig]
+    config: config.molasses
   })
 
   return (

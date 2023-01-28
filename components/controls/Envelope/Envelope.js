@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import InputRange from 'react-input-range'
-import { CTX } from '../../../context/SynthProvider/Store'
+import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Envelope.module.scss'
 
 const Envelope = () => {
