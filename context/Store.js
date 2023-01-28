@@ -5,175 +5,154 @@ import { calcFreq } from '../util/util'
 import presets from './initialPresets'
 import noiseClass from './noiseClass'
 import oscClass from './oscClass'
+import Synth from './synth'
 
 let Store = () => <></>
 let CTX
 
-if (Tone && typeof window !== 'undefined') {
-  const actx = Tone.context
-  const out = Tone.Destination
-  const now = actx.currentTime
+const initialValues = {
+  isLoggedIn: false,
+  user: { name: '', email: '' },
+  presets,
+  currentTransform: `rotate3d(0, 100, 0, 270deg)`,
+  currentPage: 'osc',
+  springConfig: 'molasses',
+  nodes: [],
+  currentPreset: 'default',
+  keyboardOctaveOffset: 0,
+  masterVol: -10,
+  masterBpm: 120,
 
-  const masterVol = new Tone.Volume(-10)
-  const oscCombinedGain = actx.createGain()
-  const osc1Gain = actx.createGain()
-  const osc2Gain = actx.createGain()
-  const subOscGain = actx.createGain()
-  const noiseReduceGain = actx.createGain()
-  const noiseGain = actx.createGain()
-  osc1Gain.gain.value = 0.2
-  osc2Gain.gain.value = 0.2
-  subOscGain.gain.value = 0.2
-  noiseGain.gain.value = 0.01
-  noiseReduceGain.gain.value = 0.1
-  osc1Gain.connect(oscCombinedGain)
-  osc2Gain.connect(oscCombinedGain)
-  noiseGain.connect(noiseReduceGain)
-  noiseReduceGain.connect(oscCombinedGain)
-
-  const distortion = new Tone.Distortion(0.9)
-  const combFilterCrossFade = new Tone.CrossFade(0)
-  // const combFilter = new Tone.FeedbackCombFilter()
-  const bitcrusher = new Tone.BitCrusher(8)
-  const pingPongDelay = new Tone.PingPongDelay('4n', 0)
-  const reverb = new Tone.Convolver(impulses['block'])
-  const eq = new Tone.EQ3()
-  const limiter = new Tone.Limiter(-6)
-
-  // initialize effects at zero
-  bitcrusher.wet.value = 0
-  distortion.wet.value = 0
-  pingPongDelay.wet.value = 0
-  // reverb.wet.value = 0
-
-  const lfoFilter = new Tone.AutoFilter({
-    frequency: '2n',
-    depth: 0
-  }).start()
-  lfoFilter.sync().start(Tone.now())
-  lfoFilter.baseFrequency = 0
-  lfoFilter.filter._filters[0].type = 'highpass'
-  let initEnv = {
+  envelope: {
     attack: 0.1,
     decay: 4.1,
     sustain: 1,
     release: 1.21
+  },
+  osc1Settings: {
+    type: 'sine',
+    detune: 0,
+    octaveOffset: 0,
+    gain: 0.2
+  },
+  osc2Settings: {
+    type: 'sine',
+    detune: 0,
+    octaveOffset: 0,
+    gain: 0.2
+  },
+  subOscSettings: {
+    type: 'sine',
+    octaveOffset: 0,
+    gain: 0.2
+  },
+  noiseSettings: {
+    type: 'white',
+    gain: 0.01
+  },
+  fm1Settings: {
+    freqOffset: 440,
+    type: 'sine',
+    gain: 300
+  },
+  lfoFilter: {
+    type: 'sine',
+    wet: 0,
+    frequency: 0,
+    depth: 0,
+    baseFrequency: { logValue: 0, value: 0 },
+    octaves: 2.6,
+    filterQ: 0,
+    filterType: 'highpass',
+    filterRolloff: -12
+  },
+  distortion: {
+    distortion: 0.9,
+    wet: 0,
+    oversample: 'none'
+  },
+  pingPong: {
+    wet: 0,
+    delayTime: 0.5,
+    feedback: 0
+  },
+  reverb: {
+    impulse: 'block',
+    wet: 0
+  },
+  combFilter: {
+    delayTime: 0.1,
+    resonance: 0.5,
+    wet: 0
+  },
+  EQ: {
+    lowFrequency: 0,
+    highFrequency: 100,
+    high: 0,
+    mid: 0,
+    low: 0
   }
+}
 
-  const fmOsc1 = actx.createOscillator()
-  fmOsc1.start()
-  const fmOsc1Gain = actx.createGain()
-  fmOsc1Gain.gain.value = 300
-  fmOsc1.connect(fmOsc1Gain)
+if (Tone && typeof window !== 'undefined') {
+  const { audio } = new Synth()
 
-  Tone.connect(oscCombinedGain, bitcrusher)
-
-  // harmonics, distortion, tone effects
-  bitcrusher.connect(distortion)
-  distortion.connect(pingPongDelay)
-
-  // reverb and delay
-  // Tone.connect(pingPongDelay, combFilter)
-  pingPongDelay.connect(combFilterCrossFade.a)
-  // combFilter.connect(combFilterCrossFade.b)
-
-  Tone.connect(combFilterCrossFade, lfoFilter)
-  Tone.connect(subOscGain, lfoFilter)
-  Tone.connect(lfoFilter, reverb)
-  Tone.connect(reverb, eq)
-
-  Tone.connect(eq, limiter)
-
-  Tone.connect(limiter, masterVol)
-  masterVol.connect(out)
+  const {
+    actx,
+    out,
+    now,
+    masterVol,
+    osc1Gain,
+    osc2Gain,
+    subOscGain,
+    noiseGain,
+    distortion,
+    combFilterCrossFade,
+    combFilter,
+    pingPongDelay,
+    reverb,
+    reverbCrossfade,
+    eq,
+    limiter,
+    lfoFilter,
+    fmOsc1,
+    fmOsc1Gain
+  } = audio
 
   CTX = createContext()
 
   let nodes = []
 
-  const initialValues = {
-    isLoggedIn: false,
-    user: { name: '', email: '' },
-    presets,
-    currentTransform: `rotate3d(0, 100, 0, 270deg)`,
-    currentPage: 'osc',
-    springConfig: 'molasses',
-    nodes: [],
-    currentPreset: 'default',
-    keyboardOctaveOffset: 0,
-    masterVol: masterVol.volume.value,
-    masterBpm: Tone.Transport.bpm.value,
-
-    envelope: initEnv,
-    osc1Settings: {
-      type: 'sine',
-      detune: 0,
-      octaveOffset: 0,
-      gain: osc1Gain.gain.value
-    },
-    osc2Settings: {
-      type: 'sine',
-      detune: 0,
-      octaveOffset: 0,
-      gain: osc2Gain.gain.value
-    },
-    subOscSettings: {
-      type: 'sine',
-      octaveOffset: 0,
-      gain: subOscGain.gain.value
-    },
-    noiseSettings: {
-      type: 'white',
-      gain: noiseGain.gain.value
-    },
-    fm1Settings: {
-      freqOffset: fmOsc1.frequency.value,
-      type: fmOsc1.type,
-      gain: fmOsc1Gain.gain.value
-    },
-    lfoFilter: {
-      type: lfoFilter.type,
-      wet: lfoFilter.wet.value,
-      frequency: lfoFilter.frequency.value,
-      depth: lfoFilter.depth.value,
-      baseFrequency: { logValue: 0, value: 0 },
-      octaves: lfoFilter.octaves,
-      filterQ: lfoFilter.filter._filters[0].Q.value,
-      filterType: lfoFilter.filter._filters[0].type,
-      filterRolloff: lfoFilter.filter._rolloff
-    },
-    bitCrusher: { depth: bitcrusher.bits.value, wet: bitcrusher.wet.value },
-    distortion: {
-      distortion: distortion._distortion,
-      wet: distortion.wet.value,
-      oversample: distortion.oversample
-    },
-    pingPong: {
-      wet: pingPongDelay.wet.value,
-      delayTime: pingPongDelay.delayTime.value,
-      feedback: pingPongDelay.feedback.value
-    },
-    reverb: {
-      impulse: 'block'
-      // wet: reverb.wet.value,
-    },
-    combFilter: {
-      delayTime: 0.1,
-      resonance: 0.5
-    },
-    combFilterCrossFade: {
-      fade: combFilterCrossFade.fade.value
-    },
-    EQ: {
-      lowFrequency: 0,
-      logMin: 0,
-      highFrequency: 100,
-      logMax: 20000,
-      high: eq.high.value,
-      mid: eq.mid.value,
-      low: eq.low.value
-    }
-  }
+  masterVol.volume.value = initialValues.masterVol
+  Tone.Transport.bpm.value = initialValues.masterBpm
+  osc1Gain.gain.value = initialValues.osc1Settings.gain
+  osc2Gain.gain.value = initialValues.osc2Settings.gain
+  subOscGain.gain.value = initialValues.subOscSettings.gain
+  noiseGain.gain.value = initialValues.noiseSettings.gain
+  fmOsc1Gain.gain.value = initialValues.fm1Settings.gain
+  lfoFilter.type = initialValues.lfoFilter.type
+  lfoFilter.wet.value = initialValues.lfoFilter.wet
+  lfoFilter.frequency.value = initialValues.lfoFilter.frequency
+  lfoFilter.depth.value = initialValues.lfoFilter.depth
+  lfoFilter.baseFrequency = initialValues.lfoFilter.baseFrequency.logValue
+  lfoFilter.octaves = initialValues.lfoFilter.octaves
+  lfoFilter.filter._filters[0].Q.value = initialValues.lfoFilter.filterQ
+  lfoFilter.filter._filters[0].type = initialValues.lfoFilter.filterType
+  lfoFilter.filter._rolloff = initialValues.lfoFilter.filterRolloff
+  combFilterCrossFade.fade.value = initialValues.combFilter.wet
+  fmOsc1.frequency.value = initialValues.fm1Settings.freqOffset
+  fmOsc1.type = initialValues.fm1Settings.type
+  distortion._distortion = initialValues.distortion.distortion
+  distortion.wet.value = initialValues.distortion.wet
+  distortion.oversample = initialValues.distortion.oversample
+  pingPongDelay.wet.value = initialValues.pingPong.wet
+  pingPongDelay.delayTime.value = initialValues.pingPong.delayTime
+  pingPongDelay.feedback.value = initialValues.pingPong.feedback
+  eq.lowFrequency.value = initialValues.EQ.lowFrequency
+  eq.highFrequency.value = initialValues.EQ.highFrequency
+  eq.high.value = initialValues.EQ.high
+  eq.mid.value = initialValues.EQ.mid
+  eq.low.value = initialValues.EQ.low
 
   function reducer(state, action) {
     let { payload } = action
@@ -372,20 +351,6 @@ if (Tone && typeof window !== 'undefined') {
           lfoFilter: { ...state.lfoFilter, [payload.stateProp]: value }
         }
 
-      case 'CHANGE_BITCRUSH_DEPTH':
-        bitcrusher.bits.value = payload
-        return {
-          ...state,
-          bitCrusher: { ...state.bitCrusher, depth: payload }
-        }
-
-      case 'CHANGE_BITCRUSH_MIX':
-        bitcrusher.wet.value = payload
-        return {
-          ...state,
-          bitCrusher: { ...state.bitCrusher, wet: payload }
-        }
-
       case 'CHANGE_DISTORTION_AMOUNT':
         distortion.distortion = payload / 100
         return {
@@ -421,19 +386,13 @@ if (Tone && typeof window !== 'undefined') {
         return { ...state, reverb: { ...state.reverb, impulse: payload } }
 
       case 'CHANGE_REVERB_MIX':
-        // reverb.wet.value = payload
+        reverbCrossfade.value = payload
         return { ...state, reverb: { ...state.reverb, wet: payload } }
 
       case 'CHANGE_COMB_FILTER':
-        // combFilter[prop].value = value
+        if (prop === 'wet') combFilterCrossFade.fade.value = value
+        else combFilter[prop].value = value
         return { ...state, combFilter: { ...state.combFilter, [prop]: value } }
-
-      case 'CHANGE_COMB_FILTER_CROSSFADE':
-        combFilterCrossFade[prop].value = value
-        return {
-          ...state,
-          combFilterCrossFade: { ...state.combFilterCrossFade, [prop]: value }
-        }
 
       case 'CHANGE_EQ_GAIN':
         eq[prop].value = value
@@ -507,9 +466,6 @@ if (Tone && typeof window !== 'undefined') {
         eq.highFrequency.value = value.EQ.highFrequency
         eq.lowFrequency.value = value.EQ.lowFrequency
 
-        bitcrusher.wet.value = value.bitCrusher.wet
-        bitcrusher.bits = value.bitCrusher.depth
-
         distortion.distortion = value.distortion.distortion
         distortion.wet.value = value.distortion.wet
         distortion._shaper._shaper._oversample = value.distortion.oversample
@@ -517,7 +473,7 @@ if (Tone && typeof window !== 'undefined') {
         // combFilter.delayTime.value = value.combFilter.delayTime
         // combFilter.resonance.value = value.combFilter.resonance
         if (value.combFilterCrossFade.wet > 0) {
-          combFilterCrossFade.fade.value = value.combFilterCrossFade.wet
+          combFilterCrossFade.fade.value = value.combFilter.wet
         } else {
           combFilterCrossFade.fade.value = 0.01
         }
@@ -543,7 +499,8 @@ if (Tone && typeof window !== 'undefined') {
         pingPongDelay.feedback.value = value.pingPong.feedback
 
         reverb.load(impulses[value.reverb.impulse])
-        // reverb.wet.value = value.reverb.wet
+        reverbCrossfade.fade.value = value.reverb.wet
+
         return { ...state, ...value, currentPreset: action.text }
 
       case 'UPDATE_PRESETS':

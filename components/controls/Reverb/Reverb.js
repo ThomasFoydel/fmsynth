@@ -11,9 +11,7 @@ const Reverb = () => {
   const handleImpulse = (e) => {
     updateState({ type: 'CHANGE_REVERB_IMPULSE', payload: e.value })
   }
-  const handleMix = (e) => {
-    let { value } = e
-    value /= 100
+  const handleMix = ({ value }) => {
     updateState({ type: 'CHANGE_REVERB_MIX', payload: value })
   }
 
@@ -25,9 +23,10 @@ const Reverb = () => {
           <div className={styles.slider}>
             <Slider
               onChange={handleMix}
-              value={appState.reverb.wet * 100}
-              property="wet"
-              max={100}
+              value={appState.reverb.wet}
+              property='wet'
+              step={0.1}
+              max={1}
             />
           </div>
         </div>
@@ -73,7 +72,7 @@ const Reverb = () => {
               { value: 'prehistoricCave', text: 'prehistoricCave' },
               { value: 'stNicolaes', text: 'stNicolaes' },
               { value: 'trigRoom', text: 'trigRoom' },
-              { value: 'vocalDuo', text: 'vocalDuo' },
+              { value: 'vocalDuo', text: 'vocalDuo' }
             ]}
           />
         </div>

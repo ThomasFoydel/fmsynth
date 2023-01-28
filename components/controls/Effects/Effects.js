@@ -1,5 +1,5 @@
 import React from 'react'
-import BitCrusher from '../BitCrusher/BitCrusher'
+import Vibrato from '../Vibrato/Vibrato'
 import Distortion from '../Distortion/Distortion'
 import PingPong from '../PingPong/PingPong'
 import styles from './Effects.module.scss'
@@ -11,8 +11,8 @@ const Effects = () => {
     <div className={styles.effects}>
       <EQ />
       <Distortion />
-      <div className="flex">
-        <BitCrusher />
+      <div className='flex'>
+        <Vibrato />
         <PingPong />
       </div>
       <Reverb />

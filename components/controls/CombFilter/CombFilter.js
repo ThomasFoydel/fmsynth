@@ -12,13 +12,14 @@ const CombFilter = () => {
     e /= 100
     updateState({
       type: 'CHANGE_COMB_FILTER',
-      payload: { value: e, prop: 'resonance' },
+      payload: { value: e, prop: 'resonance' }
     })
   }
+
   const handleDelay = (e) => {
     updateState({
       type: 'CHANGE_COMB_FILTER',
-      payload: { value: e.value, prop: 'delayTime' },
+      payload: { value: e.value, prop: 'delayTime' }
     })
   }
 
@@ -26,13 +27,13 @@ const CombFilter = () => {
     let { value, prop } = e
     value /= 100
     updateState({
-      type: 'CHANGE_COMB_FILTER_CROSSFADE',
-      payload: { value, prop },
+      type: 'CHANGE_COMB_FILTER',
+      payload: { value, prop }
     })
   }
   return (
     <div className={styles.combFilter}>
-      <div className="flex">
+      <div className='flex'>
         <div>
           <div className={styles.delaySelector}>
             <Selector
@@ -52,7 +53,7 @@ const CombFilter = () => {
                 { text: '64n', value: '64n' },
                 { text: '64t', value: '64t' },
                 { text: '128n', value: '128n' },
-                { text: '128t', value: '128t' },
+                { text: '128t', value: '128t' }
               ]}
             />
           </div>
@@ -61,7 +62,7 @@ const CombFilter = () => {
             <InputRange
               value={Math.floor(appState.combFilter.resonance * 100)}
               maxValue={100}
-              type="range"
+              type='range'
               onChange={handleChange}
             />
           </div>
@@ -71,11 +72,11 @@ const CombFilter = () => {
           <div className={styles.name}>comb delay</div>
           <Slider
             onChange={handleMix}
-            value={appState.combFilterCrossFade.fade * 100}
+            value={appState.combFilter.wet * 100}
             min={0}
             max={100}
             step={1}
-            property="fade"
+            property='wet'
           />
         </div>
       </div>

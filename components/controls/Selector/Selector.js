@@ -11,7 +11,7 @@ function findWithAttr(array, attr, val) {
   return -1
 }
 
-const Selector = ({ options, value, initVal, onChange, size, thing }) => {
+const Selector = ({ options, value, initVal, onChange, size }) => {
   //- initVal will set the init index,
   //- value will set the init index to the index of the item
   // in the options array with a value that matches the value prop

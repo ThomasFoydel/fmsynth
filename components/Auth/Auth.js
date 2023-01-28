@@ -54,10 +54,12 @@ const Auth = () => {
     return () => {
       subscribed = false
     }
-  }, [updateState])
+  }, [])
 
+  const dontBubble = (e) => e.stopPropagation()
+  
   return (
-    <div className={styles.auth}>
+    <div className={styles.auth} onKeyDown={dontBubble}>
       {appState.isLoggedIn ? (
         <Presets />
       ) : (
