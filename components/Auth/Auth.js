@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
-import Register from './Register/Register'
 import { CTX } from '../../context/SynthProvider/Store'
+import Register from './Register/Register'
 import Presets from './Presets/Presets'
 import styles from './Auth.module.scss'
 import Login from './Login/Login'
@@ -16,11 +16,8 @@ const Auth = () => {
       const foundToken = localStorage.getItem('fmsynth-token')
 
       if (!foundToken) {
-        updateState({
-          type: 'LOGOUT'
-        })
+        updateState({ type: 'LOGOUT' })
 
-        //rotate to auth
         updateState({
           type: 'CHANGE_ROTATION',
           payload: `rotate3d(100, 0, 0, 270deg)`,
@@ -42,9 +39,7 @@ const Auth = () => {
               }
             })
             .catch(() => {
-              updateState({
-                type: 'LOGOUT'
-              })
+              updateState({ type: 'LOGOUT' })
             })
         }
         setAuthInfo()
@@ -57,7 +52,7 @@ const Auth = () => {
   }, [])
 
   const dontBubble = (e) => e.stopPropagation()
-  
+
   return (
     <div className={styles.auth} onKeyDown={dontBubble}>
       {appState.isLoggedIn ? (

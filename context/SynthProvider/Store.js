@@ -99,7 +99,7 @@ if (Tone && typeof window !== 'undefined') {
         }
 
       case 'KILL_OSC':
-        var new_nodes = []
+        let new_nodes = []
         for (var i = 0; i < nodes.length; i++) {
           if (Math.round(nodes[i].initialFreq) === Math.round(payload)) {
             nodes[i].stop()
