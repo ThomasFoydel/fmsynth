@@ -20,7 +20,7 @@ const EQ = () => {
           onChange={handleRange}
           label={'Hz'}
           maxVal={20000}
-          initVal={appState.EQ}
+          value={appState.EQ}
         />
         <div className={styles.titleName}>EQ</div>
       </div>

@@ -1,68 +1,56 @@
-import React from 'react'
 import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
 import Log from '../logarithmic/log'
 
-export default class LogRange extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: {
-        min: this.props.initVal.lowFrequency || 0,
-        max: this.props.initVal.highFrequency || 100,
-      },
+const calcPos = (log, pos) => {
+  if (pos === 0) return 0
+  const val = log.value(pos)
+  if (val > 1000) return Math.round(val / 100) * 100
+  if (val > 500) return Math.round(val / 10) * 10
+  return Math.round(val)
+}
+
+const LogarithmicRange = ({
+  value = { highFrequency: 50, lowFrequency: 0 },
+  minpos = 0,
+  maxpos = 100,
+  minval = 5,
+  maxval = 1600,
+  label,
+  onChange
+}) => {
+  const { highFrequency: max, lowFrequency: min } = value
+
+  const log = new Log({
+    minval,
+    maxval,
+    minpos,
+    maxpos
+  })
+
+  const handleChange = ({ min, max }) => {
+    if (!onChange) {
+      return console.error('LogarithmicRange requires an onChange ethod')
     }
-    this.logSlider = new Log({
-      minpos: props.minpos || 0,
-      maxpos: props.maxpos || 100,
-      minval: props.minval || 5,
-      maxval: props.maxval || 1600,
-    })
-    this.onChange = this.onChange.bind(this)
-    this.formatLabel = this.formatLabel.bind(this)
-  }
 
-  calcPos(pos) {
-    if (pos === 0) return 0
-    const val = this.logSlider.value(pos)
-    if (val > 1000) return Math.round(val / 100) * 100
-    if (val > 500) return Math.round(val / 10) * 10
-    return Math.round(val)
-  }
-
-  onChange(value) {
-    this.setState({ value })
-    if (this.props.onChange) {
-      let newVals = {
-        min: value.min,
-        max: value.max,
-        logMin: this.calcPos(value.min),
-        logMax: this.calcPos(value.max),
-      }
-      this.props.onChange(newVals)
-    } else {
-      console.error('pass an onChange method to <LogarithmicRange />')
+    const newVals = {
+      min,
+      max,
+      logMin: calcPos(log, min),
+      logMax: calcPos(log, max)
     }
+    onChange(newVals)
   }
 
-  formatLabel(value) {
-    return `${this.calcPos(value)}${this.props.label}`
-  }
+  const formatLabel = (value) => `${calcPos(log, value)}${label}`
 
-  render() {
-    return (
-      <div>
-        <RangeInput
-          value={{
-            min: this.props.initVal.lowFrequency,
-            max: this.props.initVal.highFrequency,
-          }}
-          onChange={this.onChange}
-          formatLabel={this.formatLabel}
-        />
-      </div>
-    )
-  }
+  return (
+    <RangeInput
+      value={{ min, max }}
+      onChange={handleChange}
+      formatLabel={formatLabel}
+    />
+  )
 }
 
 const RangeInput = ({ value, onChange, formatLabel }) => (
@@ -75,3 +63,5 @@ const RangeInput = ({ value, onChange, formatLabel }) => (
     onChange={onChange}
   />
 )
+
+export default LogarithmicRange

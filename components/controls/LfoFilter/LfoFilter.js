@@ -157,7 +157,7 @@ const LfoFilter = () => {
         <LogarithmicSlider
           onChange={handleBFrequency}
           maxVal={20000}
-          initVal={appState.lfoFilter.baseFrequency.value}
+          value={appState.lfoFilter.baseFrequency.value}
           label='Hz'
         />
       </div>

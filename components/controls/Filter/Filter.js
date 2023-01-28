@@ -91,7 +91,7 @@ const Filter = () => {
             <LogarithmicSlider
               onChange={handleFrequency}
               maxVal={20000}
-              initVal={appState.filter.frequency}
+              value={appState.filter.frequency}
               label="Hz"
             />
           </div>
