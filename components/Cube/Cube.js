@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useSpring, animated, config } from 'react-spring'
 import Oscillator1Controller from '../controls/Oscillators/Oscillators'
+import { RotationCTX } from '../../context/Rotation/RotationProvider'
 import { CTX } from '../../context/SynthProvider/Store'
 import Envelope from '../controls/Envelope/Envelope'
 import Effects2 from '../controls/Effects2/Effects2'
@@ -12,35 +13,64 @@ import cn from 'classnames'
 
 const Cube = () => {
   const [appState] = useContext(CTX)
-  const { springConfig, currentTransform, currentPage } = appState
+  const [{ currentTransform, currentPage }] = useContext(RotationCTX)
+  const { springConfig } = appState
 
   const animationProps = useSpring({
     from: { transform: 'rotate3d(0, 100, 0, 270deg)' },
     transform: currentTransform,
-    config: config[springConfig],
+    config: config[springConfig]
   })
 
   return (
     <div className={styles.scene}>
       <animated.div className={styles.cube} style={animationProps}>
-        <div className={cn(styles.side, styles.right, currentPage === 'osc' && styles.currentSide)}>
+        <div
+          className={cn(
+            styles.side,
+            styles.right,
+            currentPage === 'osc' && styles.currentSide
+          )}>
           <Oscillator1Controller />
         </div>
-        <div className={cn(styles.side, styles.back, currentPage === 'fm' && styles.currentSide)}>
+        <div
+          className={cn(
+            styles.side,
+            styles.back,
+            currentPage === 'fm' && styles.currentSide
+          )}>
           <Dino />
         </div>
-        <div className={cn(styles.side, styles.left, currentPage === 'env' && styles.currentSide)}>
+        <div
+          className={cn(
+            styles.side,
+            styles.left,
+            currentPage === 'env' && styles.currentSide
+          )}>
           <Envelope />
         </div>
-        <div className={cn(styles.side, styles.front, currentPage === 'fx' && styles.currentSide)}>
+        <div
+          className={cn(
+            styles.side,
+            styles.front,
+            currentPage === 'fx' && styles.currentSide
+          )}>
           <Effects />
         </div>
         <div
-          className={cn(styles.side, styles.bottom, currentPage === 'fxII' && styles.currentSide)}
-        >
+          className={cn(
+            styles.side,
+            styles.bottom,
+            currentPage === 'fxII' && styles.currentSide
+          )}>
           <Effects2 />
         </div>
-        <div className={cn(styles.side, styles.top, currentPage === 'auth' && styles.currentSide)}>
+        <div
+          className={cn(
+            styles.side,
+            styles.top,
+            currentPage === 'auth' && styles.currentSide
+          )}>
           <Auth />
         </div>
       </animated.div>

@@ -2,8 +2,6 @@ const initialValues = {
   isLoggedIn: false,
   user: { name: '', email: '' },
   presets: [],
-  currentTransform: `rotate3d(0, 100, 0, 270deg)`,
-  currentPage: 'osc',
   springConfig: 'molasses',
   nodes: [],
   currentPreset: 'default',

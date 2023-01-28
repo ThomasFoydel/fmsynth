@@ -7,11 +7,11 @@ import styles from './EQ.module.scss'
 const EQ = () => {
   const [appState, updateState] = useContext(CTX)
 
-  const handleGain = (e) => {
-    updateState({ type: 'CHANGE_EQ_GAIN', payload: e })
+  const handleGain = (payload) => {
+    updateState({ type: 'CHANGE_EQ_GAIN', payload })
   }
-  const handleRange = (e) => {
-    updateState({ type: 'CHANGE_EQ_RANGE', payload: e })
+  const handleRange = (payload) => {
+    updateState({ type: 'CHANGE_EQ_RANGE', payload })
   }
   return (
     <div className={styles.EQ}>

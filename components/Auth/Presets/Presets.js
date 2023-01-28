@@ -16,7 +16,6 @@ const Presets = () => {
   const foundToken = localStorage.getItem('fmsynth-token')
   const filterOut = [
     'presets',
-    'currentPage',
     'currentTransform',
     'springConfig',
     'nodes',

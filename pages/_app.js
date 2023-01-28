@@ -6,6 +6,13 @@ const SynthProvider = dynamic(() => import('../context/SynthProvider/Store'), {
   ssr: false
 })
 
+const RotationProvider = dynamic(
+  () => import('../context/Rotation/RotationProvider'),
+  {
+    ssr: false
+  }
+)
+
 function MyApp({ Component, pageProps }) {
   return (
     <div>
@@ -38,7 +45,9 @@ function MyApp({ Component, pageProps }) {
         <title>FM SYNTH</title>
       </Head>
       <SynthProvider>
-        <Component {...pageProps} />
+        <RotationProvider>
+          <Component {...pageProps} />
+        </RotationProvider>
       </SynthProvider>
     </div>
   )

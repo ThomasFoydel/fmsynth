@@ -193,13 +193,6 @@ if (Tone && typeof window !== 'undefined') {
           fm1Settings: { ...state.fm1Settings, gain: payload }
         }
 
-      case 'CHANGE_ROTATION':
-        return {
-          ...state,
-          currentTransform: payload,
-          currentPage: action.page
-        }
-
       case 'CHANGE_LFO_FILTER':
         if (prop === 'baseFrequency') {
           lfoFilter.baseFrequency = value.logValue

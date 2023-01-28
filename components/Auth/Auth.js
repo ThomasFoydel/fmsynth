@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { RotationCTX } from '../../context/Rotation/RotationProvider'
 import { CTX } from '../../context/SynthProvider/Store'
 import Register from './Register/Register'
 import Presets from './Presets/Presets'
@@ -6,6 +7,7 @@ import Login from './Login/Login'
 
 const Auth = () => {
   const [appState, updateState] = useContext(CTX)
+  const [, updateRotation] = useContext(RotationCTX)
   const [currentShow, setCurrentShow] = useState('login')
 
   useEffect(() => {
@@ -17,7 +19,7 @@ const Auth = () => {
       if (!foundToken) {
         updateState({ type: 'LOGOUT' })
 
-        updateState({
+        updateRotation({
           type: 'CHANGE_ROTATION',
           payload: `rotate3d(100, 0, 0, 270deg)`,
           page: 'auth'

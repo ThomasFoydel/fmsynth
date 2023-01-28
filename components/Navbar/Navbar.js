@@ -1,13 +1,12 @@
 import cn from 'classnames'
 import React, { useContext } from 'react'
-import { CTX } from '../../context/SynthProvider/Store'
+import { RotationCTX } from '../../context/Rotation/RotationProvider'
 import styles from './Navbar.module.scss'
 
 const Navbar = () => {
-  const [appState, updateState] = useContext(CTX)
-  const { currentPage } = appState
+  const [{ currentPage }, updateRotation] = useContext(RotationCTX)
   const handleRotate = (rotationValue, page) => {
-    updateState({ type: 'CHANGE_ROTATION', payload: rotationValue, page })
+    updateRotation({ type: 'CHANGE_ROTATION', payload: rotationValue, page })
   }
   return (
     <div className={styles.navbar}>
