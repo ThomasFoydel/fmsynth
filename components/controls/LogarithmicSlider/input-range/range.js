@@ -34,7 +34,7 @@ export default class LogRange extends React.Component {
     if (this.props.onChange) {
       this.props.onChange({ value, logValue: this.calcPos(value) })
     } else {
-      console.log('pass an onChange method to <LogarithmicSlider />')
+      console.error('pass an onChange method to <LogarithmicSlider />')
     }
   }
 

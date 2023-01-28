@@ -38,7 +38,7 @@ const Auth = () => {
                   payload: { user: result.data, token: foundToken }
                 })
               } else {
-                console.log('err: ', result.data.err)
+                console.error('err: ', result.data.err)
               }
             })
             .catch(() => {

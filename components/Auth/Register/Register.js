@@ -29,7 +29,7 @@ const Register = ({ setCurrentShow }) => {
             setCurrentShow('login')
           }
         })
-        .catch((err) => console.log('registration error: ', err))
+        .catch((err) => console.error('registration error: ', err))
     } else {
       setErrorMessage('all inputs required!')
     }

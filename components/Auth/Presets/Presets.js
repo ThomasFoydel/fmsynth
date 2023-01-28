@@ -71,7 +71,7 @@ const Presets = () => {
         }
         setSaveOverOpen(false)
       })
-      .catch((err) => console.log('save preset error: ', err))
+      .catch((err) => console.error('save preset error: ', err))
   }
 
   const handleSaveAs = async () => {
@@ -108,7 +108,7 @@ const Presets = () => {
           setPresetName('')
         }
       })
-      .catch((err) => console.log('save preset error: ', err))
+      .catch((err) => console.error('save preset error: ', err))
   }
 
   const handleKeyPress = (e) => {
@@ -144,7 +144,7 @@ const Presets = () => {
         }
       })
       .catch((err) => {
-        console.log('save preset error: ', err)
+        console.error('save preset error: ', err)
       })
   }
 

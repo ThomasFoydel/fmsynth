@@ -41,7 +41,7 @@ export default class LogRange extends React.Component {
       }
       this.props.onChange(newVals)
     } else {
-      console.log('pass an onChange method to <LogarithmicRange />')
+      console.error('pass an onChange method to <LogarithmicRange />')
     }
   }
 
