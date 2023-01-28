@@ -29,24 +29,15 @@ const LogarithmicSlider = ({
   const formatLabel = (value) => `${calcPos(log, value)}${label}`
 
   return (
-    <RangeInput
+    <InputRange
+      step={1}
+      formatLabel={formatLabel}
+      maxValue={100}
+      minValue={0}
       value={value}
       onChange={handleChange}
-      formatLabel={formatLabel}
     />
   )
 }
-
-const RangeInput = ({ value, onChange, formatLabel, initVal }) => (
-  <InputRange
-    step={1}
-    formatLabel={formatLabel}
-    maxValue={100}
-    minValue={0}
-    value={value}
-    initVal={initVal}
-    onChange={onChange}
-  />
-)
 
 export default LogarithmicSlider
