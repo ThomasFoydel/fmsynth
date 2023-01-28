@@ -14,7 +14,7 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
       updateState({
         type: 'LOAD_PRESET',
         payload: { value: presetParams[0].value },
-        text: id,
+        text: id
       })
       closeSaveDelete()
     }
@@ -29,8 +29,7 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
             preset.text === appState.currentPreset && styles.current
           )}
           onClick={handleSelection}
-          id={preset.text}
-        >
+          id={preset.text}>
           {preset.text}
         </div>
       ))}
