@@ -1,7 +1,7 @@
-import React, { useEffect, useContext } from 'react'
 import QwertyHancock from 'qwerty-hancock'
+import React, { useEffect, useContext } from 'react'
+import { CTX } from '../../context/SynthProvider/Store'
 import styles from './keyboard.module.scss'
-import { CTX } from '../../context/Store'
 
 const Keyboard = () => {
   const [appState, updateState] = useContext(CTX)

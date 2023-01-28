@@ -2,7 +2,9 @@ import '../styles/globals.css'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-const Store = dynamic(() => import('../context/Store'), { ssr: false })
+const SynthProvider = dynamic(() => import('../context/SynthProvider/Store'), {
+  ssr: false
+})
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -35,9 +37,9 @@ function MyApp({ Component, pageProps }) {
 
         <title>FM SYNTH</title>
       </Head>
-      <Store>
+      <SynthProvider>
         <Component {...pageProps} />
-      </Store>
+      </SynthProvider>
     </div>
   )
 }

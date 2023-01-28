@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import InputRange from 'react-input-range'
 import dino from '../../../assets/images//dino.png'
 import dino2 from '../../../assets/images/dino2.png'
-import { CTX } from '../../../context/Store'
+import { CTX } from '../../../context/SynthProvider/Store'
 import Selector from '../Selector/Selector'
 import styles from './Dino.module.scss'
 

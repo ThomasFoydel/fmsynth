@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import cn from 'classnames'
 import React, { useState, useEffect, useContext } from 'react'
-import { CTX } from '../../../context/Store'
+import { CTX } from '../../../context/SynthProvider/Store'
 import styles from './Login.module.scss'
 
 const Login = ({ setCurrentShow }) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Oscillators.module.scss'
 import Selector from '../Selector/Selector'
-import { CTX } from '../../../context/Store'
+import { CTX } from '../../../context/SynthProvider/Store'
 import Slider from '../Slider/Slider'
 import cn from 'classnames'
 

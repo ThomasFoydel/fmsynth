@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Register from './Register/Register'
-import { CTX } from '../../context/Store'
+import { CTX } from '../../context/SynthProvider/Store'
 import Presets from './Presets/Presets'
 import styles from './Auth.module.scss'
 import Login from './Login/Login'

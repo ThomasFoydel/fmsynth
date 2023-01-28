@@ -1,5 +1,5 @@
 import * as Tone from 'tone'
-import impulses from '../assets/impulseResponses'
+import impulses from '../../assets/impulseResponses'
 
 class Synth {
   constructor() {
@@ -14,7 +14,6 @@ class Synth {
       const subOscGain = actx.createGain()
       const noiseReduceGain = actx.createGain()
       const noiseGain = actx.createGain()
-
       osc1Gain.connect(oscCombinedGain)
       osc2Gain.connect(oscCombinedGain)
       noiseGain.connect(noiseReduceGain)
@@ -81,6 +80,62 @@ class Synth {
       }
       this.audio = audio
     }
+  }
+  applyPreset(preset) {
+    const {
+      eq,
+      fmOsc1,
+      vibrato,
+      reverb,
+      osc1Gain,
+      osc2Gain,
+      lfoFilter,
+      noiseGain,
+      masterVol,
+      fmOsc1Gain,
+      subOscGain,
+      combFilter,
+      distortion,
+      pingPongDelay,
+      reverbCrossfade,
+      combFilterCrossFade
+    } = this.audio
+    masterVol.volume.value = preset.masterVol
+    Tone.Transport.bpm.value = preset.masterBpm
+    osc1Gain.gain.value = preset.osc1Settings.gain
+    osc2Gain.gain.value = preset.osc2Settings.gain
+    subOscGain.gain.value = preset.subOscSettings.gain
+    noiseGain.gain.value = preset.noiseSettings.gain
+    fmOsc1Gain.gain.value = preset.fm1Settings.gain
+    fmOsc1.frequency.value = preset.fm1Settings.freqOffset
+    fmOsc1.type = preset.fm1Settings.type
+    lfoFilter.type = preset.lfoFilter.type
+    lfoFilter.wet.value = preset.lfoFilter.wet
+    lfoFilter.frequency.value = preset.lfoFilter.frequency
+    lfoFilter.depth.value = preset.lfoFilter.depth
+    lfoFilter.baseFrequency = preset.lfoFilter.baseFrequency.logValue
+    lfoFilter.octaves = preset.lfoFilter.octaves
+    lfoFilter.filter._filters[0].Q.value = preset.lfoFilter.filterQ
+    lfoFilter.filter._filters[0].type = preset.lfoFilter.filterType
+    lfoFilter.filter._rolloff = preset.lfoFilter.filterRolloff
+    combFilter.delayTime.value = preset.combFilter.delayTime
+    combFilter.resonance.value = preset.combFilter.resonance
+    combFilterCrossFade.fade.value = preset.combFilter.wet
+    distortion._distortion = preset.distortion.distortion
+    distortion.wet.value = preset.distortion.wet
+    distortion.oversample = preset.distortion.oversample
+    pingPongDelay.wet.value = preset.pingPong.wet
+    pingPongDelay.delayTime.value = preset.pingPong.delayTime
+    pingPongDelay.feedback.value = preset.pingPong.feedback
+    eq.lowFrequency.value = preset.EQ.lowFrequency
+    eq.highFrequency.value = preset.EQ.highFrequency
+    eq.high.value = preset.EQ.high
+    eq.mid.value = preset.EQ.mid
+    eq.low.value = preset.EQ.low
+    reverb.load(impulses[preset.reverb.impulse])
+    reverbCrossfade.fade.value = preset.reverb.wet
+    vibrato.depth.value = preset.vibrato.depth
+    vibrato.wet.value = preset.vibrato.wet
   }
 }
 

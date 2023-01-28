@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React, { useContext, useState, useEffect } from 'react'
 import PresetsListSelector from './PresetsListSelector'
 import PresetsSelector from './PresetsSelector'
-import { CTX } from '../../../context/Store'
+import { CTX } from '../../../context/SynthProvider/Store'
 import styles from './Presets.module.scss'
 import cn from 'classnames'
 

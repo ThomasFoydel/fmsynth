@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { CTX } from '../../../context/Store'
+import { CTX } from '../../../context/SynthProvider/Store'
 import Selector from '../Selector/Selector'
 import styles from './Reverb.module.scss'
 import Slider from '../Slider/Slider'
