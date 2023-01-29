@@ -32,6 +32,7 @@
       background: rgb(216, 76, 76);
     }
   }
+
   .confirmBtn {
     position: absolute;
     bottom: 0.3rem;
@@ -39,6 +40,7 @@
     height: 1.8rem;
     text-align: center;
   }
+
   .confirmText {
     text-align: center;
     font-size: 0.5rem;
@@ -46,6 +48,7 @@
     width: 21rem;
     overflow: hidden;
   }
+
   .saveAsInput {
     margin-left: 50%;
     transform: translateX(-50%);
@@ -68,9 +71,18 @@
   height: 10rem;
   max-width: 23rem;
   border-radius: 5px;
-  padding-bottom: 2rem;
+
+  .lastOption {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
 
   .presetOption {
+    &:first-of-type {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
     height: 2.2rem;
     padding-top: 0.1rem;
     padding-left: 0.5rem;
@@ -128,8 +140,44 @@
   margin-bottom: 0.4rem;
   width: 21rem;
 
+  .option {
+    cursor: pointer;
+    border-radius: 4px;
+    border: solid rgb(77, 77, 77) 2px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .leftButton,
+  .rightButton {
+    width: 3.2rem;
+    cursor: pointer;
+    color: #222;
+    background: #ddd;
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover {
+      background: rgb(91, 91, 91);
+      color: white;
+    }
+  }
+
+  .leftButton {
+    border-radius: 2px 0 0 2px;
+  }
+
   .value {
+    width: 20.5rem;
+    background: #ddd;
+    color: rgb(91, 91, 91);
+    padding-top: 0.1rem;
+    font-weight: 700;
     overflow: hidden;
+  }
+
+  .rightButton {
+    border-radius: 0 2px 2px 0;
   }
 }
 

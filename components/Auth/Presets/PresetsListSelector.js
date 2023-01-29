@@ -18,12 +18,13 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
 
   return (
     <div className={styles.presetListSelector}>
-      {presets.map((preset) => (
+      {presets.map((preset, i) => (
         <div
           key={preset.name}
           className={cn(
             styles.presetOption,
-            preset.name === appState.currentPreset?.name && styles.current
+            preset.name === appState.currentPreset?.name && styles.current,
+            presets.length > 4 && i === presets.length - 1 && styles.lastOption
           )}
           onClick={handleSelection}
           id={preset.name}>

@@ -3,17 +3,10 @@ import React, { useContext } from 'react'
 import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Presets.module.scss'
 
-function findPresetIndex(array, val) {
-  for (let i = 0; i < array.length; i += 1) {
-    if (array[i].text === val) return i
-  }
-  return 0
-}
-
 const PresetsSelector = ({ closeSaveDelete }) => {
   const [appState, updateState] = useContext(CTX)
   const { presets, currentPreset } = appState
-  const currentIndex = findPresetIndex(presets, currentPreset)
+  const currentIndex = presets.findIndex((p) => p.name === currentPreset.name)
 
   const handleSelector = (e) => {
     const { id } = e.target
