@@ -46,7 +46,7 @@ const Register = ({ setCurrentShow }) => {
           <input
             key={name}
             className='center'
-            type='text'
+            type={label.includes('password') ? 'password' : 'text'}
             onChange={handleChange}
             placeholder={label}
             id={name}
