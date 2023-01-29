@@ -14,7 +14,8 @@ const userSchema = Schema(
           const re =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
           return re.test(String(str).toLowerCase())
-        }
+        },
+        message: 'Email must be valid'
       }
     },
     password: {
@@ -22,7 +23,8 @@ const userSchema = Schema(
       required: true,
       select: false,
       validate: {
-        validator: (str) => str.length >= 8
+        validator: (str) => str.length >= 8,
+        message: 'Password must be at least 8 characters'
       }
     }
   },
