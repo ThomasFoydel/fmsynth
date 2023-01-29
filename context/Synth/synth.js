@@ -100,6 +100,7 @@ class Synth {
       reverbCrossfade,
       combFilterCrossFade
     } = this.audio
+    
     masterVol.volume.value = preset.masterVol
     Tone.Transport.bpm.value = preset.masterBpm
     osc1Gain.gain.value = preset.osc1Settings.gain

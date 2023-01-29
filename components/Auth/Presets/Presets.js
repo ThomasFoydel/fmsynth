@@ -1,10 +1,11 @@
 import Axios from 'axios'
+import cn from 'classnames'
+import { signOut } from 'next-auth/react'
 import React, { useContext, useState, useEffect } from 'react'
 import { CTX } from '../../../context/Synth/SynthProvider'
 import PresetsListSelector from './PresetsListSelector'
 import PresetsSelector from './PresetsSelector'
 import styles from './Presets.module.scss'
-import cn from 'classnames'
 
 const Presets = () => {
   const [appState, updateState] = useContext(CTX)
@@ -20,8 +21,6 @@ const Presets = () => {
     'keyboardOctaveOffset',
     '_id'
   ]
-
-  const handleLogOut = () => updateState({ type: 'LOGOUT' })
 
   useEffect(() => {
     setTimeout(() => {
@@ -144,7 +143,9 @@ const Presets = () => {
 
   return (
     <div className={styles.presets}>
-      <button className={styles.logoutBtn} onClick={handleLogOut}>
+      <button
+        className={styles.logoutBtn}
+        onClick={() => signOut({ redirect: false })}>
         logout
       </button>
 

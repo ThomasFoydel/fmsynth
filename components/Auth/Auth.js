@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import React, { useState, useEffect, useContext } from 'react'
 import { CTX } from '../../context/Synth/SynthProvider'
 import Register from './Register/Register'
@@ -27,8 +27,6 @@ const Auth = () => {
 
   return (
     <div onKeyDown={dontBubble}>
-      <button onClick={signOut}>signOut</button>
-      <button onClick={fetchUserPresets}>fetchstuff</button>
       {status === 'authenticated' ? (
         <Presets />
       ) : (
