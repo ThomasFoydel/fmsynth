@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
 import Log, { calcPos } from './log'
@@ -22,7 +23,7 @@ const Range = ({
 
   const handleChange = ({ min, max }) => {
     if (!onChange) {
-      return console.error('LogarithmicRange requires an onChange ethod')
+      return toast.error('LogarithmicRange requires an onChange method')
     }
 
     const newVals = {

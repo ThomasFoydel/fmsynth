@@ -28,6 +28,7 @@
       80% 0%,
       50% 30%
     );
+
     &:hover {
       background: rgb(216, 76, 76);
     }
@@ -57,13 +58,6 @@
     text-align: left;
     width: 14rem;
     margin-top: 0.6rem;
-  }
-
-  .errorMessage {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    font-size: 0.8rem;
   }
 }
 

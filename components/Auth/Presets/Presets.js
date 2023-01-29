@@ -1,7 +1,8 @@
 import Axios from 'axios'
 import cn from 'classnames'
+import { toast } from 'react-toastify'
 import { signOut } from 'next-auth/react'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { CTX } from '../../../context/Synth/SynthProvider'
 import PresetsListSelector from './PresetsListSelector'
 import PresetsSelector from './PresetsSelector'
@@ -18,14 +19,7 @@ const filterOut = [
 const Presets = () => {
   const [appState, updateState] = useContext(CTX)
   const [presetName, setPresetName] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
   const [windowOpen, setWindowOpen] = useState(null)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 2800)
-  }, [errorMessage])
 
   const handleName = (e) => setPresetName(e.target.value)
 
@@ -41,23 +35,20 @@ const Presets = () => {
       state: filteredState
     })
       .then((result) => {
-        if (result.data.err) {
-          setErrorMessage(result.data.err)
-        } else {
-          updateState({
-            type: 'UPDATE_PRESET',
-            payload: result?.data?.preset
-          })
+        if (result.data.status === 'error') toast.error(result.data.message)
+        else {
+          toast.success(result.data.message)
+          updateState({ type: 'UPDATE_PRESET', payload: result?.data?.preset })
         }
         setWindowOpen(null)
       })
-      .catch((err) => console.error('Save preset error: ', err.message))
+      .catch(() => toast.error('Save preset error'))
   }
 
   const handleSaveNew = async () => {
     if (!presetName) {
       setWindowOpen(null)
-      return setErrorMessage('name value required')
+      return toast.error('Name value required')
     }
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
@@ -68,9 +59,9 @@ const Presets = () => {
 
     Axios.post('/api/preset', { name: presetName, state: filteredState })
       .then((result) => {
-        if (result.data.err) {
-          setErrorMessage(result.data.err)
-        } else {
+        if (result.data.status === 'error') toast.error(result.data.message)
+        else {
+          toast.success(result.data.message)
           updateState({
             type: 'ADD_PRESET',
             payload: result.data.preset
@@ -79,7 +70,7 @@ const Presets = () => {
         }
         setWindowOpen(null)
       })
-      .catch((err) => console.error('save preset error: ', err))
+      .catch((err) => toast.error('Save preset error: ', err))
   }
 
   const handleKeyDown = (e) => {
@@ -92,9 +83,9 @@ const Presets = () => {
     if (!appState.currentPreset) return
     Axios.delete(`/api/preset/${appState.currentPreset._id}`)
       .then((result) => {
-        if (result.data.err) {
-          setErrorMessage(result.data.err)
-        } else {
+        if (result.data.status === 'error') toast.error(result.data.message)
+        else {
+          toast.success(result.data.message)
           updateState({
             type: 'REMOVE_PRESET',
             payload: result?.data?.presetId
@@ -102,9 +93,7 @@ const Presets = () => {
         }
         setWindowOpen(null)
       })
-      .catch((err) => {
-        console.error('Delete preset error: ', err)
-      })
+      .catch((err) => toast.error('Delete preset error: ', err))
   }
 
   const openTheSave = () => setWindowOpen('save')
@@ -185,8 +174,6 @@ const Presets = () => {
           </button>
         </div>
       )}
-
-      <div className={cn(styles.errorMessage, 'center')}>{errorMessage}</div>
     </div>
   )
 }

@@ -29,6 +29,7 @@
     display: block;
     margin-top: 0.9rem;
   }
+
   .signin-btn {
     margin-top: 0.5rem;
     cursor: pointer;
@@ -38,12 +39,9 @@
     text-decoration: underline;
     padding: 0.1rem 0.2rem;
     width: 100%;
+
     &:hover {
       color: rgb(208, 208, 208);
     }
-  }
-  .err-msg {
-    width: 100%;
-    text-align: center;
   }
 }

@@ -1,7 +1,9 @@
-import '../styles/globals.css'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 import { SessionProvider } from 'next-auth/react'
+import '../styles/globals.css'
 
 const SynthProvider = dynamic(() => import('../context/Synth/SynthProvider'), {
   ssr: false
@@ -50,6 +52,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </SynthProvider>
         </RotationProvider>
       </SessionProvider>
+      <ToastContainer />
     </div>
   )
 }

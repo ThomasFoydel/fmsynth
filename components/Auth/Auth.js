@@ -17,7 +17,7 @@ const Auth = () => {
         .then((res) =>
           updateState({ type: 'LOAD_PRESETS', payload: res?.data?.presets })
         )
-        .catch((err) => console.error('fetchUserPresets error: ', err))
+        .catch(() => toast.error('Preset fetch error'))
     }
   }
 

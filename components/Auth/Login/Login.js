@@ -1,23 +1,13 @@
 import cn from 'classnames'
+import { toast } from 'react-toastify'
+import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
-import React, { useState, useEffect } from 'react'
 import styles from './Login.module.scss'
 
 const Login = ({ setCurrentShow }) => {
   const [formValues, setFormValues] = useState({})
-  const [errorMessage, setErrorMessage] = useState('')
   const { data } = useSession()
-
-  useEffect(() => {
-    let subscribed = true
-    setTimeout(() => {
-      if (subscribed) {
-        setErrorMessage('')
-      }
-    }, 3400)
-    return () => (subscribed = false)
-  }, [errorMessage])
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 'Enter') {
@@ -39,9 +29,8 @@ const Login = ({ setCurrentShow }) => {
         callbackUrl: '/'
       })
       console.log({ status, data })
-    } else {
-      setErrorMessage('all fields required')
-    }
+      toast.success('Login successful')
+    } else toast.error('All fields required')
   }
   return (
     <div className={styles.login}>
@@ -81,7 +70,6 @@ const Login = ({ setCurrentShow }) => {
           sign up
         </button>
       </div>
-      <div className={cn(styles.loginErr, 'center')}>{errorMessage}</div>
     </div>
   )
 }

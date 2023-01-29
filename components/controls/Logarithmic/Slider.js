@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 import InputRange from 'react-input-range'
 import 'react-input-range/lib/css/index.css'
 import Log, { calcPos } from './log'
@@ -21,7 +22,7 @@ const LogarithmicSlider = ({
 
   const handleChange = (value) => {
     if (!onChange) {
-      return console.error('pass an onChange method to <LogarithmicSlider />')
+      return toast.error('pass an onChange method to <LogarithmicSlider />')
     }
     onChange({ value, logValue: calcPos(log, value) })
   }

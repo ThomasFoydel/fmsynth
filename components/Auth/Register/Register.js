@@ -1,17 +1,11 @@
 import Axios from 'axios'
 import cn from 'classnames'
-import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
+import React, { useState } from 'react'
 import styles from './Register.module.scss'
 
 const Register = ({ setCurrentShow }) => {
   const [formValues, setFormValues] = useState({})
-  const [errorMessage, setErrorMessage] = useState('')
-
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 3400)
-  }, [errorMessage])
 
   const handleChange = (e) => {
     let { value, id } = e.target
@@ -20,19 +14,18 @@ const Register = ({ setCurrentShow }) => {
 
   const handleSubmit = () => {
     let { email, name, password, confirmPassword } = formValues
-    if (email && name && password && confirmPassword) {
-      Axios.post('/auth/register', formValues)
-        .then((result) => {
-          if (result.data.err) {
-            setErrorMessage(result.data.err)
-          } else {
-            setCurrentShow('login')
-          }
-        })
-        .catch((err) => console.error('registration error: ', err))
-    } else {
-      setErrorMessage('all inputs required!')
+    if (!email || !name || !password || !confirmPassword) {
+      return toast.error('All inputs required!')
     }
+    Axios.post('/auth/register', formValues)
+      .then((result) => {
+        if (result.data.status === 'error') {
+          return toast.error(result.data.message)
+        }
+        setCurrentShow('login')
+        toast.success(result.data.message)
+      })
+      .catch((err) => toast.error('Registration error: ', err))
   }
 
   const handleKeyDown = (e) => {
@@ -90,7 +83,6 @@ const Register = ({ setCurrentShow }) => {
         onClick={() => setCurrentShow('login')}>
         i already have an account
       </button>
-      <div className={styles.errMsg}>{errorMessage}</div>
     </div>
   )
 }
