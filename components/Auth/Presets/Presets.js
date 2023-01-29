@@ -7,20 +7,19 @@ import PresetsListSelector from './PresetsListSelector'
 import PresetsSelector from './PresetsSelector'
 import styles from './Presets.module.scss'
 
+const filterOut = [
+  'presets',
+  'nodes',
+  'currentPreset',
+  'keyboardOctaveOffset',
+  '_id'
+]
+
 const Presets = () => {
   const [appState, updateState] = useContext(CTX)
   const [presetName, setPresetName] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [openSaveAs, setOpenSaveAs] = useState(false)
-  const [saveOverOpen, setSaveOverOpen] = useState(false)
-  const [deleteOpen, setDeleteOpen] = useState(false)
-  const filterOut = [
-    'presets',
-    'nodes',
-    'currentPreset',
-    'keyboardOctaveOffset',
-    '_id'
-  ]
+  const [windowOpen, setWindowOpen] = useState(null)
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,9 +27,7 @@ const Presets = () => {
     }, 2800)
   }, [errorMessage])
 
-  const handleName = (e) => {
-    setPresetName(e.target.value)
-  }
+  const handleName = (e) => setPresetName(e.target.value)
 
   const handleSave = async () => {
     if (!appState.currentPreset) return
@@ -45,7 +42,6 @@ const Presets = () => {
     })
       .then((result) => {
         if (result.data.err) {
-          setSaveOverOpen(false)
           setErrorMessage(result.data.err)
         } else {
           updateState({
@@ -53,14 +49,14 @@ const Presets = () => {
             payload: result?.data?.preset
           })
         }
-        setSaveOverOpen(false)
+        setWindowOpen(null)
       })
       .catch((err) => console.error('Save preset error: ', err.message))
   }
 
   const handleSaveNew = async () => {
     if (!presetName) {
-      setOpenSaveAs(false)
+      setWindowOpen(null)
       return setErrorMessage('name value required')
     }
     const filteredState = Object.keys(appState)
@@ -73,17 +69,15 @@ const Presets = () => {
     Axios.post('/api/preset', { name: presetName, state: filteredState })
       .then((result) => {
         if (result.data.err) {
-          setOpenSaveAs(false)
-          setPresetName('')
           setErrorMessage(result.data.err)
         } else {
           updateState({
             type: 'ADD_PRESET',
             payload: result.data.preset
           })
-          setOpenSaveAs(false)
           setPresetName('')
         }
+        setWindowOpen(null)
       })
       .catch((err) => console.error('save preset error: ', err))
   }
@@ -99,46 +93,29 @@ const Presets = () => {
     Axios.delete(`/api/preset/${appState.currentPreset._id}`)
       .then((result) => {
         if (result.data.err) {
-          setDeleteOpen(false)
           setErrorMessage(result.data.err)
         } else {
           updateState({
             type: 'REMOVE_PRESET',
             payload: result?.data?.presetId
           })
-          setDeleteOpen(false)
         }
+        setWindowOpen(null)
       })
       .catch((err) => {
         console.error('Delete preset error: ', err)
       })
   }
 
-  const openTheSave = () => {
-    setErrorMessage('')
-    setSaveOverOpen(!saveOverOpen)
-    setOpenSaveAs(false)
-    setDeleteOpen(false)
-  }
+  const openTheSave = () => setWindowOpen('save')
 
-  const openTheSaveAs = () => {
-    setErrorMessage('')
-    setOpenSaveAs(!openSaveAs)
-    setSaveOverOpen(false)
-    setDeleteOpen(false)
-  }
+  const openTheSaveAs = () => setWindowOpen('saveAs')
 
-  const openTheDelete = () => {
-    setErrorMessage('')
-    setDeleteOpen(!deleteOpen)
-    setOpenSaveAs(false)
-    setSaveOverOpen(false)
-  }
+  const openTheDelete = () => setWindowOpen('delete')
 
   const closeSaveDelete = () => {
-    setDeleteOpen(false)
-    setOpenSaveAs(false)
-    setSaveOverOpen(false)
+    setPresetName('')
+    setWindowOpen(null)
   }
 
   return (
@@ -158,14 +135,11 @@ const Presets = () => {
         <button onClick={openTheDelete}>delete</button>
       </div>
 
-      {openSaveAs && (
+      {windowOpen === 'saveAs' && (
         <div className={styles.saveAs}>
-          <div
-            className={styles.closeBtn}
-            onClick={() => setOpenSaveAs(false)}
-          />
+          <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <input
-            className={styles.saveAsInput}
+            className={cn('center', styles.saveAsInput)}
             type='text'
             placeholder='name...'
             onChange={handleName}
@@ -181,16 +155,12 @@ const Presets = () => {
           </button>
         </div>
       )}
-      {saveOverOpen && (
+      {windowOpen === 'save' && (
         <div className={styles.saveOver}>
-          <div
-            className={styles.closeBtn}
-            onClick={() => setSaveOverOpen(false)}
-          />
+          <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
-            save over
-            <br />
-            {appState.currentPreset?.name}?
+            <p className='center'>overwrite preset</p>
+            <p className='center'>{appState.currentPreset?.name}?</p>
           </div>
           <button
             className={cn(styles.confirmBtn, 'center')}
@@ -200,12 +170,9 @@ const Presets = () => {
         </div>
       )}
 
-      {deleteOpen && (
+      {windowOpen === 'delete' && (
         <div className={styles.deleteOpen}>
-          <div
-            className={styles.closeBtn}
-            onClick={() => setDeleteOpen(false)}
-          />
+          <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
             delete
             <br />

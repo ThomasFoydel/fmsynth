@@ -8,11 +8,11 @@
 
   .closeBtn {
     cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    height: 1.6rem;
+    width: 1.6rem;
     position: absolute;
-    top: 0.3rem;
-    right: 0.3rem;
+    top: 0.6rem;
+    right: 0.6rem;
     background: rgb(164, 12, 12);
     clip-path: polygon(
       20% 0%,
@@ -35,26 +35,30 @@
 
   .confirmBtn {
     position: absolute;
-    bottom: 0.3rem;
+    bottom: 0.6rem;
     width: 7rem;
     height: 1.8rem;
     text-align: center;
   }
 
   .confirmText {
-    text-align: center;
-    font-size: 0.5rem;
-    line-height: 1.2rem;
+    font-size: 0.9rem;
+    line-height: 1.4rem;
     width: 21rem;
-    overflow: hidden;
+
+    p {
+      width: 16rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 
   .saveAsInput {
-    margin-left: 50%;
-    transform: translateX(-50%);
-    width: 13rem;
-    margin-top: 0.5rem;
+    text-align: left;
+    width: 14rem;
+    margin-top: 0.6rem;
   }
+
   .errorMessage {
     width: 100%;
     max-width: 100%;
@@ -119,7 +123,7 @@
   margin-left: 50%;
   transform: translateX(-50%);
   top: 0;
-  height: 5rem;
+  height: 5.5rem;
   width: 21rem;
   position: relative;
   border-radius: 5px;
@@ -131,7 +135,7 @@
   top: 0.5rem;
   right: 0.5rem;
   opacity: 0.5;
-  padding: .2rem .4rem;
+  padding: 0.2rem 0.4rem;
 
   &:hover {
     opacity: 1;
@@ -176,6 +180,12 @@
     padding-top: 0.1rem;
     font-weight: 700;
     overflow: hidden;
+
+    p {
+      width: 14rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .rightButton {
@@ -187,9 +197,11 @@
   margin-top: 1rem;
   display: flex;
   justify-content: space-around;
+
   button {
     cursor: pointer;
-    width: 6.5rem;
-    height: 2rem;
+    width: 6.7rem;
+    height: 2.1rem;
+    letter-spacing: 0.2px;
   }
 }

@@ -37,7 +37,9 @@ const PresetsSelector = ({ closeSaveDelete }) => {
           {'<'}
         </div>
         {presets[currentIndex] && (
-          <div className='value'>{presets[currentIndex].name}</div>
+          <div className={styles.value}>
+            <p className='center'>{presets[currentIndex].name}</p>
+          </div>
         )}
         <div className={styles.rightButton} id='right' onClick={handleSelector}>
           {'>'}
