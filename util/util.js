@@ -1,21 +1,21 @@
 export function impulseResponse(duration, decay, reverse, actx) {
-  var sampleRate = actx.sampleRate;
-  var length = sampleRate * duration;
-  var impulse = actx.createBuffer(2, length, sampleRate);
-  var impulseL = impulse.getChannelData(0);
-  var impulseR = impulse.getChannelData(1);
+  const sampleRate = actx.sampleRate
+  const length = sampleRate * duration
+  const impulse = actx.createBuffer(2, length, sampleRate)
+  const impulseL = impulse.getChannelData(0)
+  const impulseR = impulse.getChannelData(1)
 
-  if (!decay) decay = 2.0;
-  for (var i = 0; i < length; i++) {
-    var n = reverse ? length - i : i;
-    impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
-    impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+  if (!decay) decay = 2.0
+  for (let i = 0; i < length; i++) {
+    const n = reverse ? length - i : i
+    impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay)
+    impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay)
   }
-  impulse.decayVal = decay;
-  impulse.durationVal = duration;
-  impulse.reverse = reverse;
+  impulse.decayVal = decay
+  impulse.durationVal = duration
+  impulse.reverse = reverse
 
-  return impulse;
+  return impulse
 }
 
 export const noteFreqs = [
@@ -144,87 +144,87 @@ export const noteFreqs = [
   { note: 'F9', freq: 11175.305 },
   { note: 'F#9', freq: 11839.823 },
   { note: 'G9', freq: 12543.855 },
-  { note: 'G#9', freq: 13289.752 },
-];
+  { note: 'G#9', freq: 13289.752 }
+]
 
 export function findWithAttr(array, attr, value) {
-  for (var i = 0; i < array.length; i += 1) {
+  for (let i = 0; i < array.length; i += 1) {
     if (array[i][attr] === value) {
-      return i;
+      return i
     }
   }
-  return -1;
+  return -1
 }
 
 export const calcFreq = (frequency, offset) => {
-  let calculatedFrequency = frequency;
-  let octaveOffset = offset * 12;
+  let calculatedFrequency = frequency
+  let octaveOffset = offset * 12
 
   if (offset !== 0) {
     const unshiftedIndex = noteFreqs.findIndex((note) => {
-      return note.freq.toFixed(2) === frequency.toFixed(2);
-    });
-    const shiftedIndex = unshiftedIndex + octaveOffset;
-    calculatedFrequency = noteFreqs[shiftedIndex].freq;
+      return note.freq.toFixed(2) === frequency.toFixed(2)
+    })
+    const shiftedIndex = unshiftedIndex + octaveOffset
+    calculatedFrequency = noteFreqs[shiftedIndex].freq
   }
-  return calculatedFrequency;
-};
+  return calculatedFrequency
+}
 
-var bufferSize = 4096;
-export var brownNoise = function (audioContext) {
-  var lastOut = 0.0;
-  var node = audioContext.createScriptProcessor(bufferSize, 1, 1);
+const bufferSize = 4096
+export const brownNoise = function (audioContext) {
+  let lastOut = 0.0
+  const node = audioContext.createScriptProcessor(bufferSize, 1, 1)
   node.onaudioprocess = function (e) {
-    var output = e.outputBuffer.getChannelData(0);
-    for (var i = 0; i < bufferSize; i++) {
-      var white = Math.random() * 2 - 1;
-      output[i] = (lastOut + 0.02 * white) / 1.02;
-      lastOut = output[i];
-      output[i] *= 3.5; // (roughly) compensate for gain
+    const output = e.outputBuffer.getChannelData(0)
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1
+      output[i] = (lastOut + 0.02 * white) / 1.02
+      lastOut = output[i]
+      output[i] *= 3.5 // (roughly) compensate for gain
     }
-  };
-  return node;
-};
+  }
+  return node
+}
 
-export var pinkNoise = function (audioContext) {
-  var b0, b1, b2, b3, b4, b5, b6;
-  b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0;
-  var node = audioContext.createScriptProcessor(bufferSize, 1, 1);
+export const pinkNoise = function (audioContext) {
+  let b0, b1, b2, b3, b4, b5, b6
+  b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0
+  const node = audioContext.createScriptProcessor(bufferSize, 1, 1)
   node.onaudioprocess = function (e) {
-    var output = e.outputBuffer.getChannelData(0);
-    for (var i = 0; i < bufferSize; i++) {
-      var white = Math.random() * 2 - 1;
-      b0 = 0.99886 * b0 + white * 0.0555179;
-      b1 = 0.99332 * b1 + white * 0.0750759;
-      b2 = 0.969 * b2 + white * 0.153852;
-      b3 = 0.8665 * b3 + white * 0.3104856;
-      b4 = 0.55 * b4 + white * 0.5329522;
-      b5 = -0.7616 * b5 - white * 0.016898;
-      output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-      output[i] *= 0.11; // (roughly) compensate for gain
-      b6 = white * 0.115926;
+    const output = e.outputBuffer.getChannelData(0)
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1
+      b0 = 0.99886 * b0 + white * 0.0555179
+      b1 = 0.99332 * b1 + white * 0.0750759
+      b2 = 0.969 * b2 + white * 0.153852
+      b3 = 0.8665 * b3 + white * 0.3104856
+      b4 = 0.55 * b4 + white * 0.5329522
+      b5 = -0.7616 * b5 - white * 0.016898
+      output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362
+      output[i] *= 0.11 // (roughly) compensate for gain
+      b6 = white * 0.115926
     }
-  };
-  return node;
-};
+  }
+  return node
+}
 
-export var whiteNoise = function (audioContext) {
-  var bufferSize = 2 * audioContext.sampleRate,
+export const whiteNoise = function (audioContext) {
+  const bufferSize = 2 * audioContext.sampleRate,
     noiseBuffer = audioContext.createBuffer(
       1,
       bufferSize,
       audioContext.sampleRate
     ),
-    output = noiseBuffer.getChannelData(0);
-  for (var i = 0; i < bufferSize; i++) {
-    output[i] = Math.random() * 2 - 1;
+    output = noiseBuffer.getChannelData(0)
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = Math.random() * 2 - 1
   }
-  var whiteNoise = audioContext.createBufferSource();
-  whiteNoise.buffer = noiseBuffer;
-  whiteNoise.loop = true;
-  whiteNoise.start(0);
-  return whiteNoise;
-};
+  const whiteNoise = audioContext.createBufferSource()
+  whiteNoise.buffer = noiseBuffer
+  whiteNoise.loop = true
+  whiteNoise.start(0)
+  return whiteNoise
+}
 
 /*
   C4
@@ -337,14 +337,3 @@ export var whiteNoise = function (audioContext) {
    A#8
    B8
   */
-
-export function stopOsc(actx, release, easing, gateGain, osc) {
-  let now = actx.currentTime;
-  gateGain.gain.setValueAtTime(gateGain.gain.value, now);
-  gateGain.gain.cancelScheduledValues(now);
-  // gateGain.gain.exponentialRampToValueAtTime(0.0001, now + release + easing);
-  gateGain.gain.exponentialRampToValueAtTime(0.00001, now);
-  setTimeout(() => {
-    osc.disconnect();
-  }, 10000);
-}

@@ -4,7 +4,7 @@ import { CTX } from '../../../context/Synth/SynthProvider'
 import styles from './Presets.module.scss'
 
 function findPresetIndex(array, val) {
-  for (var i = 0; i < array.length; i += 1) {
+  for (let i = 0; i < array.length; i += 1) {
     if (array[i].text === val) return i
   }
   return 0
