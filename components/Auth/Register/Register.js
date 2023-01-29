@@ -2,7 +2,14 @@ import Axios from 'axios'
 import cn from 'classnames'
 import { toast } from 'react-toastify'
 import React, { useState } from 'react'
-import styles from './Register.module.scss'
+import styles from '../Auth.module.scss'
+
+const inputs = [
+  { name: 'name', label: 'name' },
+  { name: 'email', label: 'email' },
+  { name: 'password', label: 'password' },
+  { name: 'confirmPassword', label: 'confirm password' }
+]
 
 const Register = ({ setCurrentShow }) => {
   const [formValues, setFormValues] = useState({})
@@ -26,49 +33,36 @@ const Register = ({ setCurrentShow }) => {
         setCurrentShow('login')
         toast.success(result.data.message)
       })
-      .catch((err) => toast.error('Registration error: ', err))
+      .catch(() => toast.error('Registration error'))
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.register}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       <div className={styles.title}>register</div>
-      <input
-        className='center'
-        type='text'
-        onChange={handleChange}
-        placeholder='name'
-        id='name'
-      />
-      <input
-        className='center'
-        type='email'
-        onChange={handleChange}
-        placeholder='email'
-        id='email'
-      />
-      <input
-        className='center'
-        type='password'
-        onChange={handleChange}
-        placeholder='password'
-        id='password'
-      />
-      <input
-        className='center'
-        type='password'
-        onChange={handleChange}
-        placeholder='confirm password'
-        id='confirmPassword'
-      />
-      <button className={cn('center', styles.registerBtn)} type='submit'>
-        submit
-      </button>
-      <button
-        type='button'
-        className={cn('center', styles.signinBtn)}
-        onClick={() => setCurrentShow('login')}>
-        i already have an account
-      </button>
+      <div>
+        {inputs.map(({ name, label }) => (
+          <input
+            key={name}
+            className='center'
+            type='text'
+            onChange={handleChange}
+            placeholder={label}
+            id={name}
+          />
+        ))}
+      </div>
+
+      <div className={cn(styles.btnsContainer, 'center')}>
+        <button
+          type='button'
+          className={styles.switchBtn}
+          onClick={() => setCurrentShow('login')}>
+          sign in
+        </button>
+        <button className={styles.submitBtn} type='submit'>
+          submit
+        </button>
+      </div>
     </form>
   )
 }

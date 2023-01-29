@@ -145,7 +145,8 @@ text {
   background: rgb(116, 34, 34) !important;
 }
 
-.Toastify__toast--error .Toastify__toast--info,
+.Toastify__toast--error,
+.Toastify__toast--info,
 .Toastify__toast--success {
   background: rgb(238, 71, 71) !important;
   color: rgb(26, 26, 26) !important;

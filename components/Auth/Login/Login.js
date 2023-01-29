@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
-import styles from './Login.module.scss'
+import styles from '../Auth.module.scss'
 
 const Login = ({ setCurrentShow }) => {
   const [formValues, setFormValues] = useState({})
@@ -28,7 +28,7 @@ const Login = ({ setCurrentShow }) => {
     } else toast.error('All fields required')
   }
   return (
-    <form onSubmit={handleSubmit} className={styles.login}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       <div className={styles.title}>sign in</div>
       <div className={styles.defaultUserLogin}>
         for testing:
@@ -37,31 +37,31 @@ const Login = ({ setCurrentShow }) => {
         <br />
         password: password
       </div>
-      <input
-        className='center'
-        type='email'
-        onKeyDown={handleKeyDown}
-        onChange={handleChange}
-        placeholder='email'
-        id='email'
-      />
-      <input
-        className='center'
-        type='password'
-        onKeyDown={handleKeyDown}
-        placeholder='password'
-        onChange={handleChange}
-        id='password'
-      />
+      <div>
+        <input
+          className='center'
+          type='email'
+          onChange={handleChange}
+          placeholder='email'
+          id='email'
+        />
+        <input
+          className='center'
+          type='password'
+          placeholder='password'
+          onChange={handleChange}
+          id='password'
+        />
+      </div>
       <div className={cn(styles.btnsContainer, 'center')}>
-        <button className={styles.signinBtn} type='submit'>
-          sign in
-        </button>
         <button
           type='button'
-          className={styles.signupBtn}
+          className={styles.switchBtn}
           onClick={() => setCurrentShow('register')}>
           sign up
+        </button>
+        <button className={styles.submitBtn} type='submit'>
+          sign in
         </button>
       </div>
     </form>

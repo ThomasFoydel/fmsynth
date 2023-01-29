@@ -72,7 +72,7 @@ const Presets = () => {
         }
         setWindowOpen(null)
       })
-      .catch((err) => toast.error('Save preset error: ', err))
+      .catch(() => toast.error('Save preset error'))
   }
 
   const handleDelete = async (e) => {
@@ -90,7 +90,7 @@ const Presets = () => {
         }
         setWindowOpen(null)
       })
-      .catch((err) => toast.error('Delete preset error: ', err))
+      .catch(() => toast.error('Delete preset error'))
   }
 
   const openTheSave = () => setWindowOpen('save')
