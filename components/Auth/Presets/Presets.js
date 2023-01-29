@@ -21,9 +21,7 @@ const Presets = () => {
     'keyboardOctaveOffset'
   ]
 
-  const handleLogOut = (e) => {
-    updateState({ type: 'LOGOUT' })
-  }
+  const handleLogOut = () => updateState({ type: 'LOGOUT' })
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,15 +40,11 @@ const Presets = () => {
         obj[key] = appState[key]
         return obj
       }, {})
-    Axios.post(
-      '/presets/save',
-      {
-        name: appState.currentPreset,
-        state: filteredState,
-        username: appState.user.name
-      },
-      { headers: { 'x-auth-token': foundToken } }
-    )
+    Axios.put('/api/preset', {
+      name: appState.currentPreset,
+      state: filteredState,
+      username: appState.user.name
+    })
       .then((result) => {
         if (result.data.err) {
           setSaveOverOpen(false)
@@ -69,7 +63,7 @@ const Presets = () => {
       .catch((err) => console.error('save preset error: ', err))
   }
 
-  const handleSaveAs = async () => {
+  const handleSaveNew = async () => {
     if (!presetName) {
       setOpenSaveAs(false)
       return setErrorMessage('name value required')
@@ -82,8 +76,8 @@ const Presets = () => {
       }, {})
 
     Axios.post(
-      '/presets/newsave',
-      { name: presetName, state: filteredState, username: appState.user.name },
+      '/api/preset',
+      { name: presetName, state: filteredState },
       { headers: { 'x-auth-token': foundToken } }
     )
       .then((result) => {
@@ -108,7 +102,7 @@ const Presets = () => {
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 'Enter') {
-      handleSaveAs()
+      handleSaveNew()
     }
   }
 
@@ -129,11 +123,6 @@ const Presets = () => {
               presets: result.data.presets,
               current: result.data.current
             }
-          })
-          updateState({
-            type: 'LOAD_PRESET',
-            text: result.data.current,
-            payload: result.data.presets[result.data.newCurrentIndex]
           })
           setDeleteOpen(false)
         }
@@ -203,7 +192,7 @@ const Presets = () => {
           />
           <button
             className={cn(styles.confirmBtn, 'center')}
-            onClick={handleSaveAs}>
+            onClick={handleSaveNew}>
             save
           </button>
         </div>

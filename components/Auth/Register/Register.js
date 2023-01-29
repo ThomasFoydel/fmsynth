@@ -19,8 +19,8 @@ const Register = ({ setCurrentShow }) => {
   }
 
   const handleSubmit = () => {
-    let { email, name, password, confirmpassword } = formValues
-    if (email && name && password && confirmpassword) {
+    let { email, name, password, confirmPassword } = formValues
+    if (email && name && password && confirmPassword) {
       Axios.post('/auth/register', formValues)
         .then((result) => {
           if (result.data.err) {
@@ -77,7 +77,7 @@ const Register = ({ setCurrentShow }) => {
         type='password'
         onChange={handleChange}
         placeholder='confirm password'
-        id='confirmpassword'
+        id='confirmPassword'
         dontbubble='true'
       />
       <button

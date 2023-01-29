@@ -33,8 +33,7 @@ const PresetsSelector = ({ closeSaveDelete }) => {
 
     updateState({
       type: 'LOAD_PRESET',
-      payload: newCurrent,
-      text: newCurrent.text
+      payload: newCurrent.name
     })
   }
 

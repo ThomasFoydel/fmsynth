@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs'
-import auth from '../middlewares/auth'
-import User from '../models/User'
+import connection from '../../../Mongo/connection'
+import User from '../../../Mongo/models/User'
 
 export default async (req, res) => {
   if (req.method === 'POST') {
-    const { email, name, password, confirmpassword } = req.body
-    const allFieldsExist = email && name && password && confirmpassword
+    await connection()
+    const { email, name, password, confirmPassword } = req.body
+    const allFieldsExist = email && name && password && confirmPassword
     if (!allFieldsExist) {
       return res
         .status(400)
@@ -24,7 +25,7 @@ export default async (req, res) => {
         message: 'Name must be between 4 and 12 characters'
       })
     }
-    if (password !== confirmpassword) {
+    if (password !== confirmPassword) {
       return res
         .status(400)
         .json({ status: 'error', message: 'Passwords do not match' })
@@ -35,7 +36,8 @@ export default async (req, res) => {
         .json({ status: 'error', message: 'Valid email required' })
     }
 
-    const existingUser = await User.findOne({ email: email })
+    const existingUser = await User.findOne({ email })
+
     if (existingUser) {
       return res.status(400).json({
         status: 'error',
@@ -51,18 +53,14 @@ export default async (req, res) => {
       password: hashedPw
     })
 
-    newUser
-      .save()
-      .then((result) => {
-        res.status(201).json(result)
-      })
-      .catch((err) => {
-        res.status(400).json(err)
-      })
+    try {
+      const result = await newUser.save()
+      return res.status(201).json(result)
+    } catch (err) {
+      return res.status(400).json(err)
+    }
   }
   return res
     .status(400)
     .json({ status: 'error', message: 'method not supported' })
 }
-
-module.exports = router

@@ -1,17 +1,13 @@
-import Axios from 'axios'
 import cn from 'classnames'
-import React, { useState, useEffect, useContext } from 'react'
-import { RotationCTX } from '../../../context/Rotation/RotationProvider'
-import { AuthCTX } from '../../../context/Auth/AuthProvider'
-import { CTX } from '../../../context/Synth/SynthProvider'
+import { signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import React, { useState, useEffect } from 'react'
 import styles from './Login.module.scss'
 
 const Login = ({ setCurrentShow }) => {
-  const [, updateState] = useContext(CTX)
-  const [, updateRotation] = useContext(RotationCTX)
-  const [, updateAuth] = useContext(AuthCTX)
   const [formValues, setFormValues] = useState({})
   const [errorMessage, setErrorMessage] = useState('')
+  const { data } = useSession()
 
   useEffect(() => {
     let subscribed = true
@@ -30,27 +26,19 @@ const Login = ({ setCurrentShow }) => {
   }
 
   const handleChange = (e) => {
-    let { value, id } = e.target
+    const { value, id } = e.target
     setFormValues({ ...formValues, [id]: value })
   }
   const handleSubmit = async () => {
-    let { email, password } = formValues
+    const { email, password } = formValues
     if (email && password) {
-      Axios.post('/auth/login', formValues).then((result) => {
-        if (result.data.err) {
-          setErrorMessage(result.data.err)
-        } else {
-          updateState({
-            type: 'LOAD_PRESETS',
-            payload: result.data.data.presets
-          })
-          updateAuth({ type: 'LOGIN', payload: result.data.data })
-          updateRotation({
-            type: 'CHANGE_ROTATION',
-            payload: { rotation: `rotate3d(0, 100, 0, 270deg)`, page: 'osc' }
-          })
-        }
+      const status = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+        callbackUrl: '/'
       })
+      console.log({ status, data })
     } else {
       setErrorMessage('all fields required')
     }

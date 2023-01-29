@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import { SessionProvider } from 'next-auth/react'
 
 const SynthProvider = dynamic(() => import('../context/Synth/SynthProvider'), {
   ssr: false
@@ -11,11 +12,7 @@ const RotationProvider = dynamic(
   { ssr: false }
 )
 
-const AuthProvider = dynamic(() => import('../context/Auth/AuthProvider'), {
-  ssr: false
-})
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <div>
       <Head>
@@ -34,7 +31,7 @@ function MyApp({ Component, pageProps }) {
         <meta property='og:url' content='https://fm-synth.herokuapp.com' />
         <meta property='og:type' content='website' />
 
-        <meta charset='utf-8' />
+        <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <meta name='theme-color' content='#000000' />
@@ -46,13 +43,13 @@ function MyApp({ Component, pageProps }) {
 
         <title>FM SYNTH</title>
       </Head>
-      <AuthProvider>
+      <SessionProvider session={session}>
         <RotationProvider>
           <SynthProvider>
             <Component {...pageProps} />
           </SynthProvider>
         </RotationProvider>
-      </AuthProvider>
+      </SessionProvider>
     </div>
   )
 }

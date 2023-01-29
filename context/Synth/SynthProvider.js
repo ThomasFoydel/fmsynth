@@ -2,7 +2,7 @@ import * as Tone from 'tone'
 import { createContext, useReducer } from 'react'
 import impulses from '../../assets/impulseResponses'
 import initialValues from './initialValues'
-import { calcFreq } from '../../util/util'
+import { calcFreq, findWithAttr } from '../../util/util'
 import noiseClass from './noiseClass'
 import oscClass from './oscClass'
 import Synth from './synth'
@@ -314,20 +314,17 @@ if (Tone && typeof window !== 'undefined') {
         return { ...state, masterBpm: payload }
 
       case 'LOAD_PRESETS':
-        const presets = payload.map((preset) => ({
-          text: preset.name,
-          value: preset.params
-        }))
-        return { ...state, presets }
+        return { ...state, presets: payload }
 
       case 'LOAD_PRESET':
-        synth.applyPreset(value)
-        return { ...state, ...value, currentPreset: action.text }
+        const presetIndex = findWithAttr(state.presets, 'name', payload)
+        synth.applyPreset(state.presets[presetIndex].state)
+        return { ...state, ...value, currentPreset: payload }
 
       case 'UPDATE_PRESETS':
         return {
           ...state,
-          presets: [...payload.presets],
+          presets: payload.presets,
           currentPreset: payload.current
         }
       default:
