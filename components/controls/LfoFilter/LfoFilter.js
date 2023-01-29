@@ -176,50 +176,6 @@ const LfoFilter = () => {
             <div className={styles.paramName}>{name}</div>
           </div>
         ))}
-        {/* <div className={styles.slider}>
-          <Slider
-            onChange={handleMix}
-            value={appState.lfoFilter.wet * 100}
-            min={0}
-            max={100}
-            step={1}
-            property='wet'
-          />
-          <div className={styles.paramName}>mix</div>
-        </div>
-        <div className={styles.slider}>
-          <Slider
-            onChange={handleDepth}
-            value={appState.lfoFilter.depth * 100}
-            min={0}
-            max={100}
-            step={1}
-            property='depth'
-          />
-          <div className={styles.paramName}>depth</div>
-        </div>
-        <div className={styles.slider}>
-          <Slider
-            onChange={handleOctaves}
-            value={appState.lfoFilter.octaves}
-            min={0}
-            max={100}
-            step={1}
-            property='octaves'
-          />
-          <div className={styles.paramName}>range</div>
-        </div>
-        <div className={styles.slider}>
-          <Slider
-            onChange={handleQ}
-            value={appState.lfoFilter.filterQ}
-            min={0}
-            max={100}
-            step={1}
-            property='Q'
-          />
-          <div className={styles.paramName}>Q</div>
-        </div> */}
       </div>
     </div>
   )
