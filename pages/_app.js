@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       <Head>
         <meta
           property='og:image:url'
-          content='http://fm-synth.herokuapp.com/imgs/preview.jpg'
+          content='https://fmsynth.vercel.app/preview.jpg'
         />
 
         <meta property='og:image:width' content='1800px' />
@@ -28,22 +28,36 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <meta property='og:title' content='F M - S Y N T H' />
         <meta
           property='og:description'
-          content='An FM synth for the browser.'
+          content='A frequency modulation synthesizer for the browser.'
         />
-        <meta property='og:url' content='https://fm-synth.herokuapp.com' />
+        <meta property='og:url' content='https://fmsynth.vercel.app' />
         <meta property='og:type' content='website' />
 
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <meta name='theme-color' content='#000000' />
-        <meta
-          name='description'
-          content='A Frequency Modulation Synthesizer for the Browser'
-        />
+
         <link rel='apple-touch-icon' href='/logo192.png' />
 
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta property='twitter:url' content='https://fmsynth.vercel.app' />
+        <meta property='twitter:title' content='F M - S Y N T H' />
+        <meta
+          property='twitter:description'
+          content='A frequency modulation synthesizer for the browser.'
+        />
+        <meta
+          property='twitter:image'
+          content='https://fmsynth.vercel.app/preview.jpg'
+        />
+
         <title>FM SYNTH</title>
+        <meta name='title' content='FM SYNTH' />
+        <meta
+          name='description'
+          content='A frequency modulation synthesizer for the browser.'
+        />
       </Head>
       <SessionProvider session={session}>
         <RotationProvider>
