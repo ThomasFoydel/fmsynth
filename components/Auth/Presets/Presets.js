@@ -23,7 +23,8 @@ const Presets = () => {
 
   const handleName = (e) => setPresetName(e.target.value)
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault()
     if (!appState.currentPreset) return
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
@@ -45,7 +46,8 @@ const Presets = () => {
       .catch(() => toast.error('Save preset error'))
   }
 
-  const handleSaveNew = async () => {
+  const handleSaveNew = async (e) => {
+    e.preventDefault()
     if (!presetName) {
       setWindowOpen(null)
       return toast.error('Name value required')
@@ -73,13 +75,8 @@ const Presets = () => {
       .catch((err) => toast.error('Save preset error: ', err))
   }
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 'Enter') {
-      handleSaveNew()
-    }
-  }
-
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault()
     if (!appState.currentPreset) return
     Axios.delete(`/api/preset/${appState.currentPreset._id}`)
       .then((result) => {
@@ -125,53 +122,46 @@ const Presets = () => {
       </div>
 
       {windowOpen === 'saveAs' && (
-        <div className={styles.saveAs}>
+        <form className={styles.saveAs} onSubmit={handleSaveNew}>
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <input
             className={cn('center', styles.saveAsInput)}
             type='text'
             placeholder='name...'
             onChange={handleName}
-            onKeyDown={handleKeyDown}
             value={presetName}
             dontbubble='true'
             maxLength='20'
           />
-          <button
-            className={cn(styles.confirmBtn, 'center')}
-            onClick={handleSaveNew}>
+          <button className={cn(styles.confirmBtn, 'center')} type='submit'>
             save
           </button>
-        </div>
+        </form>
       )}
       {windowOpen === 'save' && (
-        <div className={styles.saveOver}>
+        <form onSubmit={handleSave} className={styles.saveOver}>
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
             <p className='center'>overwrite preset</p>
             <p className='center'>{appState.currentPreset?.name}?</p>
           </div>
-          <button
-            className={cn(styles.confirmBtn, 'center')}
-            onClick={handleSave}>
+          <button className={cn(styles.confirmBtn, 'center')} type='submit'>
             confirm
           </button>
-        </div>
+        </form>
       )}
 
       {windowOpen === 'delete' && (
-        <div className={styles.deleteOpen}>
+        <form onSubmit={handleDelete} className={styles.deleteOpen}>
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
             <p className='center'>delete preset</p>
             <p className='center'>{appState.currentPreset?.name}?</p>
           </div>
-          <button
-            className={cn(styles.confirmBtn, 'center')}
-            onClick={handleDelete}>
+          <button className={cn(styles.confirmBtn, 'center')} type='submit'>
             confirm
           </button>
-        </div>
+        </form>
       )}
     </div>
   )

@@ -12,7 +12,8 @@ const Register = ({ setCurrentShow }) => {
     setFormValues({ ...formValues, [id]: value })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     let { email, name, password, confirmPassword } = formValues
     if (!email || !name || !password || !confirmPassword) {
       return toast.error('All inputs required!')
@@ -28,62 +29,47 @@ const Register = ({ setCurrentShow }) => {
       .catch((err) => toast.error('Registration error: ', err))
   }
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 'Enter') {
-      handleSubmit()
-    }
-  }
-
   return (
-    <div className={styles.register}>
+    <form onSubmit={handleSubmit} className={styles.register}>
       <div className={styles.title}>register</div>
       <input
-        onKeyDown={handleKeyDown}
         className='center'
         type='text'
         onChange={handleChange}
         placeholder='name'
         id='name'
-        dontbubble='true'
       />
       <input
-        onKeyDown={handleKeyDown}
         className='center'
         type='email'
         onChange={handleChange}
         placeholder='email'
         id='email'
-        dontbubble='true'
       />
       <input
-        onKeyDown={handleKeyDown}
         className='center'
         type='password'
         onChange={handleChange}
         placeholder='password'
         id='password'
-        dontbubble='true'
       />
       <input
-        onKeyDown={handleKeyDown}
         className='center'
         type='password'
         onChange={handleChange}
         placeholder='confirm password'
         id='confirmPassword'
-        dontbubble='true'
       />
-      <button
-        className={cn('center', styles.registerBtn)}
-        onClick={handleSubmit}>
+      <button className={cn('center', styles.registerBtn)} type='submit'>
         submit
       </button>
       <button
+        type='button'
         className={cn('center', styles.signinBtn)}
         onClick={() => setCurrentShow('login')}>
         i already have an account
       </button>
-    </div>
+    </form>
   )
 }
 

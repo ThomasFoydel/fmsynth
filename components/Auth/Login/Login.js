@@ -9,17 +9,12 @@ const Login = ({ setCurrentShow }) => {
   const [formValues, setFormValues] = useState({})
   const { data } = useSession()
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 'Enter') {
-      handleSubmit()
-    }
-  }
-
   const handleChange = (e) => {
     const { value, id } = e.target
     setFormValues({ ...formValues, [id]: value })
   }
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const { email, password } = formValues
     if (email && password) {
       const status = await signIn('credentials', {
@@ -33,7 +28,7 @@ const Login = ({ setCurrentShow }) => {
     } else toast.error('All fields required')
   }
   return (
-    <div className={styles.login}>
+    <form onSubmit={handleSubmit} className={styles.login}>
       <div className={styles.title}>sign in</div>
       <div className={styles.defaultUserLogin}>
         for testing:
@@ -49,7 +44,6 @@ const Login = ({ setCurrentShow }) => {
         onChange={handleChange}
         placeholder='email'
         id='email'
-        dontbubble='true'
       />
       <input
         className='center'
@@ -58,19 +52,19 @@ const Login = ({ setCurrentShow }) => {
         placeholder='password'
         onChange={handleChange}
         id='password'
-        dontbubble='true'
       />
       <div className={cn(styles.btnsContainer, 'center')}>
-        <button className={styles.signinBtn} onClick={handleSubmit}>
+        <button className={styles.signinBtn} type='submit'>
           sign in
         </button>
         <button
+          type='button'
           className={styles.signupBtn}
           onClick={() => setCurrentShow('register')}>
           sign up
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 
