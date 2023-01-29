@@ -3,7 +3,6 @@ import connection from '../../../Mongo/connection'
 import User from '../../../Mongo/models/User'
 
 export default async (req, res) => {
-  console.log('REGISTER ROUTE HIT', req.method, req.body)
   if (req.method === 'POST') {
     await connection()
     const { email, name, password, confirmPassword } = req.body

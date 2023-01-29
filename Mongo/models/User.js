@@ -4,11 +4,16 @@ const userSchema = Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
+      validate: {
+        validator: (str) => str.length >= 4 && str.length <= 12,
+        message: 'Name must be between 4 and 12 characters'
+      }
     },
     email: {
       type: String,
       required: true,
+      unique: true,
       validate: {
         validator: (str) => {
           const re =
