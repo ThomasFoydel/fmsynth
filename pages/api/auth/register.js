@@ -62,5 +62,5 @@ export default async (req, res) => {
   }
   return res
     .status(400)
-    .json({ status: 'error', message: 'method not supported' })
+    .json({ status: 'error', message: 'Method not supported' })
 }
