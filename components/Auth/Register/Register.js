@@ -25,7 +25,7 @@ const Register = ({ setCurrentShow }) => {
     if (!email || !name || !password || !confirmPassword) {
       return toast.error('All inputs required!')
     }
-    Axios.post('/auth/register', formValues)
+    Axios.post('/api/auth/register', formValues)
       .then((result) => {
         if (result.data.status === 'error') {
           return toast.error(result.data.message)
@@ -33,7 +33,9 @@ const Register = ({ setCurrentShow }) => {
         setCurrentShow('login')
         toast.success(result.data.message)
       })
-      .catch(() => toast.error('Registration error'))
+      .catch((err) =>
+        toast.error(`Registration error: ${err?.response?.data?.message}`)
+      )
   }
 
   return (

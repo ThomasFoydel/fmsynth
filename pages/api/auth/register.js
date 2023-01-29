@@ -3,6 +3,7 @@ import connection from '../../../Mongo/connection'
 import User from '../../../Mongo/models/User'
 
 export default async (req, res) => {
+  console.log('REGISTER ROUTE HIT', req.method, req.body)
   if (req.method === 'POST') {
     await connection()
     const { email, name, password, confirmPassword } = req.body
@@ -13,10 +14,10 @@ export default async (req, res) => {
         .json({ status: 'error', message: 'all fields required' })
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       return res.status(400).json({
         status: 'error',
-        message: 'Password must be at least 6 characters'
+        message: 'Password must be at least 8 characters'
       })
     }
     if (name.length < 4 || name.length > 12) {
