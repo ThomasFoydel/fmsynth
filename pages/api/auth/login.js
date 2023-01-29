@@ -20,7 +20,9 @@ export default async (req, res) => {
     try {
       const user = await User.findOne({ email }).select('+password')
       if (!user) {
-        return res.status(400).json({ err: 'No user found with this email' })
+        return res
+          .status(400)
+          .json({ status: 'error', message: 'No user found with this email' })
       }
 
       const passwordsMatch = await bcrypt.compare(password, user.password)
@@ -56,11 +58,12 @@ export default async (req, res) => {
       }
     } catch (err) {
       return res.status(500).json({
-        err: 'Sorry, there is an issue with connecting to the database. We are working on fixing this.'
+        status: 'error',
+        message: 'Database connection failed'
       })
     }
   }
   return res
     .status(400)
-    .json({ status: 'error', message: 'method not supported' })
+    .json({ status: 'error', message: 'Method not supported' })
 }
