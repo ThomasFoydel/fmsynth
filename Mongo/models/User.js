@@ -8,12 +8,22 @@ const userSchema = Schema(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      validate: {
+        validator: (str) => {
+          const re =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return re.test(String(str).toLowerCase())
+        }
+      }
     },
     password: {
       type: String,
       required: true,
-      select: false
+      select: false,
+      validate: {
+        validator: (str) => str.length >= 8
+      }
     }
   },
   { timestamps: true }
