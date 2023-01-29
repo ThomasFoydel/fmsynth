@@ -73,7 +73,6 @@ const Presets = () => {
 
     Axios.post('/api/preset', { name: presetName, state: filteredState })
       .then((result) => {
-        console.log('result: ', result)
         if (result.data.err) {
           setOpenSaveAs(false)
           setPresetName('')

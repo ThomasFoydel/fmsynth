@@ -314,12 +314,12 @@ if (Tone && typeof window !== 'undefined') {
         return { ...state, masterBpm: payload }
 
       case 'LOAD_PRESETS':
-        synth.applyPreset(payload[0].state)
+        if (payload[0]) synth.applyPreset(payload[0].state)
         return {
           ...state,
-          ...payload.state,
+          ...payload[0].state,
           presets: payload,
-          currentPreset: payload[0]
+          currentPreset: payload[0] || null
         }
 
       case 'LOAD_PRESET':
