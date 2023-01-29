@@ -33,7 +33,7 @@ const PresetsSelector = ({ closeSaveDelete }) => {
 
     updateState({
       type: 'LOAD_PRESET',
-      payload: newCurrent.name
+      payload: newCurrent
     })
   }
 
@@ -44,7 +44,7 @@ const PresetsSelector = ({ closeSaveDelete }) => {
           {'<'}
         </div>
         {presets[currentIndex] && (
-          <div className='value'>{presets[currentIndex].text}</div>
+          <div className='value'>{presets[currentIndex].name}</div>
         )}
         <div className={styles.rightButton} id='right' onClick={handleSelector}>
           {'>'}

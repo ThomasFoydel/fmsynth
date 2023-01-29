@@ -13,7 +13,6 @@ const Presets = () => {
   const [openSaveAs, setOpenSaveAs] = useState(false)
   const [saveOverOpen, setSaveOverOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
-  const foundToken = localStorage.getItem('fmsynth-token')
   const filterOut = [
     'presets',
     'nodes',
@@ -33,17 +32,16 @@ const Presets = () => {
     setPresetName(e.target.value)
   }
 
-  const handleSave = async (e) => {
+  const handleSave = async () => {
+    if (!appState.currentPreset) return
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
       .reduce((obj, key) => {
         obj[key] = appState[key]
         return obj
       }, {})
-    Axios.put('/api/preset', {
-      name: appState.currentPreset,
-      state: filteredState,
-      username: appState.user.name
+    Axios.put(`/api/preset/${appState.currentPreset._id}`, {
+      state: filteredState
     })
       .then((result) => {
         if (result.data.err) {
@@ -75,23 +73,17 @@ const Presets = () => {
         return obj
       }, {})
 
-    Axios.post(
-      '/api/preset',
-      { name: presetName, state: filteredState },
-      { headers: { 'x-auth-token': foundToken } }
-    )
+    Axios.post('/api/preset', { name: presetName, state: filteredState })
       .then((result) => {
+        console.log('result: ', result)
         if (result.data.err) {
           setOpenSaveAs(false)
           setPresetName('')
           setErrorMessage(result.data.err)
         } else {
           updateState({
-            type: 'UPDATE_PRESETS',
-            payload: {
-              presets: result.data.presets,
-              current: result.data.current
-            }
+            type: 'ADD_PRESET',
+            payload: result.data.preset
           })
           setOpenSaveAs(false)
           setPresetName('')
@@ -106,29 +98,23 @@ const Presets = () => {
     }
   }
 
-  const handleDelete = async (e) => {
-    Axios.post(
-      '/presets/delete',
-      { name: appState.currentPreset, username: appState.user.name },
-      { headers: { 'x-auth-token': foundToken } }
-    )
+  const handleDelete = async () => {
+    if (!appState.currentPreset) return
+    Axios.delete(`/api/preset/${appState.currentPreset._id}`)
       .then((result) => {
         if (result.data.err) {
           setDeleteOpen(false)
           setErrorMessage(result.data.err)
         } else {
           updateState({
-            type: 'UPDATE_PRESETS',
-            payload: {
-              presets: result.data.presets,
-              current: result.data.current
-            }
+            type: 'REMOVE_PRESET',
+            payload: result?.data?.presetId
           })
           setDeleteOpen(false)
         }
       })
       .catch((err) => {
-        console.error('save preset error: ', err)
+        console.error('Delete preset error: ', err)
       })
   }
 
@@ -169,7 +155,7 @@ const Presets = () => {
       <PresetsListSelector closeSaveDelete={closeSaveDelete} />
 
       <div className={styles.openBtns}>
-        <button onClick={openTheSave}>save</button>
+        {appState.currentPreset && <button onClick={openTheSave}>save</button>}
         <button onClick={openTheSaveAs}>save new</button>
         <button onClick={openTheDelete}>delete</button>
       </div>
@@ -206,7 +192,7 @@ const Presets = () => {
           <div className={styles.confirmText}>
             save over
             <br />
-            {appState.currentPreset}?
+            {appState.currentPreset?.name}?
           </div>
           <button
             className={cn(styles.confirmBtn, 'center')}
@@ -225,7 +211,7 @@ const Presets = () => {
           <div className={styles.confirmText}>
             delete
             <br />
-            {appState.currentPreset}?
+            {appState.currentPreset?.name}?
           </div>
           <button
             className={cn(styles.confirmBtn, 'center')}

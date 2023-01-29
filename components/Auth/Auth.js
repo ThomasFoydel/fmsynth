@@ -11,8 +11,6 @@ const Auth = () => {
   const [currentShow, setCurrentShow] = useState('login')
   const [, updateState] = useContext(CTX)
 
-  const dontBubble = (e) => e.stopPropagation()
-
   const fetchUserPresets = () => {
     if (status === 'authenticated') {
       Axios('/api/preset')
@@ -24,6 +22,8 @@ const Auth = () => {
   }
 
   useEffect(fetchUserPresets, [status])
+
+  const dontBubble = (e) => e.stopPropagation()
 
   return (
     <div onKeyDown={dontBubble}>

@@ -7,7 +7,8 @@ import User from '../../../Mongo/models/User'
 export default async (req, res) => {
   const { user } = await getServerSession(req, res, authOptions)
   const { email } = user
-  const { method, body } = req
+  const { method, query } = req
+  const { presetId } = query
 
   if (!email) {
     return res
@@ -23,35 +24,20 @@ export default async (req, res) => {
     return res.status(400).json({ status: 'error', message: 'User not found' })
   }
 
-  if (method === 'GET') {
+  if (method === 'DELETE') {
     try {
-      const presets = await Preset.find({ author: foundUser._id })
-      return res.status(200).json({
-        status: 'success',
-        message: 'Preset fetch successful',
-        presets
-      })
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ status: 'error', message: 'Preset fetch failed' })
-    }
-  }
+      const result = await Preset.deleteOne({ _id: presetId })
+      console.log(result)
 
-  if (method === 'POST') {
-    try {
-      const { name, state } = body
-      const newPreset = new Preset({ name, state, author: foundUser.id })
-      const result = await newPreset.save()
       return res.status(200).json({
         status: 'success',
-        message: 'Preset fetch successful',
-        preset: result
+        message: 'Preset deletion successful',
+        presetId
       })
     } catch (err) {
       return res
         .status(400)
-        .json({ status: 'error', message: 'Preset creation failed' })
+        .json({ status: 'error', message: 'Preset deletion failed' })
     }
   }
 

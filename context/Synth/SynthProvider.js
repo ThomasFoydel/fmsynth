@@ -314,12 +314,40 @@ if (Tone && typeof window !== 'undefined') {
         return { ...state, masterBpm: payload }
 
       case 'LOAD_PRESETS':
-        return { ...state, presets: payload }
+        synth.applyPreset(payload[0].state)
+        return { ...state, presets: payload, currentPreset: payload[0] }
 
       case 'LOAD_PRESET':
-        const presetIndex = findWithAttr(state.presets, 'name', payload)
+        const presetIndex = findWithAttr(state.presets, 'name', payload.name)
         synth.applyPreset(state.presets[presetIndex].state)
-        return { ...state, ...value, currentPreset: payload }
+        return { ...state, currentPreset: payload }
+
+      case 'REMOVE_PRESET':
+        const removedIndex = state.presets.findIndex((p) => p._id === payload)
+        const newCurrentIndex = removedIndex === 0 ? 0 : removedIndex - 1
+        const filteredPresets = state.presets.filter((p) => p._id !== payload)
+        if (filteredPresets.length === 0) {
+          return {
+            ...state,
+            presets: filteredPresets,
+            currentPreset: null
+          }
+        }
+        const newCurrentPreset = filteredPresets[newCurrentIndex]
+        synth.applyPreset(newCurrentPreset.state)
+        return {
+          ...state,
+          presets: filteredPresets,
+          currentPreset: newCurrentPreset
+        }
+
+      case 'ADD_PRESET':
+        synth.applyPreset(payload.state)
+        return {
+          ...state,
+          presets: [...state.presets, payload],
+          currentPreset: payload
+        }
 
       case 'UPDATE_PRESETS':
         return {
