@@ -163,9 +163,8 @@ const Presets = () => {
         <div className={styles.deleteOpen}>
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
-            delete
-            <br />
-            {appState.currentPreset?.name}?
+            <p className='center'>delete preset</p>
+            <p className='center'>{appState.currentPreset?.name}?</p>
           </div>
           <button
             className={cn(styles.confirmBtn, 'center')}

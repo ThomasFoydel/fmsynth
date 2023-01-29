@@ -136,3 +136,25 @@ text {
   color: none;
   background: none;
 }
+
+.Toastify__toast-container {
+  font-size: 16px;
+}
+
+.Toastify__progress-bar {
+  background: rgb(116, 34, 34) !important;
+}
+
+.Toastify__toast--error .Toastify__toast--info,
+.Toastify__toast--success {
+  background: rgb(238, 71, 71) !important;
+  color: rgb(26, 26, 26) !important;
+  font-family: 'Roboto', sanserif !important;
+  box-shadow: 7px 7px 12px #00000047 !important;
+}
+
+.Toastify__toast--info svg,
+.Toastify__toast--error svg,
+.Toastify__toast--success svg {
+  fill: rgb(26, 26, 26);
+}

@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </SynthProvider>
         </RotationProvider>
       </SessionProvider>
-      <ToastContainer />
+      <ToastContainer position='bottom-right' />
     </div>
   )
 }
