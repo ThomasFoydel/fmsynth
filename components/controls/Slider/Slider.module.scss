@@ -1,0 +1,11 @@
+.circleSlider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  font-size: 8px;
+}

@@ -1,0 +1,25 @@
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.hiddenMasters {
+  opacity: 0;
+  background: rgb(80, 80, 80);
+  position: absolute;
+  border-radius: 0 5px 5px 0;
+  overflow: hidden;
+  top: 3rem;
+  left: 0;
+  transition: 0.3s all ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,33 @@
+.envelope {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  min-width: 26.2rem;
+  border-radius: 5px;
+  padding: 1rem 0.5rem 0rem 0.5rem;
+
+  .paramName {
+    letter-spacing: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .param {
+    width: 90%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    span {
+      span {
+        span {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+  .valueDisplay {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.8rem;
+    text-align: center;
+  }
+}

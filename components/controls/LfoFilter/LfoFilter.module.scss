@@ -1,0 +1,54 @@
+.lfoFilter {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  border-radius: 5px;
+  width: 90%;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.5rem;
+  padding: 0 2.9rem 0.5rem 2.9rem;
+
+  .title {
+    font-size: 1.4rem;
+    letter-spacing: 0.5rem;
+    margin-left: 0.5rem;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .selectors {
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 18rem;
+    margin-bottom: 1.65rem;
+  }
+
+  .basefreqSlider {
+    margin-bottom: 1.2rem;
+  }
+
+  .sliders {
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.7rem;
+    width: 18rem;
+    display: flex;
+    align-items: center;
+    justify-items: space-around;
+  }
+
+  .slider {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 4.5rem;
+    justify-items: space-around;
+
+    .paramName {
+      margin-top: .2rem;
+      line-height: .9rem;
+      text-align: center;
+      transform: scale(0.7);
+    }
+  }
+}

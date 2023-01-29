@@ -1,0 +1,48 @@
+.reverb {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  height: 6rem;
+  width: 95%;
+  border-radius: 5px;
+  position: relative;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  margin-top: 0.5rem;
+
+  .titleName {
+    height: 1.4rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  .param {
+    width: 4.5rem;
+
+    .name {
+      font-size: 1rem;
+      height: 0.5rem;
+      width: 4rem;
+      text-align: center;
+      transform: translateX(-50%);
+      margin-left: 50%;
+    }
+  }
+
+  .slidersContainer {
+    display: flex;
+  }
+
+  .slider {
+    width: 4.5rem;
+    margin-left: 0.7rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .impulseSelector {
+    display: block;
+    margin-top: 1rem;
+    margin-left: 2rem;
+  }
+}

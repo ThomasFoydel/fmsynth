@@ -1,0 +1,58 @@
+.osc1Controller {
+  width: 100%;
+
+  .propLabel {
+    text-align: center;
+    transform: scale(0.7);
+    background-color: rgb(38, 38, 38);
+    padding-bottom: 0.15rem;
+    border-radius: 5px;
+    width: 5.7rem;
+  }
+
+  .oscName {
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .section1,
+  .section2 {
+    display: flex;
+    justify-content: center;
+  }
+
+  .param {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 4.1rem;
+  }
+
+  .oscSelector {
+    margin-bottom: 0.2rem;
+  }
+
+  .noiseSelector {
+    margin-bottom: 2.5rem;
+  }
+
+  .oscSlider {
+    border-radius: 5px;
+    display: flex;
+    height: 3.6rem;
+    margin-bottom: 0.5rem;
+    padding: 0 0.2rem;
+  }
+
+  .osc {
+    background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+    border-radius: 5px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .sliders {
+    display: flex;
+    justify-content: space-around;
+  }
+}

@@ -1,0 +1,67 @@
+.container {
+  background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
+  border-radius: 5px;
+  width: 23rem;
+  height: 23rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .title {
+    font-size: 1.3rem;
+    letter-spacing: 0.8rem;
+    margin-left: 0.8rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  input {
+    margin-bottom: 0.4rem;
+    width: 90%;
+    text-align: left;
+  }
+
+  .btnsContainer {
+    margin-top: 1.3rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .switchBtn {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+    border: none !important;
+    color: rgb(208, 208, 208);
+    text-decoration: underline;
+    padding: 0.1rem 0.2rem;
+
+    &:hover {
+      color: rgb(236, 236, 236);
+    }
+  }
+
+  .submitBtn {
+    cursor: pointer;
+    padding: 0.2rem 0.3rem;
+    background: rgb(227, 227, 227);
+    border: none;
+    border-radius: 3px;
+  }
+
+  .defaultUserLogin {
+    width: 90%;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.264);
+    border-radius: 0.3rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.6rem;
+    text-align: center;
+    font-size: 0.8rem;
+    margin: 0rem 50%;
+    margin-top: 1.8rem;
+    transform: translateX(-50%);
+  }
+}
