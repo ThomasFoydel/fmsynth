@@ -17,7 +17,8 @@ const Presets = () => {
     'presets',
     'nodes',
     'currentPreset',
-    'keyboardOctaveOffset'
+    'keyboardOctaveOffset',
+    '_id'
   ]
 
   const handleLogOut = () => updateState({ type: 'LOGOUT' })
@@ -49,13 +50,13 @@ const Presets = () => {
           setErrorMessage(result.data.err)
         } else {
           updateState({
-            type: 'UPDATE_PRESETS',
+            type: 'UPDATE_PRESET',
             payload: result?.data?.preset
           })
         }
         setSaveOverOpen(false)
       })
-      .catch((err) => console.error('save preset error: ', err))
+      .catch((err) => console.error('Save preset error: ', err.message))
   }
 
   const handleSaveNew = async () => {

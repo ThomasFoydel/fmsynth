@@ -55,7 +55,6 @@ export default async (req, res) => {
         return res.json({ status: 'error', message: 'Incorrect password' })
       }
     } catch (err) {
-      console.log('err: ', err)
       return res.status(500).json({
         err: 'Sorry, there is an issue with connecting to the database. We are working on fixing this.'
       })

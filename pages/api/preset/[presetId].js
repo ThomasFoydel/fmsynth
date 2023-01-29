@@ -61,9 +61,13 @@ export default async (req, res) => {
   if (method === 'PUT') {
     const { state } = body
     try {
-      const result = await Preset.findOneAndUpdate({ _id: presetId }, state, {
-        new: true
-      })
+      const result = await Preset.findOneAndUpdate(
+        { _id: presetId },
+        { state },
+        {
+          new: true
+        }
+      )
 
       return res.status(200).json({
         status: 'success',
