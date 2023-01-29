@@ -21,7 +21,7 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
     if (containerRef.current && containerRef.current.childNodes) {
       let selectedNode
       for (let child of containerRef.current.childNodes) {
-        if (child.textContent === currentPreset.name) {
+        if (child.id === currentPreset._id) {
           selectedNode = child
           break
         }
@@ -41,7 +41,7 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
             presets.length > 4 && i === presets.length - 1 && styles.lastOption
           )}
           onClick={handleSelection}
-          id={preset.name}>
+          id={preset._id}>
           {preset.name}
         </div>
       ))}
