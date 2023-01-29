@@ -10,8 +10,8 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
   const handleSelection = (e) => {
     const name = e.target.id
     if (name !== appState.currentPreset?.name) {
-      const newPreset = appState.presets.find((p) => p.name === name)
-      updateState({ type: 'LOAD_PRESET', payload: newPreset })
+      const payload = appState.presets.find((p) => p.name === name)
+      updateState({ type: 'LOAD_PRESET', payload })
       closeSaveDelete()
     }
   }

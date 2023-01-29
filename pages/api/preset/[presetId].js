@@ -26,8 +26,18 @@ export default async (req, res) => {
 
   if (method === 'DELETE') {
     try {
+      const foundPreset = await Preset.findOne({ _id: presetId })
+
+      if (foundPreset.author.toString() !== foundUser._id.toString()) {
+        return res
+          .status(401)
+          .json({ status: 'error', message: 'Not authorized' })
+      }
       const result = await Preset.deleteOne({ _id: presetId })
-      console.log(result)
+
+      if (!result.acknowledged || result.deletedCount !== 1) {
+        throw Error('Deletion failed')
+      }
 
       return res.status(200).json({
         status: 'success',
@@ -35,6 +45,7 @@ export default async (req, res) => {
         presetId
       })
     } catch (err) {
+      console.log(err)
       return res
         .status(400)
         .json({ status: 'error', message: 'Preset deletion failed' })
