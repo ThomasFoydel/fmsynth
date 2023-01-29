@@ -50,10 +50,7 @@ const Presets = () => {
         } else {
           updateState({
             type: 'UPDATE_PRESETS',
-            payload: {
-              presets: result.data.presets,
-              current: result.data.current
-            }
+            payload: result?.data?.preset
           })
         }
         setSaveOverOpen(false)

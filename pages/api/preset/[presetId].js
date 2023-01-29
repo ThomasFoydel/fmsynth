@@ -7,7 +7,7 @@ import User from '../../../Mongo/models/User'
 export default async (req, res) => {
   const { user } = await getServerSession(req, res, authOptions)
   const { email } = user
-  const { method, query } = req
+  const { method, body, query } = req
   const { presetId } = query
 
   if (!email) {
@@ -24,10 +24,17 @@ export default async (req, res) => {
     return res.status(400).json({ status: 'error', message: 'User not found' })
   }
 
+  let foundPreset
+  try {
+    foundPreset = await Preset.findOne({ _id: presetId })
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ status: 'error', message: 'Preset not found' })
+  }
+
   if (method === 'DELETE') {
     try {
-      const foundPreset = await Preset.findOne({ _id: presetId })
-
       if (foundPreset.author.toString() !== foundUser._id.toString()) {
         return res
           .status(401)
@@ -45,10 +52,28 @@ export default async (req, res) => {
         presetId
       })
     } catch (err) {
-      console.log(err)
       return res
         .status(400)
         .json({ status: 'error', message: 'Preset deletion failed' })
+    }
+  }
+
+  if (method === 'PUT') {
+    const { state } = body
+    try {
+      const result = await Preset.findOneAndUpdate({ _id: presetId }, state, {
+        new: true
+      })
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Preset update successful',
+        preset: result
+      })
+    } catch (err) {
+      return res
+        .status(400)
+        .json({ status: 'error', message: 'Preset update failed' })
     }
   }
 

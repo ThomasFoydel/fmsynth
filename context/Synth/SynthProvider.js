@@ -349,11 +349,14 @@ if (Tone && typeof window !== 'undefined') {
           currentPreset: payload
         }
 
-      case 'UPDATE_PRESETS':
+      case 'UPDATE_PRESET':
+        const updatedPresets = state.presets.map((p) =>
+          p._id === payload._id ? payload : p
+        )
+        synth.applyPreset(payload.state)
         return {
           ...state,
-          presets: payload.presets,
-          currentPreset: payload.current
+          presets: updatedPresets
         }
       default:
         console.error('SYNTH REDUCER ERROR: action: ', action)
