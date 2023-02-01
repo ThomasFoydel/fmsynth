@@ -23,9 +23,9 @@ export default class oscClass {
     Tone.connect(this.gateGain, connection)
     if (fmConnection) Tone.connect(fmConnection, this.osc.frequency)
 
-    /* 
-    based on 
-    https://github.com/nextgtrgod/webaudio-synth/blob/master/src/modules/Oscillator.js 
+    /*
+    based on
+    https://github.com/nextgtrgod/webaudio-synth/blob/master/src/modules/Oscillator.js
     */
 
     this.envelope = envelope
@@ -56,9 +56,9 @@ export default class oscClass {
   stop() {
     let { currentTime } = this.context
 
-    /* 
+    /*
     based on
-    https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api 
+    https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api
     */
     function expCurve(start, end) {
       const count = 10

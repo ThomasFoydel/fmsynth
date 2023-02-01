@@ -35,8 +35,8 @@ export default class noiseClass {
   stop() {
     let { currentTime } = this.context
 
-    /* 
-      https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api 
+    /*
+      https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api
       */
     function expCurve(start, end) {
       const count = 10

@@ -20,11 +20,11 @@ const Keyboard = () => {
         borderColour: '#1c1c1c'
       })
 
-      keyboard.keyDown = (freq) => {
+      keyboard.keyDown = (_, freq) => {
         updateState({ type: 'MAKE_OSC', payload: freq })
       }
 
-      keyboard.keyUp = (freq) => {
+      keyboard.keyUp = (_, freq) => {
         updateState({ type: 'KILL_OSC', payload: freq })
       }
     }
@@ -43,7 +43,7 @@ const Keyboard = () => {
       keyboardOctaveOffset > -1 && updateKeyboard(keyboardOctaveOffset - 1)
     }
   }
-  
+
   return (
     <div className={styles.keyboardArea}>
       <div className={styles.keyboardContainer}>
