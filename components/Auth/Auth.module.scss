@@ -2,7 +2,7 @@
   background: linear-gradient(rgb(38, 38, 38), rgb(65, 65, 65));
   border-radius: 5px;
   width: 23rem;
-  height: 23.4rem;
+  height: 23rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,7 @@
     color: rgb(208, 208, 208);
     text-decoration: underline;
     padding: 0.1rem 0.2rem;
+    width: 6rem;
 
     &:hover {
       color: rgb(236, 236, 236);
@@ -48,6 +49,7 @@
     background: rgb(227, 227, 227);
     border: none;
     border-radius: 3px;
+    width: 6rem;
   }
 
   .defaultUserLogin {
@@ -60,7 +62,7 @@
     text-align: center;
     font-size: 0.8rem;
     margin: -1rem 50%;
-    margin-bottom: -2rem;
+    margin-bottom: -1.8rem;
     transform: translateX(-50%);
   }
 }
