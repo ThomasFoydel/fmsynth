@@ -1,8 +1,8 @@
 import * as Tone from 'tone'
 import { createContext, useReducer } from 'react'
+import { calcFreq, findWithAttr } from '../../util/util'
 import impulses from '../../assets/impulseResponses'
 import initialValues from './initialValues'
-import { calcFreq, findWithAttr } from '../../util/util'
 import noiseClass from './noiseClass'
 import oscClass from './oscClass'
 import Synth from './synth'
@@ -40,7 +40,7 @@ if (Tone && typeof window !== 'undefined') {
   synth.applyPreset(initialValues)
 
   function reducer(state, action) {
-    let { payload } = action
+    const { payload } = action
     let { prop, value } = payload ? payload : {}
     switch (action.type) {
       case 'MAKE_OSC':
@@ -184,13 +184,11 @@ if (Tone && typeof window !== 'undefined') {
         }
 
       case 'CHANGE_FM_GAIN':
-        if (payload === 0) {
-          payload = 0.00001
-        }
-        fmOsc1Gain.gain.exponentialRampToValueAtTime(payload, now + 0.006)
+        const newGain = payload || 0.00001
+        fmOsc1Gain.gain.exponentialRampToValueAtTime(newGain, now + 0.006)
         return {
           ...state,
-          fm1Settings: { ...state.fm1Settings, gain: payload }
+          fm1Settings: { ...state.fm1Settings, gain: newGain }
         }
 
       case 'CHANGE_LFO_FILTER':
@@ -317,7 +315,7 @@ if (Tone && typeof window !== 'undefined') {
         if (payload[0]) synth.applyPreset(payload[0].state)
         return {
           ...state,
-          ...payload[0].state,
+          ...payload[0]?.state,
           presets: payload,
           currentPreset: payload[0] || null
         }

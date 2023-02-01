@@ -1,4 +1,4 @@
-export default class oscClass {
+export default class noiseClass {
   constructor(Tone, type, envelope, connection, initialFreq) {
     this.context = Tone.context
     this.initialFreq = initialFreq
@@ -6,6 +6,7 @@ export default class oscClass {
     this.gateGain = this.context.createGain()
     this.gateGain.gain.value = 0
     this.noise.connect(this.gateGain)
+    Tone.connect(this.gateGain, connection)
     Tone.connect(this.gateGain, connection)
 
     this.envelope = envelope
@@ -34,8 +35,8 @@ export default class oscClass {
   stop() {
     let { currentTime } = this.context
 
-    /* 
-      https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api 
+    /*
+      https://stackoverflow.com/questions/34694580/how-do-i-correctly-cancel-a-currently-changing-audioparam-in-the-web-audio-api
       */
     function expCurve(start, end) {
       const count = 10

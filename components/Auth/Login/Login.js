@@ -16,16 +16,15 @@ const Login = ({ setCurrentShow }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { email, password } = formValues
-    if (email && password) {
-      const status = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-        callbackUrl: '/'
-      })
-      console.log({ status, data })
-      toast.success('Login successful')
-    } else toast.error('All fields required')
+    if (!(email && password)) return toast.error('All fields required')
+    const res = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+      callbackUrl: '/'
+    })
+    if (res.error) return toast.error(res.error)
+    toast.success('Login successful')
   }
   return (
     <form onSubmit={handleSubmit} className={styles.container}>

@@ -1,11 +1,12 @@
 .navbar {
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   font-size: 1.3rem;
   transform: translate(-50%);
   color: rgb(34, 34, 34);
+  z-index: 10;
 
   .option {
     margin-left: 1rem;

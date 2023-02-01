@@ -13,6 +13,7 @@ class Synth {
       const osc2Gain = actx.createGain()
       const subOscGain = actx.createGain()
       const noiseReduceGain = actx.createGain()
+      noiseReduceGain.gain.value = 0.1
       const noiseGain = actx.createGain()
       osc1Gain.connect(oscCombinedGain)
       osc2Gain.connect(oscCombinedGain)
@@ -37,7 +38,6 @@ class Synth {
       const fmOsc1 = actx.createOscillator()
       fmOsc1.start()
       const fmOsc1Gain = actx.createGain()
-      fmOsc1Gain.gain.value = 300
       fmOsc1.connect(fmOsc1Gain)
       Tone.connect(oscCombinedGain, vibrato)
       Tone.connect(vibrato, distortion)
@@ -100,7 +100,7 @@ class Synth {
       reverbCrossfade,
       combFilterCrossFade
     } = this.audio
-    
+
     masterVol.volume.value = preset.masterVol
     Tone.Transport.bpm.value = preset.masterBpm
     osc1Gain.gain.value = preset.osc1Settings.gain

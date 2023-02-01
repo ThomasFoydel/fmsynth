@@ -150,7 +150,7 @@ text {
 .Toastify__toast--success {
   background: rgb(238, 71, 71) !important;
   color: rgb(26, 26, 26) !important;
-  font-family: 'Roboto', sanserif !important;
+  font-family: 'Roboto', sans-serif !important;
   box-shadow: 7px 7px 12px #00000047 !important;
 }
 

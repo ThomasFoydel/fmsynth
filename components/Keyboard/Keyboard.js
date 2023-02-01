@@ -4,11 +4,7 @@ import { CTX } from '../../context/Synth/SynthProvider'
 import styles from './keyboard.module.scss'
 
 const Keyboard = () => {
-  const [appState, updateState] = useContext(CTX)
-
-  const makeOsc = (freq, note) => {
-    updateState({ type: 'MAKE_OSC', payload: freq })
-  }
+  const [{ keyboardOctaveOffset }, updateState] = useContext(CTX)
 
   useEffect(() => {
     const setUpKeyboard = async () => {
@@ -21,54 +17,53 @@ const Keyboard = () => {
         whiteKeyColour: '#1c1c1c',
         blackKeyColour: '#f7f7f7',
         activeColour: '#c70c0c',
-        borderColour: '#1c1c1c',
+        borderColour: '#1c1c1c'
       })
-      let nodes = []
 
-      keyboard.keyDown = (note, freq) => {
-        const newOsc1 = makeOsc(freq, note)
-        nodes.push(newOsc1)
+      keyboard.keyDown = (_, freq) => {
+        updateState({ type: 'MAKE_OSC', payload: freq })
       }
 
-      keyboard.keyUp = (note, freq) => {
+      keyboard.keyUp = (_, freq) => {
         updateState({ type: 'KILL_OSC', payload: freq })
       }
     }
     setUpKeyboard()
   }, [])
 
-  const handleOctaveShift = (e) => {
-    let { id } = e.target
-    if (id === 'up') {
-      if (appState.keyboardOctaveOffset < 1) {
-        updateState({
-          type: 'SHIFT_KEYBOARD_OCTAVE',
-          payload: appState.keyboardOctaveOffset + 1,
-        })
-      }
-    } else {
-      if (appState.keyboardOctaveOffset > -1) {
-        updateState({
-          type: 'SHIFT_KEYBOARD_OCTAVE',
-          payload: appState.keyboardOctaveOffset - 1,
-        })
-      }
+  const updateKeyboard = (payload) => {
+    updateState({ type: 'SHIFT_KEYBOARD_OCTAVE', payload })
+  }
+
+  const handleOctaveShift = ({ target }) => {
+    if (target.id === 'up') {
+      keyboardOctaveOffset < 1 && updateKeyboard(keyboardOctaveOffset + 1)
+    }
+    if (target.id === 'down') {
+      keyboardOctaveOffset > -1 && updateKeyboard(keyboardOctaveOffset - 1)
     }
   }
+
   return (
     <div className={styles.keyboardArea}>
       <div className={styles.keyboardContainer}>
-        <div className={styles.keyboard} id="keyboard"></div>
+        <div className={styles.keyboard} id='keyboard'></div>
       </div>
       <div className={styles.btnsContainer}>
-        {appState.keyboardOctaveOffset > -1 ? (
-          <div className={styles.downBtn} id="down" onClick={handleOctaveShift}></div>
+        {keyboardOctaveOffset > -1 ? (
+          <div
+            className={styles.downBtn}
+            id='down'
+            onClick={handleOctaveShift}></div>
         ) : (
           <div className={styles.arrowSpacing} />
         )}
         <div className={styles.spacing}></div>
-        {appState.keyboardOctaveOffset < 1 ? (
-          <div className={styles.upBtn} id="up" onClick={handleOctaveShift}></div>
+        {keyboardOctaveOffset < 1 ? (
+          <div
+            className={styles.upBtn}
+            id='up'
+            onClick={handleOctaveShift}></div>
         ) : (
           <div className={styles.arrowSpacing} />
         )}

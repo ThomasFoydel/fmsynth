@@ -8,31 +8,19 @@ import Selector from '../Selector/Selector'
 import styles from './Dino.module.scss'
 
 const Dino = () => {
-  const [appState, updateState] = useContext(CTX)
-  const keysPressed = appState.nodes.length > 0
+  const [{ nodes, fm1Settings }, updateState] = useContext(CTX)
+  const keysPressed = nodes.length > 0
 
-  const handleFmOffset = (e) => {
-    updateState({
-      type: 'CHANGE_FM_FREQ_OFFSET',
-      payload: e * 20,
-    })
+  const handleFmOffset = (payload) => {
+    updateState({ type: 'CHANGE_FM_FREQ_OFFSET', payload })
   }
-  const handleFmWaveTableChange = (e) => {
-    let { value } = e
-    updateState({
-      type: 'CHANGE_FM_WAVETABLE',
-      payload: value,
-    })
-  }
-  const handleFmGain = (e) => {
-    if (e === 0) {
-      e = 0.00001
-    }
 
-    updateState({
-      type: 'CHANGE_FM_GAIN',
-      payload: e * 100,
-    })
+  const handleFmWaveTableChange = ({ value }) => {
+    updateState({ type: 'CHANGE_FM_WAVETABLE', payload: value })
+  }
+
+  const handleFmGain = (payload) => {
+    updateState({ type: 'CHANGE_FM_GAIN', payload })
   }
 
   return (
@@ -43,22 +31,22 @@ const Dino = () => {
           <div className={styles.wavetableSelector}>
             <Selector
               onChange={handleFmWaveTableChange}
-              value={appState.fm1Settings.type}
+              value={fm1Settings.type}
               options={[
                 { text: 'sine', value: 'sine' },
                 { text: 'sawtooth', value: 'sawtooth' },
                 { text: 'square', value: 'square' },
-                { text: 'triangle', value: 'triangle' },
+                { text: 'triangle', value: 'triangle' }
               ]}
             />
           </div>
           <div className={cn(styles.param, styles.frequency)}>
             <InputRange
-              formatLabel={(value, type) => `${value * 20}Hz`}
-              step={2}
-              maxValue={100}
+              formatLabel={(value) => `${value}Hz`}
+              step={10}
+              maxValue={1000}
               minValue={0}
-              value={appState.fm1Settings.freqOffset / 20}
+              value={fm1Settings.freqOffset}
               onChange={handleFmOffset}
               showToolTip={false}
             />
@@ -66,11 +54,11 @@ const Dino = () => {
           </div>
           <div className={cn(styles.param, styles.gain)}>
             <InputRange
-              formatLabel={(value, type) => `${value * 100}`}
-              step={2}
-              maxValue={100}
-              minValue={0}
-              value={appState.fm1Settings.gain / 100}
+              formatLabel={(value) => `${value}`}
+              step={10}
+              maxValue={1000}
+              minValue={10}
+              value={fm1Settings.gain}
               onChange={handleFmGain}
             />
           </div>
@@ -81,13 +69,13 @@ const Dino = () => {
             className={styles.dino}
             style={{
               transition: '0.6s ease all',
-              filter: `hue-rotate(${(appState.fm1Settings.freqOffset / 2000) * 360}deg)`,
-              transform: `scale(${(appState.fm1Settings.gain / 10000) * 0.1 + 0.6}) rotate(${
-                (appState.fm1Settings.freqOffset / 2000) * 180
-              }deg)`,
+              filter: `hue-rotate(${(fm1Settings.freqOffset / 1000) * 360}deg)`,
+              transform: `scale(${
+                (fm1Settings.gain / 1000) * 0.1 + 0.6
+              }) rotate(${(fm1Settings.freqOffset / 1000) * 180}deg)`
             }}
             src={keysPressed ? dino.src : dino2.src}
-            alt="dinosaur with boxing gloves"
+            alt='dinosaur with boxing gloves'
           />
         </div>
       </div>
