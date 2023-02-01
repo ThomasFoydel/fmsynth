@@ -40,7 +40,7 @@ if (Tone && typeof window !== 'undefined') {
   synth.applyPreset(initialValues)
 
   function reducer(state, action) {
-    let { payload } = action
+    const { payload } = action
     let { prop, value } = payload ? payload : {}
     switch (action.type) {
       case 'MAKE_OSC':
@@ -184,13 +184,11 @@ if (Tone && typeof window !== 'undefined') {
         }
 
       case 'CHANGE_FM_GAIN':
-        if (payload === 0) {
-          payload = 0.00001
-        }
-        fmOsc1Gain.gain.exponentialRampToValueAtTime(payload, now + 0.006)
+        const newGain = payload || 0.00001
+        fmOsc1Gain.gain.exponentialRampToValueAtTime(newGain, now + 0.006)
         return {
           ...state,
-          fm1Settings: { ...state.fm1Settings, gain: payload }
+          fm1Settings: { ...state.fm1Settings, gain: newGain }
         }
 
       case 'CHANGE_LFO_FILTER':

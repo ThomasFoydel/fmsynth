@@ -1,4 +1,4 @@
-export default class oscClass {
+export default class noiseClass {
   constructor(Tone, type, envelope, connection, initialFreq) {
     this.context = Tone.context
     this.initialFreq = initialFreq
@@ -6,6 +6,7 @@ export default class oscClass {
     this.gateGain = this.context.createGain()
     this.gateGain.gain.value = 0
     this.noise.connect(this.gateGain)
+    Tone.connect(this.gateGain, connection)
     Tone.connect(this.gateGain, connection)
 
     this.envelope = envelope

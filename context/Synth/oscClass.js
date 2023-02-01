@@ -21,9 +21,7 @@ export default class oscClass {
     this.gateGain.gain.value = 0
     this.osc.connect(this.gateGain)
     Tone.connect(this.gateGain, connection)
-    if (fmConnection) {
-      Tone.connect(fmConnection, this.osc.frequency)
-    }
+    if (fmConnection) Tone.connect(fmConnection, this.osc.frequency)
 
     /* 
     based on 
