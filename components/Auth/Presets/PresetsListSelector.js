@@ -26,7 +26,8 @@ const PresetsListSelector = ({ closeSaveDelete }) => {
           break
         }
       }
-      if (selectedNode) selectedNode.scrollIntoView({ behavior: 'smooth' })
+      if (selectedNode)
+        selectedNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }, [currentPreset])
 
