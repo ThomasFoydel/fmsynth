@@ -317,7 +317,7 @@ if (Tone && typeof window !== 'undefined') {
         if (payload[0]) synth.applyPreset(payload[0].state)
         return {
           ...state,
-          ...payload[0].state,
+          ...payload[0]?.state,
           presets: payload,
           currentPreset: payload[0] || null
         }
