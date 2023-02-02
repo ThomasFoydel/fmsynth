@@ -1,6 +1,9 @@
 <div align="center"><h1>FM Synth</h1></div>
 
-<div align="center"><h5>An FM synthesizer for the browser <a href="https://fmsynth.vercel.app/">live demo here</a></h5></div>
+<div align="center"><h5>An FM synthesizer for the browser</h5></div>
+<div align="center">
+<a href="https://fmsynth.vercel.app/">live demo here</a>
+</div>
 
 <a href="https://fmsynth.vercel.app/">
 <img src="./assets/images/preview.jpg" width="100%" >
@@ -18,10 +21,10 @@ All of the effects have parameters which can be controlled by the user. Some of 
 
 <br/>
 
-Check out the rest of my portfolio <a href="https://thomasfoydel.com">
-here
+Check out the rest of my portfolio at <a href="https://thomasfoydel.com">
+https://thomasfoydel.com
 </a>
 
-Check out the rest of my GitHub <a href="https://github.com/thomasfoydel">
-here
+Check out my other project repositories at <a href="https://github.com/thomasfoydel">
+https://github.com/thomasfoydel
 </a>
