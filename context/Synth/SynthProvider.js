@@ -337,7 +337,7 @@ if (Tone && typeof window !== 'undefined') {
           }
         }
         const newCurrentPreset = filteredPresets[newCurrentIndex]
-        synth.applyPreset(newCurrentPreset.state)
+        if (newCurrentPreset?.state) synth.applyPreset(newCurrentPreset.state)
         return {
           ...state,
           ...newCurrentPreset.state,
