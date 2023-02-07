@@ -18,6 +18,7 @@ const filterOut = [
 
 const Presets = () => {
   const [appState, updateState] = useContext(CTX)
+  const { currentPreset } = appState
   const [presetName, setPresetName] = useState('')
   const [windowOpen, setWindowOpen] = useState(null)
 
@@ -25,14 +26,14 @@ const Presets = () => {
 
   const handleSave = async (e) => {
     e.preventDefault()
-    if (!appState.currentPreset) return
+    if (!currentPreset) return
     const filteredState = Object.keys(appState)
       .filter((key) => !filterOut.includes(key))
       .reduce((obj, key) => {
         obj[key] = appState[key]
         return obj
       }, {})
-    Axios.put(`/api/preset/${appState.currentPreset._id}`, {
+    Axios.put(`/api/preset/${currentPreset._id}`, {
       state: filteredState
     })
       .then((result) => {
@@ -77,8 +78,8 @@ const Presets = () => {
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    if (!appState.currentPreset) return
-    Axios.delete(`/api/preset/${appState.currentPreset._id}`)
+    if (!currentPreset) return
+    Axios.delete(`/api/preset/${currentPreset._id}`)
       .then((result) => {
         if (result.data.status === 'error') toast.error(result.data.message)
         else {
@@ -116,9 +117,9 @@ const Presets = () => {
       <PresetsListSelector closeSaveDelete={closeSaveDelete} />
 
       <div className={styles.openBtns}>
-        {appState.currentPreset && <button onClick={openTheSave}>save</button>}
+        {currentPreset && <button onClick={openTheSave}>save</button>}
         <button onClick={openTheSaveAs}>save new</button>
-        <button onClick={openTheDelete}>delete</button>
+        {currentPreset && <button onClick={openTheDelete}>delete</button>}
       </div>
 
       {windowOpen === 'saveAs' && (
@@ -143,7 +144,7 @@ const Presets = () => {
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
             <p className='center'>overwrite preset</p>
-            <p className='center'>{appState.currentPreset?.name}?</p>
+            <p className='center'>{currentPreset?.name}?</p>
           </div>
           <button className={cn(styles.confirmBtn, 'center')} type='submit'>
             confirm
@@ -156,7 +157,7 @@ const Presets = () => {
           <div className={styles.closeBtn} onClick={closeSaveDelete} />
           <div className={styles.confirmText}>
             <p className='center'>delete preset</p>
-            <p className='center'>{appState.currentPreset?.name}?</p>
+            <p className='center'>{currentPreset?.name}?</p>
           </div>
           <button className={cn(styles.confirmBtn, 'center')} type='submit'>
             confirm
