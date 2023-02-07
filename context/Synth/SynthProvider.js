@@ -321,10 +321,12 @@ if (Tone && typeof window !== 'undefined') {
         }
 
       case 'LOAD_PRESET':
-        const presetIndex = findWithAttr(state.presets, 'name', payload.name)
-        const preset = state.presets[presetIndex]
-        if (preset?.state) synth.applyPreset(preset.state)
-        return { ...state, ...payload.state, currentPreset: payload }
+        if (payload?.name) {
+          const presetIndex = findWithAttr(state.presets, 'name', payload.name)
+          const preset = state.presets[presetIndex]
+          if (preset?.state) synth.applyPreset(preset.state)
+        }
+        return { ...state, ...payload?.state, currentPreset: payload }
 
       case 'REMOVE_PRESET':
         const removedIndex = state.presets.findIndex((p) => p._id === payload)

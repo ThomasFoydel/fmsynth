@@ -72,7 +72,10 @@ const Presets = () => {
         }
         setWindowOpen(null)
       })
-      .catch(() => toast.error('Save preset error'))
+      .catch((err) => {
+        console.log(err)
+        toast.error('Save preset error')
+      })
   }
 
   const handleDelete = async (e) => {
